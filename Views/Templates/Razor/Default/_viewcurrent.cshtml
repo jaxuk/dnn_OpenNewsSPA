@@ -1,0 +1,38 @@
+﻿@using YeditUK.Modules.dnn_OpenNews.Templates.ViewModels;
+@using YeditUK.Modules.dnn_OpenNews.Components.Helpers;
+@using System.Linq;
+@using System.Data.Linq;
+@using YeditUK.Modules.dnn_OpenNews.Components.Enums;
+@inherits DotNetNuke.Web.Razor.DotNetNukeWebPage<dynamic>
+@{ 
+  var model = (ViewCurrentModel)this.Model;
+}
+@RenderPage("_menu.cshtml", new MenuViewModel
+{
+  Dnn = Dnn,
+  menuItems = model.MenuView.menuItems
+})
+<section class="articles-list">
+  <header>
+    <!-- Display Module Title?-->
+  </header>
+  @RenderPage("_listArticles.cshtml", new ListArticlesViewModel
+  {
+    Articles = model.Articles,
+    Dnn = Dnn
+  })
+</section>
+<section class="articles-footer">
+  <nav class="text-center">
+    @RenderPage("_articlesPager.cshtml", new ArticlesPagerViewModel
+{
+  Articles = model.Articles,
+  Dnn = Dnn,
+  viewType = ViewType.viewcurrent,
+  pagingID = -1
+})
+  </nav>
+</section>
+
+
+

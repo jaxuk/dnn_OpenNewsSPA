@@ -1,0 +1,14 @@
+﻿@using YeditUK.Modules.dnn_OpenNews.Templates.ViewModels;
+@using YeditUK.Modules.dnn_OpenNews.Components.Helpers;
+@using System.Linq;
+@using System.Data.Linq;
+@inherits DotNetNuke.Web.Razor.DotNetNukeWebPage<dynamic>
+@{
+var model = (ArchiveViewModel)this.Model;
+}
+<section>
+  <header>
+    <h1>@model.Year.ToString() @((model.Month>-1)?(new DateTime(2010, model.Month, 1).ToString("MMM")):"")</h1>
+  </header>
+  <!-- TODO Display Articles List & Pager-->
+</section>

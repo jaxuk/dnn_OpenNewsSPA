@@ -1,0 +1,24 @@
+﻿<h3>dnn_OpenNewsSPA</h3>
+<p class="Contributor">
+	yedit.co.uk <br />
+	<a href="mailto:jacques@yedit.co.uk">jacques@yedit.co.uk</a><br />
+	<a href=http://www.yedit.co.uk/>http://www.yedit.co.uk/</a><br />
+	This extension was created using <a href="http://www.christoc.com">Christoc's</a> Module Development Templates for DNN.
+</p>
+<hr/>
+<div class="License">
+	<h3>About the dnn_OpenNewsSPA</h3>
+	<p class="Owner">
+		<b>Version CHANGEME</b><br /><br />
+	</p>
+	<p>Description about version.</p>
+	
+	<h4>Bug Fixes</h4>
+	<ul>
+			<li>List</li>
+			<li>of</li>
+			<li>bug</li>
+			<li>fixes</li>
+	</ul>
+	
+</div>

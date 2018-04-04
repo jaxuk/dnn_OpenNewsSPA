@@ -1,0 +1,489 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{7D61A32C-0F21-453F-A981-BD8E5A3A5304}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>YeditUK.Modules.dnn_OpenNews</RootNamespace>
+    <AssemblyName>dnn_OpenNews</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <UseIISExpress>false</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <TargetFrameworkProfile />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">.\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>12.0</OldToolsVersion>
+    <Use64BitIISExpress />
+    <UseGlobalApplicationHostFile />
+    <UpgradeBackupLocation />
+    <TypeScriptToolsVersion>2.6</TypeScriptToolsVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <MvcBuildViews>true</MvcBuildViews>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AutoMapper, Version=6.2.2.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>packages\AutoMapper.6.2.2\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetNuke, Version=8.0.0.674, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\DotNetNuke.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetNuke.Instrumentation, Version=9.1.1.129, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Users\jacqu\Source\Repos\SurfBunker-DNN\Website\bin\DotNetNuke.Instrumentation.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetNuke.Web.Razor, Version=9.1.1.129, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Users\jacqu\Source\Repos\SurfBunker-DNN\Website\bin\DotNetNuke.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetNuke.WebUtility, Version=4.2.1.783, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\DotNetNuke.WebUtility.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetNuke.Web, Version=8.0.0.268, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\DotNetNuke.Web.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="HtmlAgilityPack, Version=1.7.1.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
+      <HintPath>packages\HtmlAgilityPack.1.7.1\lib\Net45\HtmlAgilityPack.dll</HintPath>
+    </Reference>
+    <Reference Include="Markdig, Version=0.14.9.0, Culture=neutral, PublicKeyToken=870da25a133885f8, processorArchitecture=MSIL">
+      <HintPath>packages\Markdig.Signed.0.14.9\lib\net40\Markdig.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\Newtonsoft.Json.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="ReverseMarkdown, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\ReverseMarkdown.1.5.0\lib\net45\ReverseMarkdown.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=5.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\System.Web.Http.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\System.Web.Http.WebHost.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_LocalResources\Edit.resx" />
+    <Content Include="App_LocalResources\Settings.resx" />
+    <Content Include="App_LocalResources\View.resx" />
+    <Content Include="Data\custom-fields-542-BK.json" />
+    <Content Include="ng-apps\on-blog-admin\dist\inline.bundle.js.map" />
+    <Content Include="ng-apps\on-blog-admin\dist\main.bundle.js.map" />
+    <Content Include="ng-apps\on-blog-admin\dist\polyfills.bundle.js.map" />
+    <Content Include="ng-apps\on-blog-admin\dist\styles.bundle.js.map" />
+    <Content Include="ng-apps\on-blog-admin\dist\vendor.bundle.js.map" />
+    <Content Include="ng-apps\on-blog-admin\karma.conf.js" />
+    <Content Include="ng-apps\on-blog-admin\protractor.conf.js" />
+    <Content Include="ng-apps\on-blog-admin\src\app\app.component.scss" />
+    <Content Include="ng-apps\on-blog-admin\src\app\article-file\article-file.component.scss" />
+    <Content Include="ng-apps\on-blog-admin\src\app\article-form\article-form.component.scss" />
+    <Content Include="ng-apps\on-blog-admin\src\app\articles\articles.component.scss" />
+    <Content Include="ng-apps\on-blog-admin\src\app\categories\categories.component.scss" />
+    <Content Include="ng-apps\on-blog-admin\src\app\category-form\category-form.component.scss" />
+    <Content Include="ng-apps\on-blog-admin\src\app\context\context-info.js.map" />
+    <Content Include="ng-apps\on-blog-admin\src\app\custom-fields\custom-fields.component.scss" />
+    <Content Include="ng-apps\on-blog-admin\src\app\dashboard\dashboard.component.scss" />
+    <Content Include="ng-apps\on-blog-admin\src\app\dnn-app.component.js.map" />
+    <Content Include="ng-apps\on-blog-admin\src\app\email-templates\email-templates.component.scss" />
+    <Content Include="ng-apps\on-blog-admin\src\app\http\dnn.interceptor.js.map" />
+    <Content Include="ng-apps\on-blog-admin\src\app\main-settings\main-settings.component.scss" />
+    <Content Include="ng-apps\on-blog-admin\src\app\render-templates\render-templates.component.scss" />
+    <Content Include="ng-apps\on-blog-admin\src\app\shared\dynamic-form\components\form-button\form-button.component.scss" />
+    <Content Include="ng-apps\on-blog-admin\src\app\shared\dynamic-form\components\form-input\form-input.component.scss" />
+    <Content Include="ng-apps\on-blog-admin\src\app\shared\dynamic-form\components\form-select\form-select.component.scss" />
+    <Content Include="ng-apps\on-blog-admin\src\app\shared\dynamic-form\containers\dynamic-form\dynamic-form.component.scss" />
+    <Content Include="ng-apps\on-blog-admin\src\app\shared\file-input\input-file.component.scss" />
+    <Content Include="ng-apps\on-blog-admin\src\app\shared\file-input\preview-modal.component.scss" />
+    <Content Include="ng-apps\on-blog-admin\src\app\shared\index.js.map" />
+    <Content Include="ng-apps\on-blog-admin\src\app\shared\models\category.model.js.map" />
+    <Content Include="ng-apps\on-blog-admin\src\app\shared\models\index.js.map" />
+    <Content Include="ng-apps\on-blog-admin\src\app\shared\models\main-settings.model.js.map" />
+    <Content Include="ng-apps\on-blog-admin\src\app\shared\oa-input\components\input-file.component.scss" />
+    <Content Include="ng-apps\on-blog-admin\src\app\tags\tags.component.scss" />
+    <Content Include="ng-apps\on-blog-admin\src\assets\.gitkeep" />
+    <Content Include="ng-apps\on-blog-admin\src\dnn-app.component.js.map" />
+    <Content Include="ng-apps\on-blog-admin\src\sass\styles.scss" />
+    <Content Include="ng-apps\on-blog-admin\src\sass\_mixins.scss" />
+    <Content Include="ng-apps\on-blog-admin\src\sass\_variables.scss" />
+    <Content Include="ng-apps\on-blog-admin\src\tsconfig.app.json" />
+    <Content Include="ng-apps\on-blog-admin\src\tsconfig.spec.json" />
+    <Content Include="ng-apps\on-blog-admin\.angular-cli.json" />
+    <Content Include="ng-apps\on-blog-admin\.editorconfig" />
+    <Content Include="ng-apps\on-blog-admin\.gitignore" />
+    <Content Include="ng-apps\on-blog-admin\package-lock.json" />
+    <Content Include="ng-apps\on-blog-admin\package.json" />
+    <Content Include="ng-apps\on-blog-admin\proxy.config.json" />
+    <Content Include="ng-apps\on-blog-admin\README.md" />
+    <Content Include="ng-apps\on-blog-admin\tsconfig.json" />
+    <Content Include="ng-apps\on-blog-admin\tslint.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="BuildScripts\ModulePackage.targets">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="BuildScripts\MSBuild.Community.Tasks.Targets" />
+    <Content Include="ng-apps\on-blog-admin\dist\favicon.ico" />
+    <Content Include="ng-apps\on-blog-admin\dist\index.html" />
+    <Content Include="ng-apps\on-blog-admin\dist\inline.bundle.js" />
+    <Content Include="ng-apps\on-blog-admin\dist\main.bundle.js" />
+    <Content Include="ng-apps\on-blog-admin\dist\polyfills.bundle.js" />
+    <Content Include="ng-apps\on-blog-admin\dist\styles.bundle.js" />
+    <Content Include="ng-apps\on-blog-admin\dist\vendor.bundle.js" />
+    <Content Include="ng-apps\on-blog-admin\src\app\app.component.html" />
+    <Content Include="ng-apps\on-blog-admin\src\app\article-file\article-file.component.html" />
+    <Content Include="ng-apps\on-blog-admin\src\app\article-form\article-form.component.html" />
+    <Content Include="ng-apps\on-blog-admin\src\app\articles\articles.component.html" />
+    <Content Include="ng-apps\on-blog-admin\src\app\categories\categories.component.html" />
+    <Content Include="ng-apps\on-blog-admin\src\app\category-form\category-form.component.html" />
+    <Content Include="ng-apps\on-blog-admin\src\app\context\context-info.js" />
+    <Content Include="ng-apps\on-blog-admin\src\app\custom-fields\custom-fields.component.html" />
+    <Content Include="ng-apps\on-blog-admin\src\app\dashboard\dashboard.component.html" />
+    <Content Include="ng-apps\on-blog-admin\src\app\dnn-app.component.js" />
+    <Content Include="ng-apps\on-blog-admin\src\app\email-templates\email-templates.component.html" />
+    <Content Include="ng-apps\on-blog-admin\src\app\http\dnn.interceptor.js" />
+    <Content Include="ng-apps\on-blog-admin\src\app\main-settings\main-settings.component.html" />
+    <Content Include="ng-apps\on-blog-admin\src\app\render-templates\render-templates.component.html" />
+    <Content Include="ng-apps\on-blog-admin\src\app\shared\file-input\input-file.component.html" />
+    <Content Include="ng-apps\on-blog-admin\src\app\shared\file-input\preview-modal.component.html" />
+    <Content Include="ng-apps\on-blog-admin\src\app\shared\index.js" />
+    <Content Include="ng-apps\on-blog-admin\src\app\shared\list-errors.component.html" />
+    <Content Include="ng-apps\on-blog-admin\src\app\shared\models\category.model.js" />
+    <Content Include="ng-apps\on-blog-admin\src\app\shared\models\index.js" />
+    <Content Include="ng-apps\on-blog-admin\src\app\shared\models\main-settings.model.js" />
+    <Content Include="ng-apps\on-blog-admin\src\app\shared\oa-input\components\input-file.component.html" />
+    <Content Include="ng-apps\on-blog-admin\src\app\tags\tags.component.html" />
+    <Content Include="ng-apps\on-blog-admin\src\dnn-app.component.js" />
+    <Content Include="ng-apps\on-blog-admin\src\favicon.ico" />
+    <Content Include="ng-apps\on-blog-admin\src\index.html" />
+    <Content Include="ng-apps\on-blog-admin\src\styles.css" />
+    <Content Include="ng-apps\on-blog-admin\src\ui.html" />
+    <Content Include="Providers\DataProviders\SqlDataProvider\00.00.01.SqlDataProvider" />
+    <Content Include="Providers\DataProviders\SqlDataProvider\Uninstall.SqlDataProvider" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="dnn_OpenNewsSPA.dnn">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Base\NewsArticleModuleBase.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Components\Constants.cs" />
+    <Compile Include="Components\DAL\ArticleRepo.cs" />
+    <Compile Include="Components\DAL\CategoryRepo.cs" />
+    <Compile Include="Components\DAL\RepositoryBase.cs" />
+    <Compile Include="Components\DAL\PageRepo.cs" />
+    <Compile Include="Components\DAL\FileRepo.cs" />
+    <Compile Include="Components\DAL\CustomDefRepo.cs" />
+    <Compile Include="Components\DAL\TagRepo.cs" />
+    <Compile Include="Components\Entities\Article.cs" />
+    <Compile Include="Components\Entities\ArticleTag.cs" />
+    <Compile Include="Components\Entities\Category.cs" />
+    <Compile Include="Components\Entities\ArticleCustomDef.cs" />
+    <Compile Include="Components\Entities\File.cs" />
+    <Compile Include="Components\Entities\Page.cs" />
+    <Compile Include="Components\Entities\Settings.cs" />
+    <Compile Include="Components\Entities\ArticleCategory.cs" />
+    <Compile Include="Components\Entities\CustomDef.cs" />
+    <Compile Include="Components\Enums\ViewType.cs" />
+    <Compile Include="Components\FeatureController.cs" />
+    <Compile Include="Components\Helpers\AutoMapperConfig.cs" />
+    <Compile Include="Components\Helpers\CommonHelper.cs" />
+    <Compile Include="Components\Helpers\DnnHelperExtensions.cs" />
+    <Compile Include="Components\Helpers\ExtensionMethods.cs" />
+    <Compile Include="Components\Helpers\Extensions.cs" />
+    <Compile Include="Components\Helpers\FileHelper.cs" />
+    <Compile Include="Components\Helpers\TaggingHelper.cs" />
+    <Compile Include="Components\Helpers\UrlHelper.cs" />
+    <Compile Include="Components\Intergration\DNNContent.cs" />
+    <Compile Include="Components\Intergration\DNN_SiteMapProvider\SiteMapProvider.cs" />
+    <Compile Include="Components\Intergration\DNN_UrlProvider\Data\UrlDataController.cs" />
+    <Compile Include="Components\Intergration\DNN_UrlProvider\FriendlyUrlInfo.cs" />
+    <Compile Include="Components\Intergration\DNN_UrlProvider\ModuleUrlOptions.cs" />
+    <Compile Include="Components\Intergration\DNN_UrlProvider\UrlController.cs" />
+    <Compile Include="Components\Intergration\DNN_UrlProvider\UrlProvider.cs" />
+    <Compile Include="Components\Intergration\DNN_UrlProvider\UrlProviderInfo.cs" />
+    <Compile Include="Components\ISettingsController.cs" />
+    <Compile Include="Components\Entities\Tag.cs" />
+    <Compile Include="Components\SettingsController.cs" />
+    <Compile Include="Services\CustomFieldsController.cs" />
+    <Compile Include="Services\TagsController.cs" />
+    <Compile Include="Services\ArtilcesController.cs" />
+    <Compile Include="Services\CategoriesController.cs" />
+    <Compile Include="Services\FilesController.cs" />
+    <Compile Include="Services\SettingsController.cs" />
+    <Compile Include="Services\HelperController.cs" />
+    <Compile Include="Services\ViewModels\PagedListMetaViewModel.cs" />
+    <Compile Include="Services\ViewModels\ArticleViewModel.cs" />
+    <Compile Include="Services\ViewModels\CategoryViewModel.cs" />
+    <Compile Include="Services\ViewModels\FileViewModel.cs" />
+    <Compile Include="Services\ViewModels\SettingsViewModel.cs" />
+    <Compile Include="Services\ViewModels\TagViewModel.cs" />
+    <Compile Include="View.ascx.cs">
+      <DependentUpon>View.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="View.ascx.designer.cs">
+      <DependentUpon>View.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Templates\ViewModels\ArticleViewModel.cs" />
+    <Compile Include="Views\Templates\ViewModels\MenuViewModel.cs" />
+    <Compile Include="Views\Templates\ViewModels\ArticlesPagerViewModel.cs" />
+    <Compile Include="Views\Templates\ViewModels\ListArticlesViewModel.cs" />
+    <Compile Include="Views\Templates\ViewModels\ArchiveViewModel.cs" />
+    <Compile Include="Views\Templates\ViewModels\TagViewModel.cs" />
+    <Compile Include="Views\Templates\ViewModels\ViewCurrentModel.cs" />
+    <Compile Include="Views\Templates\ViewModels\CategoryViewModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Services\ServiceRouteMapper.cs" />
+    <Compile Include="Services\UserController.cs" />
+    <Compile Include="Services\ViewModels\UserViewModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Documentation\Documentation.css" />
+    <Content Include="Documentation\Documentation.html" />
+    <Content Include="License.txt" />
+    <Content Include="module.css" />
+    <Content Include="ReleaseNotes.txt" />
+    <Content Include="View.ascx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Templates\Razor\Default\_viewcurrent.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="package.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Templates\Razor\Default\_admin.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Components\Controllers\" />
+    <Folder Include="Components\ViewModels\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Templates\Razor\Default\_articleview.cshtml" />
+    <Content Include="Views\Templates\Razor\Default\_categoryview.cshtml" />
+    <Content Include="Views\Templates\Razor\Default\_archiveview.cshtml" />
+    <Content Include="Views\Templates\Razor\Default\_tagview.cshtml" />
+    <Content Include="Views\Templates\Razor\Default\_listArticles.cshtml" />
+    <Content Include="Views\Templates\Razor\Default\_articlesPager.cshtml" />
+    <Content Include="Views\Templates\Razor\Ikon_Library\_viewcurrent.cshtml" />
+    <Content Include="Views\Templates\Razor\Ikon_Library\_articlesPager.cshtml" />
+    <Content Include="Views\Templates\Razor\Ikon_Library\_listArticles.cshtml" />
+    <Content Include="Views\Templates\Razor\Default\_menu.cshtml" />
+    <Content Include="Views\Templates\Razor\Default\adminframe.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\app\app-load\app-load.module.ts" />
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\app\app-load\app-load.service.ts" />
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\app\app-routing.module.ts" />
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\app\app.component.spec.ts" />
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\app\app.component.ts" />
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\app\app.module.ts" />
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\app\article-file\article-file.component.spec.ts" />
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\app\article-file\article-file.component.ts" />
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\app\article-form\article-form.component.spec.ts" />
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\app\article-form\article-form.component.ts" />
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\app\articles\articles.component.spec.ts" />
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\app\articles\articles.component.ts" />
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\app\categories\categories.component.spec.ts" />
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\app\categories\categories.component.ts" />
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\app\category-form\category-form.component.spec.ts" />
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\app\category-form\category-form.component.ts" />
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\app\context\context-info.ts" />
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\app\context\context.service.ts" />
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\app\context\dev-context.ts" />
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\app\custom-fields\custom-fields.component.spec.ts" />
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\app\custom-fields\custom-fields.component.ts" />
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\app\dashboard\dashboard.component.spec.ts" />
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\app\dashboard\dashboard.component.ts" />
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\app\dnn-app.component.ts" />
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\app\email-templates\email-templates.component.spec.ts" />
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\app\email-templates\email-templates.component.ts" />
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\app\globals.ts" />
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\app\http\dnn.interceptor.ts" />
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\app\http\interceptor.ts" />
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\app\main-settings\main-settings.component.spec.ts" />
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\app\main-settings\main-settings.component.ts" />
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\app\render-templates\render-templates.component.spec.ts" />
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\app\render-templates\render-templates.component.ts" />
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\app\shared\dynamic-form\components\dynamic-field\dynamic-field.directive.ts" />
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\app\shared\dynamic-form\components\form-button\form-button.component.ts" />
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\app\shared\dynamic-form\components\form-input\form-input.component.ts" />
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\app\shared\dynamic-form\components\form-select\form-select.component.ts" />
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\app\shared\dynamic-form\containers\dynamic-form\dynamic-form.component.ts" />
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\app\shared\dynamic-form\dynamic-form.module.ts" />
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\app\shared\dynamic-form\models\field-config.interface.ts" />
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\app\shared\dynamic-form\models\field.interface.ts" />
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\app\shared\file-input\input-file.component.ts" />
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\app\shared\file-input\preview-modal.component.ts" />
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\app\shared\index.ts" />
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\app\shared\list-errors.component.ts" />
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\app\shared\models\article.model.ts" />
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\app\shared\models\articleQueryParams.model.ts" />
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\app\shared\models\category.model.ts" />
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\app\shared\models\custom-def.model.ts" />
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\app\shared\models\errors.model.ts" />
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\app\shared\models\fileUpload.model.ts" />
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\app\shared\models\fileView.model.ts" />
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\app\shared\models\index.ts" />
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\app\shared\models\main-settings.model.ts" />
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\app\shared\models\pagedList.model.ts" />
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\app\shared\models\tag.model.ts" />
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\app\shared\models\user.model.ts" />
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\app\shared\oa-input\components\input-file.component.ts" />
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\app\shared\oa-input\directives\drop-zone.directive.ts" />
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\app\shared\oa-input\dto\file.ts" />
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\app\shared\oa-input\input-file.module.ts" />
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\app\shared\services\api.service.ts" />
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\app\shared\services\articles.service.ts" />
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\app\shared\services\categories.service.ts" />
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\app\shared\services\custom-fields.service.ts" />
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\app\shared\services\files.service.ts" />
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\app\shared\services\helper.service.ts" />
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\app\shared\services\index.ts" />
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\app\shared\services\settings.service.ts" />
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\app\shared\services\tags.service.ts" />
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\app\shared\shared.module.ts" />
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\app\tags\tags.component.spec.ts" />
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\app\tags\tags.component.ts" />
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\environments\environment.prod.ts" />
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\environments\environment.ts" />
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\main.ts" />
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\polyfills.ts" />
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\test.ts" />
+    <TypeScriptCompile Include="ng-apps\on-blog-admin\src\typings.d.ts" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>False</AutoAssignPort>
+          <DevelopmentServerPort>15966</DevelopmentServerPort>
+          <DevelopmentServerVPath>
+          </DevelopmentServerVPath>
+          <IISUrl>http://sb911.loc/desktopmodules/dnn_OpenNewsSPA</IISUrl>
+          <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
+          <IISAppRootUrl>http://sb911.loc</IISAppRootUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <PropertyGroup>
+    <Extension>zip</Extension>
+    <DNNFileName>dnn_OpenNewsSPA</DNNFileName>
+    <PackageName>dnn_OpenNewsSPA</PackageName>
+    <MSBuildCommunityTasksPath>$(SolutionDir)\BuildScripts</MSBuildCommunityTasksPath>
+  </PropertyGroup>
+  <Import Project="BuildScripts\ModulePackage.Targets" />
+  <Target Name="AfterBuild" DependsOnTargets="PackageModule">
+  </Target>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v15.0\WebApplications\Microsoft.WebApplication.targets" />
+</Project>

@@ -1,0 +1,30 @@
+﻿@using YeditUK.Modules.dnn_OpenNews.Templates.ViewModels;
+@using YeditUK.Modules.dnn_OpenNews.Components.Helpers;
+@using System.Linq;
+@using System.Data.Linq;
+@using System.Dynamic;
+@using YeditUK.Modules.dnn_OpenNews.Components.Enums;
+@inherits DotNetNuke.Web.Razor.DotNetNukeWebPage<dynamic>
+@{
+var model = (TagViewModel)this.Model;
+}
+<section>
+  <header>
+    <h1>@model.Tag.name</h1>
+  </header>
+  @RenderPage("_listArticles.cshtml", new ListArticlesViewModel
+  {
+    Articles = model.Articles,
+    Dnn = Dnn
+  });
+</section>
+<section class="articles-footer">
+  <nav class="text-center">
+    @RenderPage("_articlesPager.cshtml", new ArticlesPagerViewModel
+    { Articles = model.Articles,
+      Dnn = Dnn,
+      viewType = ViewType.tagview,
+      pagingID = model.Tag.TagID
+    });
+  </nav>
+</section>

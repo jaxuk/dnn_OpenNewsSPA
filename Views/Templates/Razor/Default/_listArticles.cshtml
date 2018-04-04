@@ -1,0 +1,27 @@
+﻿@using YeditUK.Modules.dnn_OpenNews.Templates.ViewModels;
+@using YeditUK.Modules.dnn_OpenNews.Components.Helpers;
+@using YeditUK.Modules.dnn_OpenNews;
+@using System.Linq;
+@using System.Data.Linq;
+@using DotNetNuke.Collections;
+@{
+  var model = (ListArticlesViewModel)this.Model;
+  //var Articles = (IPagedList<YeditUK.Modules.dnn_OpenNews.Services.ViewModels.ArticleViewModel>)model.Articles;
+  //var Dnn = model.Dnn;
+}
+@foreach (var a in model.Articles)
+{
+  <article>
+    <header><h2><a href="@UrlHelper.GetArticleURL(model.Dnn.Tab.TabID, a.ArticleID)">@a.Title</a></h2></header>
+    <span>@a.StartDate.ToString("dd MMM yyyy")</span>
+
+    @if (!string.IsNullOrWhiteSpace(a.Summary))
+    {
+      <p>@a.Summary</p>
+    }
+    else
+    {
+      <p>@CommonHelper.getSummaryFromBody(a.Body, 150) ...</p>
+    }
+  </article>
+}

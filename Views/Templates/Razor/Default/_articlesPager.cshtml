@@ -1,0 +1,39 @@
+﻿@using YeditUK.Modules.dnn_OpenNews.Templates.ViewModels;
+@using YeditUK.Modules.dnn_OpenNews.Components.Helpers;
+@using YeditUK.Modules.dnn_OpenNews;
+@using System.Linq;
+@using System.Data.Linq;
+@using DotNetNuke.Collections;
+@using YeditUK.Modules.dnn_OpenNews.Components.Enums;
+@{
+  var model = (ArticlesPagerViewModel)this.Model;
+}
+@if (model.Articles.TotalCount > model.Articles.Count)
+{
+  <ul class="pagination">
+    @if (model.Articles.HasPreviousPage)
+    {
+      <li>
+        <a href="@UrlHelper.GetArticlePagedListUrl(model.Dnn.Tab.TabID, model.viewType, model.pagingID, model.Articles.PageIndex - 1)" aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+      </li>
+    }
+    @for (var i = 0; i < model.Articles.PageCount; i++)
+    {
+      <li class="@((i==model.Articles.PageIndex)?"active":"")">
+        <a href="@UrlHelper.GetArticlePagedListUrl(model.Dnn.Tab.TabID, model.viewType, model.pagingID, i)">
+          @((i + 1).ToString())
+        </a>
+      </li>
+    }
+    @if (model.Articles.HasNextPage)
+    {
+      <li>
+        <a href="@UrlHelper.GetArticlePagedListUrl(model.Dnn.Tab.TabID, model.viewType, model.pagingID, model.Articles.PageIndex + 1)" aria-label="Next">
+          <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
+    }
+  </ul>
+}

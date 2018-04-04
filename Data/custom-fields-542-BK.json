@@ -1,0 +1,88 @@
+﻿  [
+    {
+      "Name": "Library Paper",
+      "TypeName": "LibraryPaper",
+      "Required": true,
+      "DefId": -1,
+      "ModuleId": 542,
+      "Fields": [
+        {
+          "name": "Author",
+          "label": "Author(s)",
+          "help": "",
+          "dataType": "string",
+          "controlType": "input",
+          "inputType": "text",
+          "placeholder": "Enter Author",
+          "visible": true,
+          "validation": [],
+          "validators": [ "Validators.required" ]
+        },
+        {
+          "name": "Society",
+          "label": "Society",
+          "help": "",
+          "dataType": "string",
+          "controlType": "input",
+          "inputType": "text",
+          "placeholder": "Enter Society",
+          "visible": true,
+          "validation": [],
+          "validators": null
+        },
+        {
+          "name": "PaperType",
+          "label": "Paper Type",
+          "help": "",
+          "dataType": "string",
+          "placeholder": "Choose Paper Type",
+          "controlType": "radio",
+          "options": [
+            "Abstract",
+            "Full"
+          ],
+          "visible": true,
+          "validation": [],
+          "validators": null
+        },
+        {
+          "name": "IsNewsBite",
+          "label": "Is News Bite",
+          "help": "",
+          "dataType": "bool",
+          "placeholder": "Choose",
+          "controlType": "switch",
+          "options": [
+            true,
+            false
+          ],
+          "visible": true,
+          "validation": [],
+          "validators": null
+        },
+        {
+          "name": "VideoHTML",
+          "label": "Video Html",
+          "help": "Embed Html for Videos",
+          "dataType": "string",
+          "placeholder": "Put the embed code here",
+          "controlType": "textarea",
+          "rows": 4,
+          "visible": true,
+          "validation": [],
+          "validators": null
+        },
+        {
+          "name": "EventStart",
+          "label": "Start Date",
+          "help": "Event Start Date",
+          "dataType": "datetime",
+          "placeholder": "",
+          "controlType": "date",
+          "visible": true,
+          "validation": [],
+          "validators": null
+        }
+      ]
+    }
+  ]

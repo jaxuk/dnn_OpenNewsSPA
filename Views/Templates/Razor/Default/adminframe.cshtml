@@ -1,0 +1,85 @@
+﻿@using YeditUK.Modules.dnn_OpenNews.Components.Helpers;
+@inherits System.Web.WebPages.WebPage
+
+@functions{
+  public static bool isAdmin()
+  {
+    return false;
+  }
+  public static string ngAssetPath(string ngRoot, string assetPath, int cdv)
+  {
+    return ngRoot + assetPath + "?cdv=" + cdv.ToString();
+  }
+}
+@{
+  string DesktopModule_FolderName = Request.QueryString["dtpFolderName"];
+  int ModuleId = Request.QueryString["mid"].AsInt(-1);
+  int TabId = Request.QueryString["tid"].AsInt(-1);
+  int cdv = Request.QueryString["cdv"].AsInt(-1);
+  string ngRoot = "/DesktopModules/{0}/ng-apps/on-blog-admin/";
+  ngRoot = string.Format(ngRoot, DesktopModule_FolderName);
+}
+<style>
+  .app-loading {
+    background: #ececec;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+</style>
+<script>
+  //window.addEventListener('message', function (event) {
+  //  // IMPORTANT: Check the origin of the data!
+  //  if (~event.origin.indexOf('http://localhost:4200')) {
+  //    // The data has been sent from your site
+  //    // The data sent with postMessage is stored in event.data
+  //    console.log(event.data);
+  //  } else {
+  //    // The data hasn't been sent from your site!
+  //    // Be careful! Do not use it.
+  //    return;
+  //  }
+  //});
+  $ = window.top.$;
+  $(document).ready(function () {
+      var service = {
+      path: "dnn_OpenNewsSPA",
+      framework: $.ServicesFramework(@ModuleId.ToString())
+    }
+    console.log('Service Path:' + service.framework.getServiceRoot(service.path));
+    //window.addEventListener('resize', function () {
+    //  console.log('resized - inner');
+    //});
+  });
+</script>
+@*ModuleID = @ModuleId.ToString()<br />
+TabID = @TabId.ToString()<br />
+Path = <span class="servicePath"></span>*@
+@*<base href="@UrlHelper.GetAdminURL(TabId)" />*@
+<base href="/DesktopModules/dnn_OpenNewsSPA/Views/Templates/Razor/Default/adminframe.cshtml" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+<app-root data-mid="@ModuleId" data-tid="@TabId">
+  <div class="app-loading">
+    <h2>Loading Open News Admin</h2>
+  </div>
+</app-root>
+<script type="text/javascript" src="@ngAssetPath(ngRoot,"dist/inline.bundle.js",cdv)"></script>
+<script type="text/javascript" src="@ngAssetPath(ngRoot,"dist/styles.bundle.js",cdv)"></script>
+<script type="text/javascript" src="@ngAssetPath(ngRoot,"dist/polyfills.bundle.js",cdv)"></script>
+<script type="text/javascript" src="@ngAssetPath(ngRoot,"dist/vendor.bundle.js",cdv)"></script>
+<script type="text/javascript" src="@ngAssetPath(ngRoot,"dist/main.bundle.js",cdv)"></script>
+
+<!-- Prevent Form Submit -->
+<script>
+	(function() {
+		var firstForm = document.querySelectorAll("form")[0];
+		if (!firstForm) return false;
+		firstForm.addEventListener('submit', function(e) {
+			e.preventDefault();
+		});
+	})();
+</script>

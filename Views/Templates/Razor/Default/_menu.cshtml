@@ -1,0 +1,12 @@
+﻿@using YeditUK.Modules.dnn_OpenNews.Templates.ViewModels;
+@{
+  var model = (MenuViewModel)this.Model;
+}
+@if (model.menuItems.Count > 0) {
+  <ul class="oa-admin-menu nav nav-pills">
+    @foreach (var item in model.menuItems)
+    {
+      <li role="presentation"><a href="@item.Value">@item.Key</a></li>
+    }
+  </ul>
+}
