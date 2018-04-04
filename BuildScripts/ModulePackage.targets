@@ -17,16 +17,16 @@
     <ItemGroup>     
       <InstallInclude Include="**\*.ascx" Exclude="packages\**" />
       <InstallInclude Include="**\*.asmx" Exclude="packages\**" />
-      <InstallInclude Include="**\*.css" Exclude="packages\**;ng-apps\**;**\node_modules\**;" />
-      <InstallInclude Include="**\*.html" Exclude="packages\**;ng-apps\**;**\node_modules\**;" />
+      <InstallInclude Include="**\*.css" Exclude="packages\**" />
+      <InstallInclude Include="**\*.html" Exclude="packages\**" />
       <InstallInclude Include="**\*.cshtml" Exclude="packages\**" />
-      <InstallInclude Include="**\*.htm" Exclude="packages\**;ng-apps\**;**\node_modules\**;" />
+      <InstallInclude Include="**\*.htm" Exclude="packages\**" />
       <InstallInclude Include="**\*.resx" Exclude="packages\**" />
       <InstallInclude Include="**\*.aspx" Exclude="packages\**" />
-      <InstallInclude Include="**\*.js" Exclude="packages\**;ng-apps\**;**\node_modules\**;" />
-      <InstallInclude Include="**\*.txt"  Exclude="**\obj\**;**\_ReSharper*\**;packages\**;**\.git\**;ng-apps\**;**\node_modules\**;" />
-      <InstallInclude Include="**\images\**" Exclude="packages\**;ng-apps\**;**\node_modules\**;" />
-      <InstallInclude Include="**\images\**" Exclude="packages\**;ng-apps\**;**\node_modules\**;" />
+      <InstallInclude Include="**\*.js" Exclude="packages\**" />
+      <InstallInclude Include="**\*.txt"  Exclude="**\obj\**;**\_ReSharper*\**;packages\**;**\.git\**;" />
+      <InstallInclude Include="**\images\**" Exclude="packages\**" />
+      <InstallInclude Include="**\images\**" Exclude="packages\**" />
       <!--<InstallInclude Include="**\dist\**" Exclude="ng-apps\**" />-->
       
     </ItemGroup>
@@ -34,19 +34,19 @@
     <ItemGroup>
       <SourceInclude Include="**\*.ascx" />
       <SourceInclude Include="**\*.asmx" />
-      <SourceInclude Include="**\*.css" Exclude="**\node_modules\**" />
-      <SourceInclude Include="**\*.xsl" Exclude="**\node_modules\**" />
-      <SourceInclude Include="**\*.html" Exclude="**\node_modules\**" />
+      <SourceInclude Include="**\*.css" />
+      <SourceInclude Include="**\*.xsl" />
+      <SourceInclude Include="**\*.html"/>
       <SourceInclude Include="**\*.cshtml" />
-      <SourceInclude Include="**\*.htm" Exclude="**\node_modules\**" />
+      <SourceInclude Include="**\*.htm"  />
       <SourceInclude Include="**\*.resx" />
-      <SourceInclude Include="**\*.xml" Exclude="**\obj\**;**\_ReSharper*\**;**\.git\**;**\node_modules\**;" />
+      <SourceInclude Include="**\*.xml" Exclude="**\obj\**;**\_ReSharper*\**;**\.git\**;" />
       <SourceInclude Include="**\*.aspx" />
-      <SourceInclude Include="**\*.js" Exclude="**\node_modules\**" />
-      <SourceInclude Include="**\*.txt" Exclude="**\obj\**;**\_ReSharper*\**;**\.git\**;**\node_modules\**;" />
-      <SourceInclude Include="**\images\**" Exclude="**\node_modules\**" />
+      <SourceInclude Include="**\*.js" />
+      <SourceInclude Include="**\*.txt" Exclude="**\obj\**;**\_ReSharper*\**;**\.git\**;" />
+      <SourceInclude Include="**\images\**" />
       <SourceInclude Include="**\*.cs" />
-	    <SourceInclude Include="**\Packages\**"  Exclude="**\node_modules\**" />
+	    <SourceInclude Include="**\Packages\**" />
       <SourceInclude Include="**\*.cs.designer" />
       <SourceInclude Include="**\*.csproj" />
       <SourceInclude Include="**\*.targets" />

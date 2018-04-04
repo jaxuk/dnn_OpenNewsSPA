@@ -8,27 +8,373 @@
 /*****                                                  *****/
 /************************************************************/
 
-IF EXISTS (SELECT * FROM sys.objects WHERE [object_id] = OBJECT_ID(N'{databaseOwner}[{objectQualifier}dnn_OpenNewsSPA_Items]') AND type in (N'U'))
-	DROP TABLE {databaseOwner}[{objectQualifier}dnn_OpenNewsSPA_Items]
+SET ANSI_NULLS ON
 GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE FUNCTION {databaseOwner}[{objectQualifier}OpenNews_ArticleStatus](@IsDeleted bit, @IsDraft bit, @IsApproved bit, @StartDate datetime, @EndDate datetime, @PortalTime datetime )  
+RETURNS nvarchar(20)   
+AS   
+-- Returns the stock level for the product.  
+BEGIN  
+    DECLARE @ret varchar(20);  
+	SET @ret = '';
+	IF @PortalTime is null
+	SET @PortalTime = GETDATE()
 
-CREATE TABLE {databaseOwner}{objectQualifier}dnn_OpenNewsSPA_Items
+	IF @IsDeleted=1
+	SET @ret = 'Deleted';
+	
+	IF @ret = '' AND @IsApproved=0 AND @IsDraft=0
+	SET @ret = 'NeedsApproval';
+
+	IF @ret = '' AND @IsDraft=1
+	SET @ret = 'Draft';
+
+	IF @ret = '' AND not(@EndDate is null) AND @EndDate <= @PortalTime
+	SET @ret = 'Expired';
+
+	IF @ret = '' AND @StartDate <= @PortalTime
+	SET @ret = 'Live';
+
+	IF @ret = '' 
+	SET @ret = 'Upcoming';
+
+	RETURN @ret;
+END; 
+GO
+/****** Object:  Table {databaseOwner}[{objectQualifier}OpenNews_Article]    Script Date: 04/04/2018 15:32:09 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE {databaseOwner}[{objectQualifier}OpenNews_Article](
+	[ArticleID] [bigint] IDENTITY(1,1) NOT NULL,
+	[AuthorID] [bigint] NOT NULL,
+	[ApproverID] [bigint] NOT NULL,
+	[CreatedDate] [datetime] NOT NULL,
+	[LastUpdated] [datetime] NOT NULL,
+	[Title] [nvarchar](255) NOT NULL,
+	[IsApproved] [bit] NOT NULL,
+	[NumOfViews] [bigint] NOT NULL,
+	[StartDate] [datetime] NULL,
+	[EndDate] [datetime] NULL,
+	[ModuleID] [int] NOT NULL,
+	[IsFeatured] [bit] NOT NULL,
+	[LastUpdateID] [bigint] NOT NULL,
+	[URL] [nvarchar](255) NOT NULL,
+	[Summary] [ntext] NOT NULL,
+	[CommentCount] [bigint] NOT NULL,
+	[MetaTitle] [nvarchar](255) NOT NULL,
+	[MetaDescription] [nvarchar](255) NOT NULL,
+	[MetaKeywords] [nvarchar](255) NOT NULL,
+	[PageHeadText] [nvarchar](500) NOT NULL,
+	[ShortURL] [nvarchar](50) NOT NULL,
+	[RssGuid] [nvarchar](255) NOT NULL,
+	[ContentItemID] [int] NOT NULL,
+	[IsDraft] [bit] NOT NULL,
+	[IsDeleted] [bit] NOT NULL,
+	[AutoArchive] [bit] NOT NULL,
+	[customJSON] [nvarchar](max) NULL,
+ CONSTRAINT [PK_OpenNews_Article] PRIMARY KEY CLUSTERED 
 (
-	[ItemId] INT NOT NULL IDENTITY (1, 1),
-	[ItemName] NVARCHAR(MAX) NOT NULL,
-	[ItemDescription] NVARCHAR(MAX) NOT NULL,
-	[AssignedUserId] INT NULL,
-	[ModuleId] INT NOT NULL,
-	[CreatedOnDate] DATETIME NOT NULL,
-	[CreatedByUserId] INT NOT NULL,
-	[LastModifiedOnDate] DATETIME NOT NULL,
-	[LastModifiedByUserId] INT NOT NULL
-)
+	[ArticleID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table {databaseOwner}[{objectQualifier}OpenNews_ArticleCategories]    Script Date: 04/04/2018 15:32:09 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE {databaseOwner}[{objectQualifier}OpenNews_ArticleCategories](
+	[ArticleID] [bigint] NOT NULL,
+	[CategoryID] [int] NOT NULL,
+	[ID] [int] IDENTITY(1,1) NOT NULL
+) ON [PRIMARY]
+GO
+/****** Object:  Table {databaseOwner}[{objectQualifier}OpenNews_ArticleCustomObjectDef]    Script Date: 04/04/2018 15:32:09 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE {databaseOwner}[{objectQualifier}OpenNews_ArticleCustomObjectDef](
+	[ArticleID] [bigint] NOT NULL,
+	[DefId] [int] NOT NULL,
+	[ID] [int] NOT NULL
+) ON [PRIMARY]
+GO
+/****** Object:  Table {databaseOwner}[{objectQualifier}OpenNews_ArticleTags]    Script Date: 04/04/2018 15:32:09 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE {databaseOwner}[{objectQualifier}OpenNews_ArticleTags](
+	[ArticleID] [bigint] NOT NULL,
+	[TagID] [int] NOT NULL,
+	[ID] [int] IDENTITY(1,1) NOT NULL
+) ON [PRIMARY]
+GO
+/****** Object:  Table {databaseOwner}[{objectQualifier}OpenNews_Category]    Script Date: 04/04/2018 15:32:09 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE {databaseOwner}[{objectQualifier}OpenNews_Category](
+	[CategoryID] [int] IDENTITY(1,1) NOT NULL,
+	[ModuleID] [int] NOT NULL,
+	[Name] [nvarchar](255) NOT NULL,
+	[ImageFileID] [bigint] NOT NULL,
+	[ParentID] [int] NOT NULL,
+	[Description] [ntext] NOT NULL,
+	[SortOrder] [int] NOT NULL,
+	[MetaTitle] [nvarchar](255) NOT NULL,
+	[MetaDescription] [nvarchar](255) NOT NULL,
+	[MetaKeywords] [nvarchar](255) NOT NULL,
+	[PageHeadText] [nvarchar](500) NOT NULL,
+	[URL] [nvarchar](255) NOT NULL,
+	[ShortURL] [nvarchar](50) NOT NULL,
+	[ContentItemID] [int] NOT NULL,
+ CONSTRAINT [PK_OpenNews_Category] PRIMARY KEY CLUSTERED 
+(
+	[CategoryID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table {databaseOwner}[{objectQualifier}OpenNews_CustomObjectsDef]    Script Date: 04/04/2018 15:32:09 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE {databaseOwner}[{objectQualifier}OpenNews_CustomObjectsDef](
+	[DefId] [int] IDENTITY(1,1) NOT NULL,
+	[Json] [nvarchar](max) NOT NULL,
+	[Name] [nvarchar](255) NOT NULL,
+	[Required] [bit] NOT NULL,
+	[ModuleID] [int] NOT NULL,
+ CONSTRAINT [PK_OpenNews_CustomObjectsDef] PRIMARY KEY CLUSTERED 
+(
+	[DefId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table {databaseOwner}[{objectQualifier}OpenNews_File]    Script Date: 04/04/2018 15:32:09 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE {databaseOwner}[{objectQualifier}OpenNews_File](
+	[FileID] [bigint] NOT NULL,
+	[ArticleID] [bigint] NOT NULL,
+	[SortOrder] [int] NOT NULL,
+	[IsImage] [bit] NOT NULL,
+	[ID] [int] IDENTITY(1,1) NOT NULL
+) ON [PRIMARY]
+GO
+/****** Object:  Table {databaseOwner}[{objectQualifier}OpenNews_Page]    Script Date: 04/04/2018 15:32:09 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE {databaseOwner}[{objectQualifier}OpenNews_Page](
+	[PageID] [bigint] IDENTITY(1,1) NOT NULL,
+	[ArticleID] [bigint] NOT NULL,
+	[PageText] [ntext] NOT NULL,
+	[SortOrder] [int] NOT NULL,
+ CONSTRAINT [PK_OpenNews_Page] PRIMARY KEY CLUSTERED 
+(
+	[PageID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table {databaseOwner}[{objectQualifier}OpenNews_Tag]    Script Date: 04/04/2018 15:32:09 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE {databaseOwner}[{objectQualifier}OpenNews_Tag](
+	[TagID] [int] IDENTITY(1,1) NOT NULL,
+	[ModuleID] [int] NOT NULL,
+	[Name] [nvarchar](255) NOT NULL,
+ CONSTRAINT [PK_OpenNews_Tag] PRIMARY KEY CLUSTERED 
+(
+	[TagID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+ALTER TABLE {databaseOwner}[{objectQualifier}OpenNews_ArticleCategories]  WITH CHECK ADD  CONSTRAINT [FK_OpenNews_ArticleCategories_OpenNews_Article] FOREIGN KEY([ArticleID])
+REFERENCES {databaseOwner}[{objectQualifier}OpenNews_Article] ([ArticleID])
+ON DELETE CASCADE
+GO
+ALTER TABLE {databaseOwner}[{objectQualifier}OpenNews_ArticleCategories] CHECK CONSTRAINT [FK_OpenNews_ArticleCategories_OpenNews_Article]
+GO
+ALTER TABLE {databaseOwner}[{objectQualifier}OpenNews_ArticleCategories]  WITH CHECK ADD  CONSTRAINT [FK_OpenNews_ArticleCategories_OpenNews_Category] FOREIGN KEY([CategoryID])
+REFERENCES {databaseOwner}[{objectQualifier}OpenNews_Category] ([CategoryID])
+ON DELETE CASCADE
+GO
+ALTER TABLE {databaseOwner}[{objectQualifier}OpenNews_ArticleCategories] CHECK CONSTRAINT [FK_OpenNews_ArticleCategories_OpenNews_Category]
+GO
+ALTER TABLE {databaseOwner}[{objectQualifier}OpenNews_ArticleCustomObjectDef]  WITH CHECK ADD  CONSTRAINT [FK_OpenNews_ArticleCustomObjectDef_OpenNews_Article] FOREIGN KEY([ArticleID])
+REFERENCES {databaseOwner}[{objectQualifier}OpenNews_Article] ([ArticleID])
+ON DELETE CASCADE
+GO
+ALTER TABLE {databaseOwner}[{objectQualifier}OpenNews_ArticleCustomObjectDef] CHECK CONSTRAINT [FK_OpenNews_ArticleCustomObjectDef_OpenNews_Article]
+GO
+ALTER TABLE {databaseOwner}[{objectQualifier}OpenNews_ArticleCustomObjectDef]  WITH CHECK ADD  CONSTRAINT [FK_OpenNews_ArticleCustomObjectDef_OpenNews_CustomObjectsDef] FOREIGN KEY([DefId])
+REFERENCES {databaseOwner}[{objectQualifier}OpenNews_CustomObjectsDef] ([DefId])
+ON DELETE CASCADE
+GO
+ALTER TABLE {databaseOwner}[{objectQualifier}OpenNews_ArticleCustomObjectDef] CHECK CONSTRAINT [FK_OpenNews_ArticleCustomObjectDef_OpenNews_CustomObjectsDef]
+GO
+ALTER TABLE {databaseOwner}[{objectQualifier}OpenNews_ArticleTags]  WITH CHECK ADD  CONSTRAINT [FK_OpenNews_ArticleTags_OpenNews_Article] FOREIGN KEY([ArticleID])
+REFERENCES {databaseOwner}[{objectQualifier}OpenNews_Article] ([ArticleID])
+ON DELETE CASCADE
+GO
+ALTER TABLE {databaseOwner}[{objectQualifier}OpenNews_ArticleTags] CHECK CONSTRAINT [FK_OpenNews_ArticleTags_OpenNews_Article]
+GO
+ALTER TABLE {databaseOwner}[{objectQualifier}OpenNews_ArticleTags]  WITH CHECK ADD  CONSTRAINT [FK_OpenNews_ArticleTags_OpenNews_Tag] FOREIGN KEY([TagID])
+REFERENCES {databaseOwner}[{objectQualifier}OpenNews_Tag] ([TagID])
+ON DELETE CASCADE
+GO
+ALTER TABLE {databaseOwner}[{objectQualifier}OpenNews_ArticleTags] CHECK CONSTRAINT [FK_OpenNews_ArticleTags_OpenNews_Tag]
+GO
+ALTER TABLE {databaseOwner}[{objectQualifier}OpenNews_File]  WITH CHECK ADD  CONSTRAINT [FK_OpenNews_File_OpenNews_Article] FOREIGN KEY([ArticleID])
+REFERENCES {databaseOwner}[{objectQualifier}OpenNews_Article] ([ArticleID])
+ON DELETE CASCADE
+GO
+ALTER TABLE {databaseOwner}[{objectQualifier}OpenNews_File] CHECK CONSTRAINT [FK_OpenNews_File_OpenNews_Article]
+GO
+ALTER TABLE {databaseOwner}[{objectQualifier}OpenNews_Page]  WITH CHECK ADD  CONSTRAINT [FK_OpenNews_Page_OpenNews_Article] FOREIGN KEY([ArticleID])
+REFERENCES {databaseOwner}[{objectQualifier}OpenNews_Article] ([ArticleID])
+ON DELETE CASCADE
+GO
+ALTER TABLE {databaseOwner}[{objectQualifier}OpenNews_Page] CHECK CONSTRAINT [FK_OpenNews_Page_OpenNews_Article]
+GO
+/****** Object:  StoredProcedure {databaseOwner}[{objectQualifier}OpenNews_FindArticles]    Script Date: 04/04/2018 15:32:09 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}OpenNews_FindArticles]
+	@ModuleID int,
+	@PageSize int,
+	@PageNumber int,
+	@searchPhrase nvarchar(64),
+	@sortBy nvarchar(64),
+	@sortAsc bit,
+	@status nvarchar(20),
+	@portalTime datetime,
+	@AuthorID int,
+	@CategoryIDList dbo.intList READONLY,
+	@TagIDList dbo.intList READONLY,
+	@totalResults int OUTPUT
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	DECLARE @exsql NVARCHAR(max);
+	DECLARE @ParameterDefinition NVARCHAR(max); 
+	SELECT	@ParameterDefinition = ' 
+	@dModuleID int,
+	@dPageSize int,
+	@dPageNumber int,
+	@dsearchPhrase nvarchar(64),
+	@dsortBy nvarchar(64),
+	@dsortAsc bit,
+	@dstatus nvarchar(20),
+	@dportalTime datetime,
+	@dAuthorID int,
+	@dCategoryIDList dbo.intList READONLY,
+	@dTagIDList dbo.intList READONLY,
+	@dtotalResults int OUTPUT ';
+
+	SET @exsql = ';WITH listings_cte AS ('
+
+	SET @exsql = @exsql + 'SELECT OpenNews_Article.* FROM OpenNews_Article '
+
+
+	IF 0 <> (SELECT COUNT (*) FROM @CategoryIDList)
+				BEGIN
+				SET @exsql = @exsql + ' INNER JOIN (SELECT * FROM OpenNews_ArticleCategories WHERE CategoryID IN (SELECT * FROM @dCategoryIDList)) as acats ON acats.ArticleID = OpenNews_Article.ArticleID '
+				END
+		IF 0 <> (SELECT COUNT (*) FROM @TagIDList)
+				BEGIN
+				SET @exsql = @exsql + ' INNER JOIN (SELECT * FROM OpenNews_ArticleTags WHERE TagID IN (SELECT * FROM @dTagIDList)) as atags ON atags.ArticleID = OpenNews_Article.ArticleID '
+				END
+	SET @exsql = @exsql + ' WHERE 1=1 '
+	IF not(@status IS NULL)
+	SET @exsql = @exsql + ' AND dbo.OpenNews_ArticleStatus(OpenNews_Article.IsDeleted, OpenNews_Article.IsDraft, OpenNews_Article.IsApproved, OpenNews_Article.StartDate, OpenNews_Article.EndDate, @dportalTime)=@dstatus '
+
+	IF not(@searchPhrase is null) AND @searchPhrase <> ''
+	BEGIN
+		SET @searchPhrase = '%' + @searchPhrase + '%'
+		SET @exsql = @exsql + ' AND Title like @dsearchPhrase '
+	END
+	
+	SET @exsql = @exsql + '
+	)
+	SELECT * into #res from listings_cte
+	SELECT * FROM #res '
+	IF @sortBy is null or @sortBy ='StartDate' or @sortBy =''
+				BEGIN
+				SET @exsql = @exsql + ' ORDER BY #res.StartDate ' 
+				END
+	--ELSE IF @sortBy = 'relevance' AND @searchPhrase is not null and @searchPhrase <> ''
+	--			BEGIN
+	--			SET @exsql = @exsql + ' ORDER BY #res.[RANK] '
+	--			END
+	ELSE IF @sortBy = 'LastUpdated'
+				BEGIN
+				SET @exsql = @exsql + ' ORDER BY #res.LastUpdated '
+				END
+	ELSE IF @sortBy = 'Title'
+				BEGIN
+				SET @exsql = @exsql + ' ORDER BY #res.Title '
+				END
+
+	if @sortAsc = 0
+		BEGIN
+		SET @exsql = @exsql + ' DESC '
+		END
+		
+	IF @PageSize is not null AND @PageNumber is not null
+	BEGIN
+	SET @exsql = @exsql + '
+		OFFSET @dPageSize * (@dPageNumber) ROWS
+		FETCH NEXT @dPageSize ROWS ONLY OPTION (RECOMPILE)
+		SELECT @dtotalResults = (SELECT COUNT(*) AS TotalCount FROM #res)'
+	END
+	--SELECT @exsql--, @ParameterDefinition
+	--SELECT @ParameterDefinition
+	EXEC sp_executeSQL @exsql , @ParameterDefinition,
+	@dModuleID = @ModuleID, 
+	@dPageSize = @PageSize ,
+	@dPageNumber = @PageNumber ,
+	@dsearchPhrase = @searchPhrase,
+	@dsortBy = @sortBy, 
+	@dsortAsc = @sortAsc,
+	@dstatus = @status,
+	@dportalTime = @portalTime,
+	@dAuthorID = @AuthorID,
+	@dCategoryIDList = @CategoryIDList, 
+	@dTagIDList =@TagIDList,
+	@dtotalResults = @totalResults output
+	SET @totalResults = @totalResults
+	
+END
+
 GO
 
 
-ALTER TABLE {databaseOwner}[{objectQualifier}dnn_OpenNewsSPA_Items] ADD CONSTRAINT [PK_{objectQualifier}dnn_OpenNewsSPA_Items] PRIMARY KEY CLUSTERED ([ItemId])
-GO
+
 
 
 /************************************************************/
