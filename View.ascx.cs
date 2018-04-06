@@ -131,6 +131,9 @@ namespace YeditUK.Modules.dnn_OpenNews
       var arts = ArticleRepo.Instance.GetPagedList(this.ModuleId, this._pageIndex, _settings.BasicArticlesPerPage,
         "", ArticleStatus.Live, true, -1, null, null, DateTime.Now, _settings.BasicSortBy, sortAsc());
       vc.Articles = Mapper.Map<PagedList<Components.Entities.Article>, PagedList<Services.ViewModels.ArticleViewModel>>(arts);
+      vc.Articles.ForEach(a => {
+        setVwUrl(ref a);
+      });
       return vc;
     }
     private Templates.ViewModels.CategoryViewModel getCategoryViewModel()
@@ -149,6 +152,9 @@ namespace YeditUK.Modules.dnn_OpenNews
       var arts = ArticleRepo.Instance.GetPagedList(this.ModuleId, this._pageIndex, _settings.BasicArticlesPerPage,
         "", ArticleStatus.Live, true, -1, CategoriesIdList, null, DateTime.Now, _settings.BasicSortBy, sortAsc());
       vc.Articles = Mapper.Map<PagedList<Components.Entities.Article>, PagedList<Services.ViewModels.ArticleViewModel>>(arts);
+      vc.Articles.ForEach(a => {
+        setVwUrl(ref a);
+      });
       vc.Category = Mapper.Map<Components.Entities.Category, Services.ViewModels.CategoryViewModel>(cat);
       return vc;
     }
@@ -168,6 +174,9 @@ namespace YeditUK.Modules.dnn_OpenNews
       var arts = ArticleRepo.Instance.GetPagedList(this.ModuleId, this._pageIndex, _settings.BasicArticlesPerPage,
         "", ArticleStatus.Live, true, -1, null, TagsIdList, DateTime.Now, _settings.BasicSortBy, sortAsc());
       vc.Articles = Mapper.Map<PagedList<Components.Entities.Article>, PagedList<Services.ViewModels.ArticleViewModel>>(arts);
+      vc.Articles.ForEach(a => {
+        setVwUrl(ref a);
+      });
       vc.Tag = Mapper.Map<Components.Entities.Tag, Services.ViewModels.TagViewModel>(tag);
       return vc;
     }
@@ -189,7 +198,9 @@ namespace YeditUK.Modules.dnn_OpenNews
       else
       {
         ArticleViewModel avm = new ArticleViewModel(getMenuViewModel());
-        avm.Article = Mapper.Map<Components.Entities.Article, Services.ViewModels.ArticleViewModel>(art);
+        var artVm = Mapper.Map<Components.Entities.Article, Services.ViewModels.ArticleViewModel>(art);
+        setVwUrl(ref artVm);
+        avm.Article = artVm;
         if (CommonHelper.UserCanEditArticle(this.UserInfo, avm.Article))
         {
           avm.MenuView.menuItems.Add("Edit Article", UrlHelper.GetAdminURL(this.ModuleContext.TabId, art.ArticleID));
@@ -217,6 +228,11 @@ namespace YeditUK.Modules.dnn_OpenNews
         return false;
       }
     }
+    private void setVwUrl(ref Services.ViewModels.ArticleViewModel avm)
+    {
+      avm.vwURL = UrlHelper.GetArticleURL(this.TabId, avm.ArticleID);
+    }
+
     private bool sortAsc()
     {
       return _settings.BasicSortDirection == "ASC";

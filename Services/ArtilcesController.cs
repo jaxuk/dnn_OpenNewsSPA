@@ -18,6 +18,7 @@ using AutoMapper;
 using YeditUK.Modules.dnn_OpenNews.Components.Helpers;
 using DotNetNuke.Services.FileSystem;
 using DotNetNuke.Collections;
+using DotNetNuke.Web.Api.Internal;
 
 namespace YeditUK.Modules.dnn_OpenNews.Services
 {
@@ -72,6 +73,23 @@ namespace YeditUK.Modules.dnn_OpenNews.Services
       return Request.CreateResponse(System.Net.HttpStatusCode.NoContent);
     }
 
+    public class IncreaseViewCountDTO
+    {
+      public int articleId { get; set; }
+    }
+    [HttpPost]
+#if DEBUG
+    [AllowAnonymous]
+#else
+    [AllowAnonymous]
+    [ValidateAntiForgeryToken]
+#endif
+    public HttpResponseMessage IncreaseViewCount(IncreaseViewCountDTO dto)
+    {
+      _repository.IncreaseViewCount(dto.articleId);
+      return Request.CreateResponse(System.Net.HttpStatusCode.OK);
+    }
+
     public class GetDTO
     {
       public int articleId { get; set; }
@@ -97,8 +115,6 @@ namespace YeditUK.Modules.dnn_OpenNews.Services
         art = Mapper.Map<Article, ArticleViewModel>(_repository.Get(dto.articleId, ActiveModule.ModuleID));
         setVwUrl(ref art);
       }
-      //var cat = new CategoryViewModel(_repository.Get(categoryId, ActiveModule.ModuleID));
-
       return Request.CreateResponse(art);
     }
 

@@ -23,6 +23,8 @@ namespace YeditUK.Modules.dnn_OpenNews.Components.DAL
 
     void Delete(Article a);
 
+    void IncreaseViewCount(long articleId);
+
     Article Get(long ArticleID, int ModuleID);
 
     IQueryable<Article> GetList(int ModuleID);
@@ -502,6 +504,18 @@ namespace YeditUK.Modules.dnn_OpenNews.Components.DAL
       return list;
     }
 
-
+    public void IncreaseViewCount(long articleId)
+    {
+      using (IDataContext ctx = DataContext.Instance())
+      {
+        var rep = ctx.GetRepository<Article>();
+        var art = rep.Find("WHERE articleID=@0", articleId).SingleOrDefault();
+        if (art != null) {
+          art.NumOfViews = art.NumOfViews += 1;
+          rep.Update(art);
+        }
+        
+      }
+    }
   }
 }

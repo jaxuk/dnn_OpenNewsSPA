@@ -333,6 +333,13 @@
     <Content Include="View.ascx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Views\Templates\Razor\Default\scripts\articleView.js" />
+    <Content Include="Views\Templates\Razor\Default\styles\styles.css">
+      <DependentUpon>styles.scss</DependentUpon>
+    </Content>
+    <Content Include="Views\Templates\Razor\Default\styles\styles.min.css">
+      <DependentUpon>styles.css</DependentUpon>
+    </Content>
     <Content Include="Views\Templates\Razor\Default\_viewcurrent.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -355,9 +362,6 @@
     <Content Include="Views\Templates\Razor\Default\_tagview.cshtml" />
     <Content Include="Views\Templates\Razor\Default\_listArticles.cshtml" />
     <Content Include="Views\Templates\Razor\Default\_articlesPager.cshtml" />
-    <Content Include="Views\Templates\Razor\Ikon_Library\_viewcurrent.cshtml" />
-    <Content Include="Views\Templates\Razor\Ikon_Library\_articlesPager.cshtml" />
-    <Content Include="Views\Templates\Razor\Ikon_Library\_listArticles.cshtml" />
     <Content Include="Views\Templates\Razor\Default\_menu.cshtml" />
     <Content Include="Views\Templates\Razor\Default\adminframe.cshtml" />
   </ItemGroup>
@@ -433,6 +437,15 @@
     <Content Include="ng-apps\on-admin\dist\polyfills.bundle.js.map" />
     <Content Include="ng-apps\on-admin\dist\styles.bundle.js.map" />
     <Content Include="ng-apps\on-admin\dist\vendor.bundle.js.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Templates\Razor\Default\styles\styles.scss" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="compilerconfig.json" />
+    <None Include="compilerconfig.json.defaults">
+      <DependentUpon>compilerconfig.json</DependentUpon>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />

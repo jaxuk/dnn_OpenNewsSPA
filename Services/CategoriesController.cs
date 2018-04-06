@@ -16,6 +16,7 @@ using Newtonsoft.Json.Linq;
 using YeditUK.Modules.dnn_OpenNews.Components.Entities;
 using AutoMapper;
 using YeditUK.Modules.dnn_OpenNews.Components.Helpers;
+using DotNetNuke.Web.Api.Internal;
 
 namespace YeditUK.Modules.dnn_OpenNews.Services
 {

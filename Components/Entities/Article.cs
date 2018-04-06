@@ -26,10 +26,14 @@ namespace YeditUK.Modules.dnn_OpenNews.Components.Entities
     public UserInfo Author { get {
         if (this.AuthorID > 0)
         {
-          return UserController.Instance.GetUserById(PortalController.Instance.GetCurrentPortalSettings().PortalId, (int)this.AuthorID);
+          var user = UserController.Instance.GetUserById(PortalController.Instance.GetCurrentPortalSettings().PortalId, (int)this.AuthorID);
+          if (user == null) {
+            user = new UserInfo();
+          }
+          return user;
         }
         else {
-          return null;
+          return new UserInfo();
         }
       } }
     public long ApproverID { get; set; }

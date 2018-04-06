@@ -22,5 +22,11 @@ namespace YeditUK.Modules.dnn_OpenNews.Components.Helpers
       ogpMeta.Attributes.Add("content", value);
       p.Header.Controls.Add(ogpMeta);
     }
+    public static void SetCanonicalLink(string url, System.Web.UI.Page p) {
+      HtmlLink clnk = new HtmlLink();
+      clnk.Attributes.Add("rel", "canonical");
+      clnk.Href = url;
+      p.Header.Controls.Add(clnk);
+    }
   }
 }

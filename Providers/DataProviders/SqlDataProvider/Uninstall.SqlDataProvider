@@ -1,3 +1,18 @@
 ﻿IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}dnn_OpenNewsSPA_Items]') AND type in (N'U'))
 DROP TABLE {databaseOwner}[{objectQualifier}dnn_OpenNewsSPA_Items]
 GO
+
+DROP TABLE {databaseOwner}[{objectQualifier}OpenNews_Page]
+DROP TABLE {databaseOwner}[{objectQualifier}OpenNews_File]
+DROP TABLE {databaseOwner}[{objectQualifier}OpenNews_CustomObjectsDef]
+DROP TABLE {databaseOwner}[{objectQualifier}OpenNews_ArticleTags]
+DROP TABLE {databaseOwner}[{objectQualifier}OpenNews_ArticleCustomObjectDef]
+DROP TABLE {databaseOwner}[{objectQualifier}OpenNews_ArticleCategories]
+DROP TABLE {databaseOwner}[{objectQualifier}OpenNews_Tag]
+DROP TABLE {databaseOwner}[{objectQualifier}OpenNews_Category]
+DROP TABLE {databaseOwner}[{objectQualifier}OpenNews_Article]
+DROP PROCEDURE {databaseOwner}[{objectQualifier}OpenNews_FindArticles]
+DROP FUNCTION {databaseOwner}[{objectQualifier}OpenNews_ArticleStatus]
+DROP TYPE {databaseOwner}[{objectQualifier}intList]
+DROP TYPE {databaseOwner}[{objectQualifier}varcharList]
+GO

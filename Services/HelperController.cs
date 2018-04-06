@@ -18,6 +18,7 @@ using System.Web.WebPages;
 using System.Text.RegularExpressions;
 using DotNetNuke.Entities.Modules;
 using System.Dynamic;
+using DotNetNuke.Web.Api.Internal;
 
 namespace YeditUK.Modules.dnn_OpenNews.Services
 {
@@ -247,78 +248,94 @@ namespace YeditUK.Modules.dnn_OpenNews.Services
         var naPages = ctx.ExecuteQuery<dynamic>(System.Data.CommandType.Text, "SELECT * FROM DnnForge_NewsArticles_Page", null);
         var repoPages = ctx.GetRepository<Page>();
         naPages.ToList().ForEach(c => {
-          var newPage = new Page();
-          newPage.PageText = stringNotNull(CommonHelper.ConvertToMarkDown(HttpUtility.HtmlDecode("<div>" + c.PageText + "</div>"), true));
-          newPage.PageText = Regex.Replace(newPage.PageText, @"(\r\n){3,}", Environment.NewLine + Environment.NewLine);
-          //newPage.PageText = newPage.PageText.Replace(Environment.NewLine + Environment.NewLine + Environment.NewLine, Environment.NewLine + Environment.NewLine);
-          newPage.SortOrder = 0;
-          newPage.ArticleID = (long)dicArticles[c.ArticleID];
-          repoPages.Insert(newPage);
+          if ((c.ArticleID != null) && dicArticles.ContainsKey(c.ArticleID)) {
+            var newPage = new Page();
+            newPage.PageText = stringNotNull(CommonHelper.ConvertToMarkDown(HttpUtility.HtmlDecode("<div>" + c.PageText + "</div>"), true));
+            newPage.PageText = Regex.Replace(newPage.PageText, @"(\r\n){3,}", Environment.NewLine + Environment.NewLine);
+            //newPage.PageText = newPage.PageText.Replace(Environment.NewLine + Environment.NewLine + Environment.NewLine, Environment.NewLine + Environment.NewLine);
+            newPage.SortOrder = 0;
+            newPage.ArticleID = (long)dicArticles[c.ArticleID];
+            repoPages.Insert(newPage);
+          }
         });
         naPages = null;
         var naFiles = ctx.ExecuteQuery<dynamic>(System.Data.CommandType.Text, "SELECT * FROM DnnForge_NewsArticles_File", null);
         var repoFiles = ctx.GetRepository<File>();
         naFiles.ToList().ForEach(c => {
-          var newFile = new File();
-          try{
-            newFile.ArticleID = (long)dicArticles[c.ArticleID];
-            newFile.fileInfo = FileManager.Instance.GetFile(PortalSettings.PortalId, c.Folder + c.FileName);
-            if (newFile.fileInfo != null)
+          if ((c.ArticleID != null) && dicArticles.ContainsKey(c.ArticleID)) {
+            var newFile = new File();
+            try
             {
-              newFile.fileInfo.Title = stringNotNull(c.Title);
-              FileManager.Instance.UpdateFile(newFile.fileInfo);
-              newFile.FileID = newFile.fileInfo.FileId;
-              newFile.IsImage = false;
-              newFile.SortOrder = c.SortOrder;
-              repoFiles.Insert(newFile);
+              newFile.ArticleID = (long)dicArticles[c.ArticleID];
+              newFile.fileInfo = FileManager.Instance.GetFile(PortalSettings.PortalId, c.Folder + c.FileName);
+              if (newFile.fileInfo != null)
+              {
+                newFile.fileInfo.Title = stringNotNull(c.Title);
+                FileManager.Instance.UpdateFile(newFile.fileInfo);
+                newFile.FileID = newFile.fileInfo.FileId;
+                newFile.IsImage = false;
+                newFile.SortOrder = c.SortOrder;
+                repoFiles.Insert(newFile);
+              }
+            }
+            catch (Exception ex)
+            {
+
             }
           }
-          catch (Exception ex) {
-
-          }
+          
         });
         naFiles = null;
         var naImages = ctx.ExecuteQuery<dynamic>(System.Data.CommandType.Text, "SELECT * FROM DnnForge_NewsArticles_Image", null);
         //var repoFiles = ctx.GetRepository<File>();
         naImages.ToList().ForEach(c => {
-          try{
-            var newFile = new File();
-            newFile.ArticleID = (long)dicArticles[c.ArticleID];
-            newFile.fileInfo = FileManager.Instance.GetFile(PortalSettings.PortalId, c.Folder + c.FileName);
-            if (newFile.fileInfo != null)
+          if ((c.ArticleID!=null) && dicArticles.ContainsKey(c.ArticleID)) {
+            try
             {
-              newFile.fileInfo.Title = stringNotNull(c.Title);
-              newFile.fileInfo.Description = stringNotNull(c.Description);
-              FileManager.Instance.UpdateFile(newFile.fileInfo);
-              newFile.FileID = newFile.fileInfo.FileId;
-              newFile.IsImage = true;
-              newFile.SortOrder = c.SortOrder;
-              repoFiles.Insert(newFile);
+              var newFile = new File();
+              newFile.ArticleID = (long)dicArticles[c.ArticleID];
+              newFile.fileInfo = FileManager.Instance.GetFile(PortalSettings.PortalId, c.Folder + c.FileName);
+              if (newFile.fileInfo != null)
+              {
+                newFile.fileInfo.Title = stringNotNull(c.Title);
+                newFile.fileInfo.Description = stringNotNull(c.Description);
+                FileManager.Instance.UpdateFile(newFile.fileInfo);
+                newFile.FileID = newFile.fileInfo.FileId;
+                newFile.IsImage = true;
+                newFile.SortOrder = c.SortOrder;
+                repoFiles.Insert(newFile);
+              }
+            }
+            catch (Exception ex)
+            {
+
             }
           }
-          catch (Exception ex)
-          {
-
-          }
+            
 
         });
         naImages = null;
         var naArticleCategories = ctx.ExecuteQuery<dynamic>(System.Data.CommandType.Text, "SELECT * FROM DnnForge_NewsArticles_ArticleCategories", null);
         var repoArticleCategory = ctx.GetRepository<ArticleCategory>();
         naArticleCategories.ToList().ForEach(c => {
-          var newAC = new ArticleCategory();
-          newAC.ArticleID = (long)dicArticles[c.ArticleID];
-          newAC.CategoryID = dicCats[c.CategoryID];
-          repoArticleCategory.Insert(newAC);
+          if ((c.ArticleID != null) && dicArticles.ContainsKey(c.ArticleID) && (c.CategoryID != null) && dicCats.ContainsKey(c.CategoryID)) {
+            var newAC = new ArticleCategory();
+            newAC.ArticleID = (long)dicArticles[c.ArticleID];
+            newAC.CategoryID = dicCats[c.CategoryID];
+            repoArticleCategory.Insert(newAC);
+          }
         });
         naArticleCategories = null;
         var naArticleTag = ctx.ExecuteQuery<dynamic>(System.Data.CommandType.Text, "SELECT * FROM DnnForge_NewsArticles_ArticleTag", null);
         var repoAT = ctx.GetRepository<ArticleTag>();
         naArticleTag.ToList().ForEach(c => {
-          var newAT = new ArticleTag();
-          newAT.ArticleID = (long)dicArticles[c.ArticleID];
-          newAT.TagID = dicTag[c.TagID];
-          repoAT.Insert(newAT);
+          if ((c.ArticleID != null) && dicArticles.ContainsKey(c.ArticleID) && (c.TagID != null) && dicTag.ContainsKey(c.TagID)) {
+            var newAT = new ArticleTag();
+            newAT.ArticleID = (long)dicArticles[c.ArticleID];
+            newAT.TagID = dicTag[c.TagID];
+            repoAT.Insert(newAT);
+          }
+          
         });
         naArticleTag = null;
         var naCustomField = ctx.ExecuteQuery<dynamic>(System.Data.CommandType.Text, "SELECT * FROM DnnForge_NewsArticles_CustomField WHERE ModuleId=@0 ORDER BY SortOrder", dto.naModeulId);
@@ -442,23 +459,32 @@ namespace YeditUK.Modules.dnn_OpenNews.Services
           ActiveModule.DesktopModule.FolderName, ActiveModule.ModuleID.ToString()
           );
         jsonPath = System.Web.Hosting.HostingEnvironment.MapPath(jsonPath);
+
+        var dataFolder = System.IO.Path.GetDirectoryName(jsonPath);
+        if (!System.IO.Directory.Exists(dataFolder)) {
+          System.IO.Directory.CreateDirectory(dataFolder);
+        }
+
         System.IO.File.WriteAllText(jsonPath, Newtonsoft.Json.JsonConvert.SerializeObject(onCustomDefs.ToArray()));
         //Import CustomFields Data for Articles.
         var naCustomFieldVals = ctx.ExecuteQuery<dynamic>(System.Data.CommandType.Text, "SELECT * FROM DnnForge_NewsArticles_CustomValue WHERE ArticleID IN (SELECT ArticleID FROM [dbo].[DnnForge_NewsArticles_Article] Where ModuleID=@0)", dto.naModeulId);
         naCustomFieldVals.ToList().ForEach(val => {
-          var cf = naCustomField.Where(c => c.CustomFieldID == val.CustomFieldID).SingleOrDefault();
-          long aid = (long)dicArticles[val.ArticleID];
-          var article = repoArticles.Find("WHERE ArticleID=@0", aid).SingleOrDefault();
-          if (cf != null && article !=null) {
-            //dynamic ImportDef
-            dynamic ImportDefData = new ExpandoObject();
-            dynamic ImportDef = new ExpandoObject();
-            var ImportDefDataDic = (IDictionary<string, object>)ImportDefData;
-            var ImportDefDic = (IDictionary<string, object>)ImportDef;
-            ImportDefDataDic.Add(cf.Name, val.CustomValue);
-            ImportDefDic.Add("ImportDef", ImportDefData);
-            article.CustomTypes = ImportDef;
-            repoArticles.Update(article);
+          if ((val.ArticleID != null) && dicArticles.ContainsKey(val.ArticleID)) {
+            var cf = naCustomField.Where(c => c.CustomFieldID == val.CustomFieldID).SingleOrDefault();
+            long aid = (long)dicArticles[val.ArticleID];
+            var article = repoArticles.Find("WHERE ArticleID=@0", aid).SingleOrDefault();
+            if (cf != null && article != null)
+            {
+              //dynamic ImportDef
+              dynamic ImportDefData = new ExpandoObject();
+              dynamic ImportDef = new ExpandoObject();
+              var ImportDefDataDic = (IDictionary<string, object>)ImportDefData;
+              var ImportDefDic = (IDictionary<string, object>)ImportDef;
+              ImportDefDataDic.Add(cf.Name, val.CustomValue);
+              ImportDefDic.Add("ImportDef", ImportDefData);
+              article.CustomTypes = ImportDef;
+              repoArticles.Update(article);
+            }
           }
         });
       }

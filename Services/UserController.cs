@@ -7,6 +7,7 @@ using DotNetNuke.Security;
 using DotNetNuke.Entities.Users;
 using System.Web.Http;
 using AutoMapper;
+using DotNetNuke.Web.Api.Internal;
 
 namespace YeditUK.Modules.dnn_OpenNews.Services
 {

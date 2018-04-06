@@ -12,5 +12,6 @@ namespace YeditUK.Modules.dnn_OpenNews.Services.ViewModels
 
     public int TagID { get; set; }
     public string name { get; set; }
+    public int ModuleId { get; set; }
   }
 }

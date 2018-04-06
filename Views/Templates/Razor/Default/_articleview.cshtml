@@ -2,12 +2,14 @@
 @using YeditUK.Modules.dnn_OpenNews.Components.Helpers;
 @using YeditUK.Modules.dnn_OpenNews;
 @using System.Linq;
-@using System.Data.Linq;
+@using DotNetNuke.Web.Client.ClientResourceManagement;
 @inherits DotNetNuke.Web.Razor.DotNetNukeWebPage<dynamic>
 @functions{
-  public string getMetaDescription(YeditUK.Modules.dnn_OpenNews.Services.ViewModels.ArticleViewModel a) {
+  public string getMetaDescription(YeditUK.Modules.dnn_OpenNews.Services.ViewModels.ArticleViewModel a)
+  {
     var ret = a.MetaDescription;
-    if (string.IsNullOrWhiteSpace(ret)) {
+    if (string.IsNullOrWhiteSpace(ret))
+    {
       ret = a.Summary;
     }
     if (string.IsNullOrWhiteSpace(ret))
@@ -35,7 +37,7 @@
 
   var model = (ArticleViewModel)this.Model;
   var a = model.Article;
-  
+
   var pageObj = Context.CurrentHandler as System.Web.UI.Page;
   //TODO: Bug - this is not setting the page props!
   pageObj.Title = (!string.IsNullOrWhiteSpace(a.MetaTitle) ? a.MetaTitle : a.Title);
@@ -43,9 +45,10 @@
   //Set OGP Tags
   TaggingHelper.SetOgpTag("fb:app_id", "XXXXXXXXX", pageObj);
   TaggingHelper.SetOgpTag("og:type", "article", pageObj);
-  TaggingHelper.SetOgpTag("og:url", UrlHelper.GetArticleURL(Dnn.Tab.TabID,a.ArticleID), pageObj);
+  TaggingHelper.SetOgpTag("og:url", a.vwURL, pageObj);
   TaggingHelper.SetOgpTag("og:title", a.Title, pageObj);
-  if (a.Images.Count > 0) {
+  if (a.Images.Count > 0)
+  {
     TaggingHelper.SetOgpTag("og:image", "https://" + Dnn.Portal.PortalAlias.HTTPAlias + a.Images[0].url + "&maxwidth=600&maxheight=300", pageObj);
   }
 
@@ -59,88 +62,119 @@
   {
     TaggingHelper.SetTwitterTag("twitter:image", "https://" + Dnn.Portal.PortalAlias.HTTPAlias + a.Images[0].url + "&maxwidth=600&maxheight=300", pageObj);
   }
-
+  //Set Canonical Link
+  TaggingHelper.SetCanonicalLink(a.vwURL, pageObj);
+  ClientResourceManager.RegisterScript(pageObj, this.VirtualPath + "/scripts/articleView.js");
+  ClientResourceManager.RegisterStyleSheet(pageObj, this.VirtualPath + "/styles/styles.css");
 }
-<script type="application/ld+json">
+<div class="articleView">
+  @RenderPage("_menu.cshtml", new MenuViewModel
   {
-  "@@context": "http://schema.org",
-  "@@type": "NewsArticle",
-  "headline": "@a.Title",
-  "description": "@getSummary(a)",
-  "datePublished": "@(a.StartDate.ToUniversalTime().ToString())",
-  "dateModified": "@(a.LastUpdated.ToUniversalTime().ToString())",
-  "author": {
-  "@@type": "Person",
-  "name": "@a.Author.name"
-  }
-  @if (a.Images.Count > 0) {
-
-    <text>
-    ,"image": {
-      "@@type": "ImageObject",
-      "url": "@("https://" + Dnn.Portal.PortalAlias.HTTPAlias + a.Images[0].url + "&maxwidth=600&maxheight=300")"
-      }
-    </text>
-  }
-  }
-</script>
-@RenderPage("_menu.cshtml", new MenuViewModel
-{
-  Dnn = Dnn,
-  menuItems = model.MenuView.menuItems
-})
-<article>
-  <header>
-    <h1>@a.Title</h1>
-    <span class="author">
-      By <a href="@a.Author.profileUrl">@a.Author.name</a>
-    </span>
-    <span class="when">
-      @a.StartDate.ToString("dd MMM yyyy")
-    </span>
-    <div class="categories">
-      @foreach (var c in a.Categories) {
-        <a href="@UrlHelper.GetCategoryURL(Dnn.Tab.TabID, c.CategoryID)">@c.Name</a>
-      }
-    </div>
-    <div class="tags">
-      @foreach (var t in a.Tags)
+    Dnn = Dnn,
+    menuItems = model.MenuView.menuItems
+  })
+  <article id="articleView">
+    <header>
+      <h1>@a.Title</h1>
+      <span class="author">
+        By <a href="@a.Author.profileUrl">@a.Author.name</a>
+      </span>
+      <span class="when">
+        @a.StartDate.ToString("dd MMM yyyy")
+      </span>
+      @if (a.Categories.Count > 0)
       {
-        <a href="@UrlHelper.GetTagURL(Dnn.Tab.TabID, t.TagID)">@t.name</a>
+        <div class="categories">
+          Posted in:
+          @foreach (var c in a.Categories)
+          {
+            <a href="@UrlHelper.GetCategoryURL(Dnn.Tab.TabID, c.CategoryID)">@c.Name</a>
+          }
+        </div>
+      }
+      @if (a.Tags.Count > 0)
+      {
+        <div class="tags">
+          @foreach (var t in a.Tags)
+          {
+            <a href="@UrlHelper.GetTagURL(Dnn.Tab.TabID, t.TagID)">@t.name</a>
+          }
+        </div>
+      }
+    </header>
+    <div class="article-body">
+      @Html.Raw(Markdig.Markdown.ToHtml(a.Body, mdpipe))
+      @if (a.Images.Count > 0)
+      {
+        <div class="article-images">
+          @foreach (var img in a.Images)
+          {
+            <figure>
+              <a rel="articleGal" title="@img.Title" href="@img.url">
+                <img src="@(img.url)&maxwidth=300&maxheight=300" alt="@img.Title">
+              </a>
+              <figcaption><p>@img.Title</p><p>@img.Description</p></figcaption>
+            </figure>
+          }
+        </div>
+      }
+      @if (a.Files.Count > 0)
+      {
+        <div class="article-files">
+          @foreach (var f in a.Files)
+          {
+            <a href="@f.url" class="btn">@(string.IsNullOrWhiteSpace(f.Title) ? f.Name : f.Title)</a>
+          }
+        </div>
       }
     </div>
-  </header>
-  <div class="article-body">
-    @Html.Raw(Markdig.Markdown.ToHtml(a.Body, mdpipe))
+    <aside></aside>
+    <footer>
+      <!--TODO Article Comments-->
+    </footer>
+  </article>
+  <script language="javascript" type="text/javascript">
+  jQuery(function ($) {
+    var aricleView = new dnnOpenNewsSPA.aricleView(@a.ModuleID.ToString(), @a.ArticleID.ToString());
+    console.log(aricleView);
+    aricleView.init();
+  });
+  </script>
+  <script type="application/ld+json">
+    {
+    "@@context": "http://schema.org",
+    "@@type": "NewsArticle",
+    "mainEntityOfPage": {
+    "@@type": "WebPage",
+    "url": "@a.vwURL"
+    },
+    "headline": "@a.Title",
+    "description": "@getSummary(a)",
+    "datePublished": "@(a.StartDate.ToUniversalTime().ToString())",
+    "dateModified": "@(a.LastUpdated.ToUniversalTime().ToString())",
+    "articleBody": "@(Markdig.Markdown.Normalize(a.Body).Replace('"', '\"'))",
+    "publisher": {
+    "@@type": "Organization",
+    "name": "@Dnn.Portal.PortalName",
+    "logo": {
+    "@@type": "ImageObject",
+    "url": "@("https://" + Dnn.Portal.PortalAlias.HTTPAlias + "/" + Dnn.Portal.LogoFile)"
+    }
+    },
+    "author": {
+    "@@type": "Person",
+    "name": "@a.Author.name"
+    }
     @if (a.Images.Count > 0)
     {
-      <div class="article-images">
-        @foreach (var img in a.Images)
-        {
-          <figure>
-            <a rel="articleGal" title="@img.Title" href="@img.url">
-              <img src="@(img.url)&maxwidth=300&maxheight=300" alt="@img.Title">
-            </a>
-            <figcaption><p>@img.Title</p><p>@img.Description</p></figcaption>
-          </figure>
-        }
-      </div>
-    }
-    @if (a.Files.Count > 0)
-    {
-      <div class="article-files">
-        @foreach (var f in a.Files)
-        {
-          <a href="@f.url" class="btn">@(string.IsNullOrWhiteSpace(f.Title)?f.Name:f.Title)</a>
-        }
-      </div>
-    }
-  </div>
-  <aside>
 
-  </aside>
-  <footer>
-    <!--Article Comments-->
-  </footer>
-</article>
-
+      <text>
+        ,"image": {
+        "@@type": "ImageObject",
+        "url": "@("https://" + Dnn.Portal.PortalAlias.HTTPAlias + a.Images[0].url + "&maxwidth=600&maxheight=300")"
+        }
+      </text>
+    }
+    }
+  </script>
+</div>

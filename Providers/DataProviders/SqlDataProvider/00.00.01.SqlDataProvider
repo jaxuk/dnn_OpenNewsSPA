@@ -43,6 +43,15 @@ BEGIN
 	RETURN @ret;
 END; 
 GO
+CREATE TYPE {databaseOwner}[{objectQualifier}intList] AS TABLE(
+	[ID] [int] NULL
+)
+GO
+
+CREATE TYPE {databaseOwner}[{objectQualifier}varcharList] AS TABLE(
+	[ID] [nvarchar](max) NULL
+)
+GO
 /****** Object:  Table {databaseOwner}[{objectQualifier}OpenNews_Article]    Script Date: 04/04/2018 15:32:09 ******/
 SET ANSI_NULLS ON
 GO

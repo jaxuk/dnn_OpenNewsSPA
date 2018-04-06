@@ -27,6 +27,7 @@ using DotNetNuke.Entities.Users;
 using DotNetNuke.Instrumentation;
 using YeditUK.Modules.dnn_OpenNews.Components.DAL;
 using AutoMapper;
+using DotNetNuke.Web.Api.Internal;
 
 namespace YeditUK.Modules.dnn_OpenNews.Services
 {

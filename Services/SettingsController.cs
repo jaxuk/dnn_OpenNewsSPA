@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 using YeditUK.Modules.dnn_OpenNews.Components.Entities;
 using DotNetNuke.Services.FileSystem;
+using DotNetNuke.Web.Api.Internal;
 
 namespace YeditUK.Modules.dnn_OpenNews.Services
 {
