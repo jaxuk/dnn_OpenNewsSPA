@@ -19,6 +19,7 @@ namespace YeditUK.Modules.dnn_OpenNews.Components.Enums
     editpage ,
     editpages ,
     editsortorder ,
+    inlineimage ,
     myarticles ,
     notauthenticated ,
     notauthorized ,

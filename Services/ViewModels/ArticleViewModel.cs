@@ -45,5 +45,6 @@ namespace YeditUK.Modules.dnn_OpenNews.Services.ViewModels
     public List<TagViewModel> Tags { get; set; } = new List<TagViewModel>();
     public List<CategoryViewModel> Categories { get; set; } = new List<CategoryViewModel>();
     public dynamic CustomTypes { get; set; } = null;
+    public string customJSON { get; set; }
   }
 }

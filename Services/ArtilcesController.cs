@@ -285,9 +285,11 @@ namespace YeditUK.Modules.dnn_OpenNews.Services
       {
         a.EndDate = null;
       }
-      if (a.Pages == null) {
-        a.Pages = new List<Page>();
-        a.Pages.Add(new Page() { ArticleID = a.ArticleID, SortOrder = 1, PageText = item.Body, PageID = -1 });
+      if (a.Pages == null && au.Pages!=null) {
+        a.Pages = au.Pages;
+        a.Pages[0].PageText = item.Body;
+        //a.Pages = new List<Page>();
+        //a.Pages.Add(new Page() { ArticleID = a.ArticleID, SortOrder = 1, PageText = item.Body, PageID = -1 });
       }
       _repository.Update(a);
 

@@ -228,16 +228,17 @@ var AppComponent = /** @class */ (function (_super) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_27_angular_sortablejs__ = __webpack_require__("../../../../angular-sortablejs/dist/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_27_angular_sortablejs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_27_angular_sortablejs__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_28_angular5_data_table__ = __webpack_require__("../../../../angular5-data-table/esm5/angular5-data-table.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__shared__ = __webpack_require__("../../../../../src/app/shared/index.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__category_form_category_form_component__ = __webpack_require__("../../../../../src/app/category-form/category-form.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__article_form_article_form_component__ = __webpack_require__("../../../../../src/app/article-form/article-form.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__shared_file_input_input_file_component__ = __webpack_require__("../../../../../src/app/shared/file-input/input-file.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_33__article_file_article_file_component__ = __webpack_require__("../../../../../src/app/article-file/article-file.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__render_templates_render_templates_component__ = __webpack_require__("../../../../../src/app/render-templates/render-templates.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_35__email_templates_email_templates_component__ = __webpack_require__("../../../../../src/app/email-templates/email-templates.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_36__custom_fields_custom_fields_component__ = __webpack_require__("../../../../../src/app/custom-fields/custom-fields.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_37__shared_dynamic_form_dynamic_form_module__ = __webpack_require__("../../../../../src/app/shared/dynamic-form/dynamic-form.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_38__importer_importer_component__ = __webpack_require__("../../../../../src/app/importer/importer.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_29_ngx_clipboard__ = __webpack_require__("../../../../ngx-clipboard/dist/ngx-clipboard.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__shared__ = __webpack_require__("../../../../../src/app/shared/index.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__category_form_category_form_component__ = __webpack_require__("../../../../../src/app/category-form/category-form.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__article_form_article_form_component__ = __webpack_require__("../../../../../src/app/article-form/article-form.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_33__shared_file_input_input_file_component__ = __webpack_require__("../../../../../src/app/shared/file-input/input-file.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__article_file_article_file_component__ = __webpack_require__("../../../../../src/app/article-file/article-file.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_35__render_templates_render_templates_component__ = __webpack_require__("../../../../../src/app/render-templates/render-templates.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_36__email_templates_email_templates_component__ = __webpack_require__("../../../../../src/app/email-templates/email-templates.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_37__custom_fields_custom_fields_component__ = __webpack_require__("../../../../../src/app/custom-fields/custom-fields.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_38__shared_dynamic_form_dynamic_form_module__ = __webpack_require__("../../../../../src/app/shared/dynamic-form/dynamic-form.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_39__importer_importer_component__ = __webpack_require__("../../../../../src/app/importer/importer.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -284,6 +285,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
+
 function getBaseHref(platformLocation) {
     return platformLocation.getBaseHrefFromDOM();
 }
@@ -302,17 +304,17 @@ var AppModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_12__articles_articles_component__["a" /* ArticlesComponent */],
                 __WEBPACK_IMPORTED_MODULE_13__categories_categories_component__["a" /* CategoriesComponent */],
                 __WEBPACK_IMPORTED_MODULE_14__tags_tags_component__["a" /* TagsComponent */],
-                __WEBPACK_IMPORTED_MODULE_30__category_form_category_form_component__["a" /* CategoryFormComponent */],
-                __WEBPACK_IMPORTED_MODULE_31__article_form_article_form_component__["a" /* ArticleFormComponent */],
-                __WEBPACK_IMPORTED_MODULE_32__shared_file_input_input_file_component__["a" /* InputFileComponent */],
-                __WEBPACK_IMPORTED_MODULE_33__article_file_article_file_component__["a" /* ArticleFileComponent */],
-                __WEBPACK_IMPORTED_MODULE_34__render_templates_render_templates_component__["a" /* RenderTemplatesComponent */],
-                __WEBPACK_IMPORTED_MODULE_35__email_templates_email_templates_component__["a" /* EmailTemplatesComponent */],
-                __WEBPACK_IMPORTED_MODULE_36__custom_fields_custom_fields_component__["a" /* CustomFieldsComponent */],
-                __WEBPACK_IMPORTED_MODULE_38__importer_importer_component__["a" /* ImporterComponent */]
+                __WEBPACK_IMPORTED_MODULE_31__category_form_category_form_component__["a" /* CategoryFormComponent */],
+                __WEBPACK_IMPORTED_MODULE_32__article_form_article_form_component__["a" /* ArticleFormComponent */],
+                __WEBPACK_IMPORTED_MODULE_33__shared_file_input_input_file_component__["a" /* InputFileComponent */],
+                __WEBPACK_IMPORTED_MODULE_34__article_file_article_file_component__["a" /* ArticleFileComponent */],
+                __WEBPACK_IMPORTED_MODULE_35__render_templates_render_templates_component__["a" /* RenderTemplatesComponent */],
+                __WEBPACK_IMPORTED_MODULE_36__email_templates_email_templates_component__["a" /* EmailTemplatesComponent */],
+                __WEBPACK_IMPORTED_MODULE_37__custom_fields_custom_fields_component__["a" /* CustomFieldsComponent */],
+                __WEBPACK_IMPORTED_MODULE_39__importer_importer_component__["a" /* ImporterComponent */]
             ],
             imports: [
-                __WEBPACK_IMPORTED_MODULE_37__shared_dynamic_form_dynamic_form_module__["a" /* DynamicFormModule */],
+                __WEBPACK_IMPORTED_MODULE_38__shared_dynamic_form_dynamic_form_module__["a" /* DynamicFormModule */],
                 __WEBPACK_IMPORTED_MODULE_28_angular5_data_table__["a" /* DataTableModule */],
                 __WEBPACK_IMPORTED_MODULE_10__ng_bootstrap_ng_bootstrap__["c" /* NgbModule */].forRoot(),
                 __WEBPACK_IMPORTED_MODULE_2__angular_platform_browser__["BrowserModule"],
@@ -324,7 +326,7 @@ var AppModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_19__angular_http__["d" /* HttpModule */],
                 __WEBPACK_IMPORTED_MODULE_20_angular_progress_http__["b" /* ProgressHttpModule */],
                 __WEBPACK_IMPORTED_MODULE_9__app_routing_module__["a" /* AppRoutingModule */],
-                __WEBPACK_IMPORTED_MODULE_29__shared__["h" /* SharedModule */],
+                __WEBPACK_IMPORTED_MODULE_30__shared__["h" /* SharedModule */],
                 __WEBPACK_IMPORTED_MODULE_17_angular_tree_component__["b" /* TreeModule */],
                 __WEBPACK_IMPORTED_MODULE_18_ng2_file_input__["a" /* Ng2FileInputModule */].forRoot(),
                 __WEBPACK_IMPORTED_MODULE_21__angular_platform_browser_animations__["a" /* BrowserAnimationsModule */],
@@ -332,21 +334,22 @@ var AppModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_23__ngx_loading_bar_http_client__["a" /* LoadingBarHttpClientModule */],
                 __WEBPACK_IMPORTED_MODULE_24__ngx_loading_bar_router__["a" /* LoadingBarRouterModule */],
                 __WEBPACK_IMPORTED_MODULE_25_ngx_type_ahead__["TypeaheadModule"],
-                __WEBPACK_IMPORTED_MODULE_27_angular_sortablejs__["SortablejsModule"].forRoot({ animation: 150 })
+                __WEBPACK_IMPORTED_MODULE_27_angular_sortablejs__["SortablejsModule"].forRoot({ animation: 150 }),
+                __WEBPACK_IMPORTED_MODULE_29_ngx_clipboard__["a" /* ClipboardModule */]
                 //AppLoadModule
             ],
             providers: [
                 __WEBPACK_IMPORTED_MODULE_4__context_dev_context__["a" /* DevContext */],
                 __WEBPACK_IMPORTED_MODULE_3__context_context_service__["a" /* Context */],
                 __WEBPACK_IMPORTED_MODULE_5__http_dnn_interceptor__["a" /* DnnInterceptor */],
-                __WEBPACK_IMPORTED_MODULE_29__shared__["a" /* ApiService */],
-                __WEBPACK_IMPORTED_MODULE_29__shared__["g" /* SettingsService */],
-                __WEBPACK_IMPORTED_MODULE_29__shared__["c" /* CategoriesService */],
-                __WEBPACK_IMPORTED_MODULE_29__shared__["f" /* HelperService */],
-                __WEBPACK_IMPORTED_MODULE_29__shared__["b" /* ArticlesService */],
-                __WEBPACK_IMPORTED_MODULE_29__shared__["i" /* TagsService */],
-                __WEBPACK_IMPORTED_MODULE_29__shared__["d" /* CustomFieldsService */],
-                __WEBPACK_IMPORTED_MODULE_29__shared__["e" /* FilesService */],
+                __WEBPACK_IMPORTED_MODULE_30__shared__["a" /* ApiService */],
+                __WEBPACK_IMPORTED_MODULE_30__shared__["g" /* SettingsService */],
+                __WEBPACK_IMPORTED_MODULE_30__shared__["c" /* CategoriesService */],
+                __WEBPACK_IMPORTED_MODULE_30__shared__["f" /* HelperService */],
+                __WEBPACK_IMPORTED_MODULE_30__shared__["b" /* ArticlesService */],
+                __WEBPACK_IMPORTED_MODULE_30__shared__["i" /* TagsService */],
+                __WEBPACK_IMPORTED_MODULE_30__shared__["d" /* CustomFieldsService */],
+                __WEBPACK_IMPORTED_MODULE_30__shared__["e" /* FilesService */],
                 {
                     provide: __WEBPACK_IMPORTED_MODULE_0__angular_common__["APP_BASE_HREF"],
                     useFactory: getBaseHref,
@@ -367,7 +370,7 @@ var AppModule = /** @class */ (function () {
 /***/ "../../../../../src/app/article-file/article-file.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<ng-template #content let-c=\"close\" let-d=\"dismiss\">\r\n  <div class=\"modal-header\">\r\n    <h4 class=\"modal-title\">{{fileName()}}</h4>\r\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"d('Cross click')\">\r\n      <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n  </div>\r\n  <div ngForm [formGroup]=\"fileForm\">\r\n    <fieldset [disabled]=\"isSubmitting\">\r\n      <div class=\"modal-body\">\r\n        <div class=\"image-container\" *ngIf=\"isImage()\">\r\n          <img src=\"{{imageUrl()}}&maxwidth=800&maxheight=800\" />\r\n        </div>\r\n        <div class=\"icon-container\" *ngIf=\"!isImage()\">\r\n          <i class=\"fas {{fileIconClass()}}\"></i>\r\n        </div>\r\n        <hr />\r\n        <div class=\"form-group\">\r\n          <input formControlName=\"Title\" type=\"text\" class=\"form-control\"\r\n                 name=\"txtTitle\" id=\"txtTitle\" placeholder=\"Title\">\r\n        </div>\r\n        <div class=\"form-group\">\r\n          <textarea formControlName=\"Description\" rows=\"3\" class=\"form-control\"\r\n                    name=\"txtDescription\" id=\"txtDescription\" placeholder=\"Description\"></textarea>\r\n        </div>\r\n      </div>\r\n    </fieldset>\r\n    <div class=\"modal-footer\">\r\n      <button type=\"button\" class=\"btn btn-outline-secondary\" (click)=\"c('Close click')\">Close</button>\r\n      <button type=\"button\" class=\"btn btn-danger\" (click)=\"removeFileHandler();c('Close click')\">\r\n        <i class=\"far fa-trash-alt\"></i>\r\n      </button>\r\n    </div>\r\n  </div>\r\n</ng-template>\r\n<div class=\"image-container\" *ngIf=\"isImage()\" (click)=\"open(content)\">\r\n  <img src=\"{{imageUrl()}}&maxwidth=300&maxheight=300\" />\r\n</div>\r\n<div class=\"icon-container\" *ngIf=\"!isImage()\" (click)=\"open(content)\">\r\n  <i class=\"fas {{fileIconClass()}}\"></i>\r\n  <p>{{fileName()}}</p>\r\n</div>\r\n"
+module.exports = "<ng-template #content let-c=\"close\" let-d=\"dismiss\">\r\n  <div class=\"modal-header\">\r\n    <h4 class=\"modal-title\">{{fileName()}}</h4>\r\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"d('Cross click')\">\r\n      <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n  </div>\r\n  <div ngForm [formGroup]=\"fileForm\">\r\n    <fieldset [disabled]=\"isSubmitting\">\r\n      <div class=\"modal-body\">\r\n        <div class=\"image-container\" *ngIf=\"isImage()\">\r\n          <img src=\"{{imageUrl()}}&maxwidth=800&maxheight=800\" />\r\n        </div>\r\n        <div class=\"icon-container\" *ngIf=\"!isImage()\">\r\n          <i class=\"fas {{fileIconClass()}}\"></i>\r\n        </div>\r\n        <hr />\r\n        <div class=\"form-group\">\r\n          <input formControlName=\"Title\" type=\"text\" class=\"form-control\"\r\n                 name=\"txtTitle\" id=\"txtTitle\" placeholder=\"Title\">\r\n        </div>\r\n        <div class=\"form-group\">\r\n          <textarea formControlName=\"Description\" rows=\"3\" class=\"form-control\"\r\n                    name=\"txtDescription\" id=\"txtDescription\" placeholder=\"Description\"></textarea>\r\n        </div>\r\n        <div class=\"form-group\" *ngIf=\"isImage()\">\r\n          <div class=\"input-group mb-3\">\r\n            <div class=\"input-group-prepend\">\r\n              <span class=\"input-group-text\">Image Code</span>\r\n            </div>\r\n            <input type=\"text\" class=\"form-control\" value=\"[IMAGE:{{fileId()}}]\" readonly #inputTarget>\r\n            <div class=\"input-group-append\">\r\n              <button class=\"btn btn-outline-secondary\" (click)=\"copyToClipboard()\"  \r\n                   [ngxClipboard]=\"inputTarget\" >Copy </button>\r\n            </div>\r\n          </div>\r\n        </div>\r\n      </div>\r\n    </fieldset>\r\n    <div class=\"modal-footer\">\r\n      <button type=\"button\" class=\"btn btn-outline-secondary\" (click)=\"c('Close click')\">Close</button>\r\n      <button type=\"button\" class=\"btn btn-danger\" (click)=\"removeFileHandler();c('Close click')\">\r\n        <i class=\"far fa-trash-alt\"></i>\r\n      </button>\r\n    </div>\r\n  </div>\r\n</ng-template>\r\n<div class=\"image-container\" *ngIf=\"isImage()\" (click)=\"open(content)\">\r\n  <img src=\"{{imageUrl()}}&maxwidth=300&maxheight=300\" />\r\n</div>\r\n<div class=\"icon-container\" *ngIf=\"!isImage()\" (click)=\"open(content)\">\r\n  <i class=\"fas {{fileIconClass()}}\"></i>\r\n  <p>{{fileName()}}</p>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -397,6 +400,7 @@ module.exports = module.exports.toString();
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__("../../../forms/esm5/forms.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ng_bootstrap_ng_bootstrap__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_ngx_toastr__ = __webpack_require__("../../../../ngx-toastr/esm5/ngx-toastr.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -409,10 +413,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var ArticleFileComponent = /** @class */ (function () {
-    function ArticleFileComponent(modalService, fb) {
+    function ArticleFileComponent(modalService, fb, toastr) {
         this.modalService = modalService;
         this.fb = fb;
+        this.toastr = toastr;
         this.isSubmitting = false;
         this.removeFile = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
     }
@@ -438,6 +444,12 @@ var ArticleFileComponent = /** @class */ (function () {
     };
     ArticleFileComponent.prototype.fileInfoIsNull = function () {
         return this.fileInfo == null;
+    };
+    ArticleFileComponent.prototype.fileId = function () {
+        return this.fileInfo.FileId;
+    };
+    ArticleFileComponent.prototype.copyToClipboard = function () {
+        this.toastr.info('Copied to Clipboard');
     };
     ArticleFileComponent.prototype.removeFileHandler = function () {
         if (confirm('Delete. Are you sure?')) {
@@ -516,7 +528,7 @@ var ArticleFileComponent = /** @class */ (function () {
             encapsulation: __WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewEncapsulation"].None,
             styles: [__webpack_require__("../../../../../src/app/article-file/article-file.component.scss")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__ng_bootstrap_ng_bootstrap__["b" /* NgbModal */], __WEBPACK_IMPORTED_MODULE_1__angular_forms__["FormBuilder"]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__ng_bootstrap_ng_bootstrap__["b" /* NgbModal */], __WEBPACK_IMPORTED_MODULE_1__angular_forms__["FormBuilder"], __WEBPACK_IMPORTED_MODULE_3_ngx_toastr__["b" /* ToastrService */]])
     ], ArticleFileComponent);
     return ArticleFileComponent;
 }());
@@ -1950,9 +1962,17 @@ var DnnAppComponent = /** @class */ (function () {
         if (!enableDefaultSubmit) {
             // console.log("dnn-sxc-angular - will prevent enter-buttons from causing submit")
             element.nativeElement.addEventListener('keydown', function (e) {
-                if (e.keyCode == 13)
+                if (!checkEnter(e))
+                    //if (e.keyCode == 13)
+                    //console.log('Enter prevented');
+                    //console.log(e);
                     e.preventDefault();
             });
+        }
+        function checkEnter(e) {
+            e = e || event;
+            var txtArea = /textarea/i.test((e.target || e.srcElement).tagName);
+            return txtArea || (e.keyCode || e.which || e.charCode || 0) !== 13;
         }
     }
     return DnnAppComponent;
@@ -2194,7 +2214,7 @@ var ImporterComponent = /** @class */ (function () {
 /***/ "../../../../../src/app/main-settings/main-settings.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div ngForm [formGroup]=\"settingsForm\" (validSubmit)=\"onSubmit()\" validate >\r\n  <div class=\"d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom\">\r\n    <h2>Main Settings</h2>\r\n  </div>\r\n  <fieldset [disabled]=\"isSubmitting\">\r\n    <ngb-accordion #acc=\"ngbAccordion\" activeIds=\"ngb-panel-0\" [hidden]=\"!settings\">\r\n      <ngb-panel title=\"Basic Settings\">\r\n        <ng-template ngbPanelContent>\r\n          <div class=\"form-group\">\r\n            <label for=\"txtArticlesPerPage\">Articles per page</label>\r\n            <input formControlName=\"BasicArticlesPerPage\" type=\"number\" class=\"form-control\" name=\"txtArticlesPerPage\" id=\"txtArticlesPerPage\" placeholder=\"10\" required>\r\n          </div>\r\n          <div class=\"form-group\">\r\n            <label for=\"ddTemplate\">Rendering Template</label>\r\n            <select formControlName=\"BasicRenderingTemplate\" class=\"form-control\" id=\"ddTemplate\" name=\"ddTemplate\">\r\n              <option *ngFor=\"let folder of Templates\"\r\n                      [value]=\"folder\">\r\n                {{folder}}\r\n              </option>\r\n            </select>\r\n          </div>\r\n          <div class=\"form-group\">\r\n            <label for=\"ddServerTimeZone\">Server TimeZone</label>\r\n            <select formControlName=\"BasicServerTimeZone\" class=\"form-control\" id=\"ddServerTimeZone\" name=\"ddServerTimeZone\">\r\n              <option *ngFor=\"let timeZone of TimeZones\"\r\n                      [value]=\"timeZone.Key\">\r\n                {{timeZone.Value}}\r\n              </option>\r\n            </select>\r\n          </div>\r\n          <div class=\"form-group\">\r\n            <label for=\"ddSortBy\">Sort By</label>\r\n            <select formControlName=\"BasicSortBy\" class=\"form-control\" id=\"ddSortBy\" name=\"ddSortBy\">\r\n              <option *ngFor=\"let sortBy of SortByOpts\"\r\n                      [value]=\"sortBy\">\r\n                {{sortBy}}\r\n              </option>\r\n            </select>\r\n          </div>\r\n          <div class=\"form-group\">\r\n            <label for=\"ddSortDirection\">Sort Direction</label>\r\n            <select formControlName=\"BasicSortDirection\" class=\"form-control\" id=\"ddSortDirection\" name=\"ddSortDirection\">\r\n              <option value=\"ASC\">Ascending</option>\r\n              <option value=\"DESC\">Descending</option>\r\n            </select>\r\n          </div>\r\n          <div class=\"form-check\">\r\n            <input formControlName=\"BasicAllowCoreSearchIntegration\" type=\"checkbox\" class=\"form-check-input\" id=\"chkAllowCoreSearchIntegration\" name=\"chkAllowCoreSearchIntegration\">\r\n            <label class=\"form-check-label\" for=\"chkAllowCoreSearchIntegration\">Allow Core Search Integration</label>\r\n          </div>\r\n        </ng-template>\r\n      </ngb-panel>\r\n      <ngb-panel title=\"Category Settings\">\r\n        <ng-template ngbPanelContent>\r\n          <!--<div class=\"form-group\">\r\n            <label for=\"ddDefaultCategories\">Default Categories</label>\r\n            <select [(ngModel)]=\"settings.CategoryDefaultCategories\" formControlName=\"CategoryDefaultCategories\" class=\"form-control\" id=\"ddDefaultCategories\" size=\"4\" name=\"ddDefaultCategories\"></select>\r\n          </div>-->\r\n          <div class=\"form-check\">\r\n            <input formControlName=\"CategoryIncludeInBreadcrumb\" type=\"checkbox\" class=\"form-check-input\" id=\"chkIncludeInBreadcrumb\" name=\"chkIncludeInBreadcrumb\">\r\n            <label class=\"form-check-label\" for=\"chkIncludeInBreadcrumb\">Include in breadcrumb</label>\r\n          </div>\r\n          <div class=\"form-check\">\r\n            <input formControlName=\"CategoryRequireCategory\" type=\"checkbox\" class=\"form-check-input\" id=\"chkRequireCategory\" name=\"chkRequireCategory\">\r\n            <label class=\"form-check-label\" for=\"chkRequireCategory\">Require Category</label>\r\n          </div>\r\n        </ng-template>\r\n      </ngb-panel>\r\n      <ngb-panel title=\"File Settings\">\r\n        <ng-template ngbPanelContent>\r\n          <div class=\"form-group\">\r\n            <label for=\"txtDefaultFileFolder\">Default File Folder</label>\r\n            <type-ahead formControlName=\"FileDefaultFileFolder\" [suggestions]=\"obs_folders$\"\r\n                        placeholder=\"Start typing the folder name\" custom=\"false\" [complex]=\"true\"\r\n                        class=\"form-control\"\r\n                        ></type-ahead>\r\n          </div>\r\n          <div class=\"form-group\">\r\n            <label for=\"txtImageAllowedTypes\">File Allowed Types</label>\r\n            <type-ahead formControlName=\"FileAllowedTypes\"\r\n                        placeholder=\"start typing file extensions e.g. pdf\"\r\n                        [custom]=\"true\"\r\n                        [complex]=\"false\"\r\n                        [multi]=\"true\"\r\n                        class=\"form-control\"></type-ahead>\r\n          </div>\r\n        </ng-template>\r\n      </ngb-panel>\r\n      <ngb-panel title=\"Image Settings\">\r\n        <ng-template ngbPanelContent>\r\n          <div class=\"form-group\">\r\n            <label for=\"txtDefaultImageFolder\">Default Image Folder</label>\r\n            <type-ahead formControlName=\"ImageDefaultImageFolder\" [suggestions]=\"obs_folders$\"\r\n                        placeholder=\"Start typing the folder name\" custom=\"false\" [complex]=\"true\"\r\n                        class=\"form-control\"></type-ahead>\r\n          </div>\r\n          <div class=\"form-group\">\r\n            <label for=\"txtImageAllowedTypes\">Image Allowed Types</label>\r\n            <type-ahead formControlName=\"ImageAllowedTypes\"\r\n                        placeholder=\"start typing file extensions e.g. jpg\"\r\n                        [custom]=\"true\"\r\n                        [complex]=\"false\"\r\n                        [multi]=\"true\"\r\n                        class=\"form-control\"></type-ahead>\r\n          </div>\r\n        </ng-template>\r\n      </ngb-panel>\r\n      <!--<ngb-panel title=\"Article Form Settings\">\r\n        <ng-template ngbPanelContent>\r\n\r\n        </ng-template>\r\n      </ngb-panel>-->\r\n      <ngb-panel title=\"Notification Settings\">\r\n        <ng-template ngbPanelContent>\r\n          <div class=\"form-check\">\r\n            <input formControlName=\"NotificationNotifyApproversOnSubmission\" type=\"checkbox\" class=\"form-check-input\" id=\"chkNotifyApproversOnSubmission\" name=\"chkNotifyApproversOnSubmission\">\r\n            <label class=\"form-check-label\" for=\"chkNotifyApproversOnSubmission\">Notify Approvers on Submission</label>\r\n          </div>\r\n          <div class=\"form-check\">\r\n            <input formControlName=\"NotificationNotifyApproversOnApproval\" type=\"checkbox\" class=\"form-check-input\" id=\"chkNotifyApproversApproval\" name=\"chkNotifyApproversApproval\">\r\n            <label class=\"form-check-label\" for=\"chkNotifyApproversOnApproval\">Notify Approvers on Approval</label>\r\n          </div>\r\n        </ng-template>\r\n      </ngb-panel>\r\n      <ngb-panel title=\"SEO Settings\">\r\n        <ng-template ngbPanelContent>\r\n          <div class=\"form-check\">\r\n            <input formControlName=\"SEORemovePagePathFromURL\" type=\"checkbox\" class=\"form-check-input\" id=\"chkSEORemovePagePathFromURL\" name=\"chkSEORemovePagePathFromURL\">\r\n            <label class=\"form-check-label\" for=\"chkSEORemovePagePathFromURL\">Remove Page Path From URLs</label>\r\n          </div>\r\n        </ng-template>\r\n      </ngb-panel>\r\n      <!--<ngb-panel title=\"Permission Settings\">\r\n        <ng-template ngbPanelContent>\r\n\r\n        </ng-template>\r\n      </ngb-panel>-->\r\n    </ngb-accordion>\r\n    <app-list-errors [errors]=\"errors\"></app-list-errors>\r\n    <div class=\"action-buttons mt-3 mb-3 float-right\">\r\n      <button (click)=\"submitForm()\" type=\"button\" class=\"btn btn-primary\">Save</button>\r\n    </div>\r\n  </fieldset>\r\n  <div *ngIf=\"isDebugMode()\">\r\n    <fieldset>\r\n      <legend>settingsForm Value:</legend>\r\n      <pre>{{ settingsForm.value | json:2 }}</pre>\r\n    </fieldset>\r\n    <fieldset>\r\n      <legend>settings Value:</legend>\r\n      <pre>{{ settings | json:2 }}</pre>\r\n    </fieldset>\r\n  </div>\r\n  \r\n</div>\r\n"
+module.exports = "<div ngForm [formGroup]=\"settingsForm\" (validSubmit)=\"onSubmit()\" validate >\r\n  <div class=\"d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom\">\r\n    <h2>Main Settings</h2>\r\n  </div>\r\n  <fieldset [disabled]=\"isSubmitting\">\r\n    <ngb-accordion #acc=\"ngbAccordion\" activeIds=\"ngb-panel-0\" [hidden]=\"!settings\">\r\n      <ngb-panel title=\"Basic Settings\">\r\n        <ng-template ngbPanelContent>\r\n          <div class=\"form-group\">\r\n            <label for=\"txtArticlesPerPage\">Articles per page</label>\r\n            <input formControlName=\"BasicArticlesPerPage\" type=\"number\" class=\"form-control\" name=\"txtArticlesPerPage\" id=\"txtArticlesPerPage\" placeholder=\"10\" required>\r\n          </div>\r\n          <div class=\"form-group\">\r\n            <label for=\"ddTemplate\">Rendering Template</label>\r\n            <select formControlName=\"BasicRenderingTemplate\" class=\"form-control\" id=\"ddTemplate\" name=\"ddTemplate\">\r\n              <option *ngFor=\"let folder of Templates\"\r\n                      [value]=\"folder\">\r\n                {{folder}}\r\n              </option>\r\n            </select>\r\n          </div>\r\n          <div class=\"form-group\">\r\n            <label for=\"ddServerTimeZone\">Server TimeZone</label>\r\n            <select formControlName=\"BasicServerTimeZone\" class=\"form-control\" id=\"ddServerTimeZone\" name=\"ddServerTimeZone\">\r\n              <option *ngFor=\"let timeZone of TimeZones\"\r\n                      [value]=\"timeZone.Key\">\r\n                {{timeZone.Value}}\r\n              </option>\r\n            </select>\r\n          </div>\r\n          <div class=\"form-group\">\r\n            <label for=\"ddSortBy\">Sort By</label>\r\n            <select formControlName=\"BasicSortBy\" class=\"form-control\" id=\"ddSortBy\" name=\"ddSortBy\">\r\n              <option *ngFor=\"let sortBy of SortByOpts\"\r\n                      [value]=\"sortBy\">\r\n                {{sortBy}}\r\n              </option>\r\n            </select>\r\n          </div>\r\n          <div class=\"form-group\">\r\n            <label for=\"ddSortDirection\">Sort Direction</label>\r\n            <select formControlName=\"BasicSortDirection\" class=\"form-control\" id=\"ddSortDirection\" name=\"ddSortDirection\">\r\n              <option value=\"ASC\">Ascending</option>\r\n              <option value=\"DESC\">Descending</option>\r\n            </select>\r\n          </div>\r\n          <div class=\"form-check\">\r\n            <input formControlName=\"BasicAllowCoreSearchIntegration\" type=\"checkbox\" class=\"form-check-input\" id=\"chkAllowCoreSearchIntegration\" name=\"chkAllowCoreSearchIntegration\">\r\n            <label class=\"form-check-label\" for=\"chkAllowCoreSearchIntegration\">Allow Core Search Integration</label>\r\n          </div>\r\n        </ng-template>\r\n      </ngb-panel>\r\n      <ngb-panel title=\"Category Settings\">\r\n        <ng-template ngbPanelContent>\r\n          <!--<div class=\"form-group\">\r\n            <label for=\"ddDefaultCategories\">Default Categories</label>\r\n            <select [(ngModel)]=\"settings.CategoryDefaultCategories\" formControlName=\"CategoryDefaultCategories\" class=\"form-control\" id=\"ddDefaultCategories\" size=\"4\" name=\"ddDefaultCategories\"></select>\r\n          </div>-->\r\n          <div class=\"form-check\">\r\n            <input formControlName=\"CategoryIncludeInBreadcrumb\" type=\"checkbox\" class=\"form-check-input\" id=\"chkIncludeInBreadcrumb\" name=\"chkIncludeInBreadcrumb\">\r\n            <label class=\"form-check-label\" for=\"chkIncludeInBreadcrumb\">Include in breadcrumb</label>\r\n          </div>\r\n          <div class=\"form-check\">\r\n            <input formControlName=\"CategoryRequireCategory\" type=\"checkbox\" class=\"form-check-input\" id=\"chkRequireCategory\" name=\"chkRequireCategory\">\r\n            <label class=\"form-check-label\" for=\"chkRequireCategory\">Require Category</label>\r\n          </div>\r\n        </ng-template>\r\n      </ngb-panel>\r\n      <ngb-panel title=\"File Settings\">\r\n        <ng-template ngbPanelContent>\r\n          <div class=\"form-group\">\r\n            <label for=\"txtDefaultFileFolder\">Default File Folder</label>\r\n            <type-ahead formControlName=\"FileDefaultFileFolder\" [suggestions]=\"obs_folders$\"\r\n                        placeholder=\"Start typing the folder name\" custom=\"false\" [complex]=\"true\"\r\n                        class=\"form-control\"\r\n                        ></type-ahead>\r\n          </div>\r\n          <div class=\"form-group\">\r\n            <label for=\"txtImageAllowedTypes\">File Allowed Types</label>\r\n            <type-ahead formControlName=\"FileAllowedTypes\"\r\n                        placeholder=\"start typing file extensions e.g. pdf\"\r\n                        [custom]=\"true\"\r\n                        [complex]=\"false\"\r\n                        [multi]=\"true\"\r\n                        class=\"form-control\"></type-ahead>\r\n          </div>\r\n        </ng-template>\r\n      </ngb-panel>\r\n      <ngb-panel title=\"Image Settings\">\r\n        <ng-template ngbPanelContent>\r\n          <div class=\"form-group\">\r\n            <label for=\"txtDefaultImageFolder\">Default Image Folder</label>\r\n            <type-ahead formControlName=\"ImageDefaultImageFolder\" [suggestions]=\"obs_folders$\"\r\n                        placeholder=\"Start typing the folder name\" custom=\"false\" [complex]=\"true\"\r\n                        class=\"form-control\"></type-ahead>\r\n          </div>\r\n          <div class=\"form-group\">\r\n            <label for=\"txtImageAllowedTypes\">Image Allowed Types</label>\r\n            <type-ahead formControlName=\"ImageAllowedTypes\"\r\n                        placeholder=\"start typing file extensions e.g. jpg\"\r\n                        [custom]=\"true\"\r\n                        [complex]=\"false\"\r\n                        [multi]=\"true\"\r\n                        class=\"form-control\"></type-ahead>\r\n          </div>\r\n        </ng-template>\r\n      </ngb-panel>\r\n      <!--<ngb-panel title=\"Article Form Settings\">\r\n        <ng-template ngbPanelContent>\r\n\r\n        </ng-template>\r\n      </ngb-panel>-->\r\n      <ngb-panel title=\"Notification Settings\">\r\n        <ng-template ngbPanelContent>\r\n          <div class=\"form-check\">\r\n            <input formControlName=\"NotificationNotifyApproversOnSubmission\" type=\"checkbox\" class=\"form-check-input\" id=\"chkNotifyApproversOnSubmission\" name=\"chkNotifyApproversOnSubmission\">\r\n            <label class=\"form-check-label\" for=\"chkNotifyApproversOnSubmission\">Notify Approvers on Submission</label>\r\n          </div>\r\n          <div class=\"form-check\">\r\n            <input formControlName=\"NotificationNotifyApproversOnApproval\" type=\"checkbox\" class=\"form-check-input\" id=\"chkNotifyApproversApproval\" name=\"chkNotifyApproversApproval\">\r\n            <label class=\"form-check-label\" for=\"chkNotifyApproversOnApproval\">Notify Approvers on Approval</label>\r\n          </div>\r\n        </ng-template>\r\n      </ngb-panel>\r\n      <ngb-panel title=\"SEO Settings\">\r\n        <ng-template ngbPanelContent>\r\n          <div class=\"form-check\">\r\n            <input formControlName=\"SEORemovePagePathFromURL\" type=\"checkbox\" class=\"form-check-input\" id=\"chkSEORemovePagePathFromURL\" name=\"chkSEORemovePagePathFromURL\">\r\n            <label class=\"form-check-label\" for=\"chkSEORemovePagePathFromURL\">Remove Page Path From URLs</label>\r\n          </div>\r\n        </ng-template>\r\n      </ngb-panel>\r\n      <!--<ngb-panel title=\"Permission Settings\">\r\n        <ng-template ngbPanelContent>\r\n        TODO\r\n        </ng-template>\r\n      </ngb-panel>-->\r\n    </ngb-accordion>\r\n    <app-list-errors [errors]=\"errors\"></app-list-errors>\r\n    <div class=\"action-buttons mt-3 mb-3 float-right\">\r\n      <button (click)=\"submitForm()\" type=\"button\" class=\"btn btn-primary\">Save</button>\r\n    </div>\r\n  </fieldset>\r\n  <div *ngIf=\"isDebugMode()\">\r\n    <fieldset>\r\n      <legend>settingsForm Value:</legend>\r\n      <pre>{{ settingsForm.value | json:2 }}</pre>\r\n    </fieldset>\r\n    <fieldset>\r\n      <legend>settings Value:</legend>\r\n      <pre>{{ settings | json:2 }}</pre>\r\n    </fieldset>\r\n  </div>\r\n  \r\n</div>\r\n"
 
 /***/ }),
 

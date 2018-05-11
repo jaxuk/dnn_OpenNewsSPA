@@ -21,7 +21,7 @@ namespace YeditUK.Modules.dnn_OpenNews.Components.Helpers
           .ReverseMap();
         m.CreateMap<Article, ArticleViewModel>()
           .ForMember(dest => dest.Body, opt => opt.MapFrom(src => src.Pages[0].PageText))
-          .ForMember(dest => dest.Body, opt => opt.MapFrom(src => src.Pages[0].PageText))
+          //.ForMember(dest => dest.Body, opt => opt.MapFrom(src => src.Pages[0].PageText))
           .ForMember(dest => dest.vwURL, opt => opt.Ignore())
           .ReverseMap();
         //.ForMember(dest => dest.AuthorName, opt =>

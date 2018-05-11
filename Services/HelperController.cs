@@ -19,6 +19,7 @@ using System.Text.RegularExpressions;
 using DotNetNuke.Entities.Modules;
 using System.Dynamic;
 using DotNetNuke.Web.Api.Internal;
+using DotNetNuke.Services.Exceptions;
 
 namespace YeditUK.Modules.dnn_OpenNews.Services
 {
@@ -43,8 +44,8 @@ namespace YeditUK.Modules.dnn_OpenNews.Services
     }
 
     
-    private string stringNotNull(string s) {
-      return (s == null ? "" : s);
+    private string stringNotNull(string s, int maxlength = -1) {
+      return (s == null ? "" : s.Left(maxlength));
     }
 
     private void SetCustomFieldDataType(ref CustomDefField cdf, dynamic cf)
@@ -182,9 +183,9 @@ namespace YeditUK.Modules.dnn_OpenNews.Services
           var newCat = new Category();
           newCat.Name = c.Name;
           newCat.Description = stringNotNull(c.Description);
-          newCat.MetaDescription = stringNotNull(c.MetaDescription);
-          newCat.MetaTitle = stringNotNull(c.MetaTitle);
-          newCat.MetaKeywords = stringNotNull(c.MetaKeywords);
+          newCat.MetaDescription = stringNotNull(c.MetaDescription, 255);
+          newCat.MetaTitle = stringNotNull(c.MetaTitle, 255);
+          newCat.MetaKeywords = stringNotNull(c.MetaKeywords, 255);
           newCat.SortOrder = c.SortOrder;
           newCat.ParentID = (c.ParentID==-1?0: c.ParentID);
           newCat.ModuleId = dto.oaModeulId;
@@ -225,12 +226,12 @@ namespace YeditUK.Modules.dnn_OpenNews.Services
           newArticle.IsFeatured = c.IsFeatured;
           newArticle.LastUpdated = c.LastUpdate;
           newArticle.LastUpdateID = c.LastUpdateID;
-          newArticle.MetaDescription = stringNotNull(c.MetaDescription);
-          newArticle.MetaKeywords = stringNotNull(c.MetaKeywords);
-          newArticle.MetaTitle = stringNotNull(c.MetaTitle);
+          newArticle.MetaDescription = stringNotNull(c.MetaDescription, 255);
+          newArticle.MetaKeywords = stringNotNull(c.MetaKeywords, 255);
+          newArticle.MetaTitle = stringNotNull(c.MetaTitle, 255);
           newArticle.ModuleId = dto.oaModeulId;
           newArticle.NumOfViews = c.NumberOfViews;
-          newArticle.PageHeadText = stringNotNull(c.PageHeadText);
+          newArticle.PageHeadText = stringNotNull(c.PageHeadText, 500);
           newArticle.RssGuid = stringNotNull(c.RssGuid);
           newArticle.ShortURL = "";
           newArticle.StartDate = c.StartDate;
@@ -336,6 +337,24 @@ namespace YeditUK.Modules.dnn_OpenNews.Services
             repoAT.Insert(newAT);
           }
           
+        });
+        //Process all article [IMAGE] tags
+        repoPages.Get().ToList().ForEach(p => {
+          var images = repoFiles.Find("WHERE ArticleID=@0", p.ArticleID).ToList();
+          string rxTagsPattern = @"\[IMAGE:(?<imageId>\d{1,3})\]";
+          Regex rxTags = new Regex(rxTagsPattern, RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.ExplicitCapture);
+          foreach (Match m in rxTags.Matches(p.PageText))
+          {
+            int imgId = -1;
+            string imgHtml = "";
+            if (int.TryParse(m.Groups["imageId"].Value, out imgId) && images.Count > imgId)
+            {
+              var img = images[imgId];
+              imgHtml = "[IMAGE:" + img.FileID.ToString() + "]";
+            }
+            p.PageText = Regex.Replace(p.PageText, "\\[IMAGE:" + imgId.ToString() + "\\]", imgHtml);
+            repoPages.Update(p);
+          }
         });
         naArticleTag = null;
         var naCustomField = ctx.ExecuteQuery<dynamic>(System.Data.CommandType.Text, "SELECT * FROM DnnForge_NewsArticles_CustomField WHERE ModuleId=@0 ORDER BY SortOrder", dto.naModeulId);
@@ -468,25 +487,56 @@ namespace YeditUK.Modules.dnn_OpenNews.Services
         System.IO.File.WriteAllText(jsonPath, Newtonsoft.Json.JsonConvert.SerializeObject(onCustomDefs.ToArray()));
         //Import CustomFields Data for Articles.
         var naCustomFieldVals = ctx.ExecuteQuery<dynamic>(System.Data.CommandType.Text, "SELECT * FROM DnnForge_NewsArticles_CustomValue WHERE ArticleID IN (SELECT ArticleID FROM [dbo].[DnnForge_NewsArticles_Article] Where ModuleID=@0)", dto.naModeulId);
-        naCustomFieldVals.ToList().ForEach(val => {
-          if ((val.ArticleID != null) && dicArticles.ContainsKey(val.ArticleID)) {
-            var cf = naCustomField.Where(c => c.CustomFieldID == val.CustomFieldID).SingleOrDefault();
-            long aid = (long)dicArticles[val.ArticleID];
-            var article = repoArticles.Find("WHERE ArticleID=@0", aid).SingleOrDefault();
-            if (cf != null && article != null)
-            {
-              //dynamic ImportDef
-              dynamic ImportDefData = new ExpandoObject();
-              dynamic ImportDef = new ExpandoObject();
-              var ImportDefDataDic = (IDictionary<string, object>)ImportDefData;
-              var ImportDefDic = (IDictionary<string, object>)ImportDef;
-              ImportDefDataDic.Add(cf.Name, val.CustomValue);
-              ImportDefDic.Add("ImportDef", ImportDefData);
-              article.CustomTypes = ImportDef;
-              repoArticles.Update(article);
-            }
+        naCustomFieldVals.GroupBy(x => x.ArticleID).ToList().ForEach(group => {
+          int articleId = group.Key;
+          long aid = (long)dicArticles[articleId];
+          var article = repoArticles.Find("WHERE ArticleID=@0", aid).SingleOrDefault();
+          if (article != null) {
+            dynamic ImportDefData = new ExpandoObject();
+            dynamic ImportDef = new ExpandoObject();
+            var ImportDefDataDic = (IDictionary<string, object>)ImportDefData;
+            var ImportDefDic = (IDictionary<string, object>)ImportDef;
+            group.ToList().ForEach(val => {
+              var cf = naCustomField.Where(c => c.CustomFieldID == val.CustomFieldID).SingleOrDefault();
+              if (cf != null) {
+                ImportDefDataDic.Add(cf.Name, val.CustomValue);
+              }
+            });
+            ImportDefDic.Add("ImportDef", ImportDefData);
+            article.CustomTypes = ImportDef;
+            repoArticles.Update(article);
           }
         });
+
+        //naCustomFieldVals.ToList().ForEach(val => {
+        //  if ((val.ArticleID != null) && dicArticles.ContainsKey(val.ArticleID)) {
+        //    var cf = naCustomField.Where(c => c.CustomFieldID == val.CustomFieldID).SingleOrDefault();
+        //    long aid = (long)dicArticles[val.ArticleID];
+        //    var article = repoArticles.Find("WHERE ArticleID=@0", aid).SingleOrDefault();
+        //    if (cf != null && article != null)
+        //    {
+        //      //dynamic ImportDef
+        //      dynamic ImportDefData = new ExpandoObject();
+        //      dynamic ImportDef = new ExpandoObject();
+        //      var ImportDefDataDic = (IDictionary<string, object>)ImportDefData;
+        //      var ImportDefDic = (IDictionary<string, object>)ImportDef;
+        //      ImportDefDataDic.Add(cf.Name, val.CustomValue);
+        //      ImportDefDic.Add("ImportDef", ImportDefData);
+        //      article.CustomTypes = ImportDef;
+        //      repoArticles.Update(article);
+        //    } else {
+        //      string issue = "Import error Custom field value with id: " + val.CustomFieldID.ToString() + " not imported for articleid: " + val.ArticleID.ToString();
+        //      if (cf == null) {
+        //        issue += " cf==null";
+        //      }
+        //      if (article == null)
+        //      {
+        //        issue += " article==null";
+        //      }
+        //      Exceptions.LogException(new Exception(issue));
+        //    }
+        //  }
+        //});
       }
       
       return Request.CreateResponse(System.Net.HttpStatusCode.OK);

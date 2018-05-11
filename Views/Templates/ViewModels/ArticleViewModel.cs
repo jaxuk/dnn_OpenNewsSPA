@@ -18,5 +18,6 @@ namespace YeditUK.Modules.dnn_OpenNews.Templates.ViewModels
     }
     public MenuViewModel MenuView { get; set; }
     public Services.ViewModels.ArticleViewModel Article { get; set; }
+    public List<Services.ViewModels.CategoryViewModel> AllCategories { get; set; }
   }
 }

@@ -266,6 +266,7 @@
     <Compile Include="Components\Enums\ViewType.cs" />
     <Compile Include="Components\FeatureController.cs" />
     <Compile Include="Components\Helpers\AutoMapperConfig.cs" />
+    <Compile Include="Components\Helpers\TemplateHelper.cs" />
     <Compile Include="Components\Helpers\CommonHelper.cs" />
     <Compile Include="Components\Helpers\DnnHelperExtensions.cs" />
     <Compile Include="Components\Helpers\ExtensionMethods.cs" />
@@ -284,6 +285,7 @@
     <Compile Include="Components\ISettingsController.cs" />
     <Compile Include="Components\Entities\Tag.cs" />
     <Compile Include="Components\SettingsController.cs" />
+    <Compile Include="Components\ViewController.cs" />
     <Compile Include="Services\CustomFieldsController.cs" />
     <Compile Include="Services\TagsController.cs" />
     <Compile Include="Services\ArtilcesController.cs" />
@@ -446,6 +448,7 @@
     <None Include="compilerconfig.json.defaults">
       <DependentUpon>compilerconfig.json</DependentUpon>
     </None>
+    <Content Include="Views\Templates\Razor\Default\_inlineimage.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />

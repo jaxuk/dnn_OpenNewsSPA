@@ -1,0 +1,10 @@
+﻿@using YeditUK.Modules.dnn_OpenNews.Services.ViewModels;
+@{
+  var img = (FileViewModel)this.Model;
+}
+<figure>
+  <a rel="articleGal" title="@img.Title" href="@img.url">
+    <img src="@(img.url)&maxwidth=300&maxheight=300" alt="@img.Title">
+  </a>
+  <figcaption><p>@img.Title</p><p>@img.Description</p></figcaption>
+</figure>
