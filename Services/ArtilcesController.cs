@@ -299,7 +299,11 @@ namespace YeditUK.Modules.dnn_OpenNews.Services
           
         }
       }
-      return Request.CreateResponse(Mapper.Map<Article, ArticleViewModel>(art));
+      var artPerms = new ArticlePermissions(UserInfo, ActiveModule, PortalSettings);
+      var artVm = Mapper.Map<Article, ArticleViewModel>(art);
+      setVwUrl(ref artVm);
+      artVm.Actions = artPerms.GetArticleActions(art);
+      return Request.CreateResponse(artVm);
     }
     private void setVwUrl(ref ArticleViewModel avm) {
       avm.vwURL = UrlHelper.GetArticleURL(this.ActiveModule.TabID, avm.ArticleID);
