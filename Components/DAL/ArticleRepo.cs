@@ -29,19 +29,25 @@ namespace YeditUK.Modules.dnn_OpenNews.Components.DAL
 
     IQueryable<Article> GetList(int ModuleID);
 
+    IQueryable<Article> GetRelated(int ModuleID, bool matchTags, bool matchCategories, int amount, string sortBy, bool sortAsc);
+
     IQueryable<Article> GetListByTabId(int TabId);
 
     IPagedList<Article> GetPagedList(int ModuleID, int pageIndex, int pageSize, string sortBy, bool sortAsc);
 
     PagedList<Article> GetPagedList(int ModuleID, int pageIndex, int pageSize, string serachPhrase = "",
-      ArticleStatus? status = null,
+      List<ArticleStatus> status = null,
       bool hydrate = false,
       int AuthorID = -1,
       List<int> CategoryIds = null,
       List<int> TagIds = null,
       DateTime? portalTime = null,
       string sortBy = "StartDate",
-      bool sortAsc = false);
+      bool sortAsc = false,
+      bool matchAllCategories = false,
+      bool matchAllTags = false,
+      bool? isFeatured = null
+      );
 
     Article Update(Article a);
 
@@ -416,24 +422,31 @@ namespace YeditUK.Modules.dnn_OpenNews.Components.DAL
       return pList;
     }
 
-    public PagedList<Article> GetPagedList(int ModuleID, int pageIndex, int pageSize, string serachPhrase = "", 
-      ArticleStatus? status=null, 
+    public PagedList<Article> GetPagedList(int ModuleID, int pageIndex, int pageSize, string serachPhrase = "",
+      List<ArticleStatus> status = null,
       bool hydrate = false, 
       int AuthorID = -1, 
       List<int> CategoryIds = null, 
       List<int> TagIds = null, 
       DateTime? portalTime = null,
       string sortBy ="StartDate", 
-      bool sortAsc = false) {
+      bool sortAsc = false, 
+      bool matchAllCategories = false,
+      bool matchAllTags = false,
+      bool? isFeatured = null
+      ) {
 
       //TODO - Implement status filtering.
 
       PagedList<Article> list = default(PagedList<Article>);
       using (IDataContext ctx = DataContext.Instance()) {
         var total = new SqlParameter("@totalResults", System.Data.SqlDbType.Int);
-        string statusString = null;
+        List<string> strStatusList = new List<string>();
         if (status != null) {
-          statusString = status.ToString();
+          status.ForEach(st=> {
+            strStatusList.Add(st.ToString());
+          });
+
         }
         total.Direction = System.Data.ParameterDirection.Output;
         var spres = ctx.ExecuteQuery<Article>(CommandType.StoredProcedure, "OpenNews_FindArticles",
@@ -443,9 +456,12 @@ namespace YeditUK.Modules.dnn_OpenNews.Components.DAL
           serachPhrase,
           sortBy,
           sortAsc,
-          statusString,
           portalTime,
           AuthorID,
+          isFeatured,
+          matchAllTags,
+          matchAllCategories,
+          strListAsSqlParameter(strStatusList, "statusList"),
           intListAsSqlParameter(CategoryIds, "CategoryIDList"),
           intListAsSqlParameter(TagIds, "TagIDList"),
           total
@@ -516,6 +532,11 @@ namespace YeditUK.Modules.dnn_OpenNews.Components.DAL
         }
         
       }
+    }
+
+    public IQueryable<Article> GetRelated(int ModuleID, bool matchTags, bool matchCategories, int amount, string sortBy, bool sortAsc)
+    {
+      throw new NotImplementedException();
     }
   }
 }

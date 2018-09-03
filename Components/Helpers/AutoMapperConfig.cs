@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using DotNetNuke.Collections;
 using DotNetNuke.Entities.Users;
+using DotNetNuke.Security.Roles;
 using DotNetNuke.Services.FileSystem;
 using System;
 using System.Collections.Generic;
@@ -43,6 +44,12 @@ namespace YeditUK.Modules.dnn_OpenNews.Components.Helpers
           .ForMember(dest => dest.id, opt => opt.MapFrom(src => src.UserID))
           .ForMember(dest => dest.avatarUrl, opt => opt.MapFrom(src => UrlHelper.GetUserProfilePhotoURL(src.UserID)))
           .ForMember(dest => dest.profileUrl, opt => opt.MapFrom(src => UrlHelper.GetUserProfileURL(src.UserID)))
+          .ReverseMap();
+        m.CreateMap<RoleInfo, RoleViewModel>()
+          .ForMember(dest => dest.name, opt => opt.MapFrom(src => src.RoleName))
+          .ForMember(dest => dest.id, opt => opt.MapFrom(src => src.RoleID))
+          .ReverseMap();
+        m.CreateMap<Settings, SettingsViewModel>()
           .ReverseMap();
         m.CreateMap<File, FileViewModel>()
           .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.fileInfo.FileName))

@@ -7,6 +7,7 @@ using DotNetNuke.Services.FileSystem;
 using DotNetNuke.UI.Modules;
 using DotNetNuke.Web.Razor;
 using HtmlAgilityPack;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -22,24 +23,7 @@ namespace YeditUK.Modules.dnn_OpenNews.Components.Helpers
 {
   public static class TemplateHelper
   {
-    
-    //public static void InlineArticleImages(ref ArticleViewModel a) {
-    //  string rxTagsPattern = @"\[IMAGE:(?<imageId>\d{1,3})\]";
-    //  Regex rxTags = new Regex(rxTagsPattern, RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.ExplicitCapture);
-    //  foreach (Match m in rxTags.Matches(a.Body))
-    //  {
-    //    int imgId = -1;
-    //    StringBuilder sb = new StringBuilder();
-    //    if (int.TryParse(m.Groups["imageId"].Value, out imgId) && a.Images.Count > imgId) {
-    //      var img = a.Images[imgId];
-    //      sb.AppendLine("^^^");
-    //      sb.AppendLine("[![" + img.Title + "](" + img.url + "&maxwidth=300&maxheight=300)](" + img.url + "&maxwidth=1000&maxheight=1000)");
-    //      sb.AppendLine("^^^ " + img.Title + " " + img.Description);
-    //    }
-    //    a.Body = Regex.Replace(a.Body, "\\[IMAGE:"+ imgId.ToString() + "\\]", sb.ToString());
-    //  }
-    //}
-    
+
     public static void InlineArticleImages(ref ArticleViewModel a, System.Web.WebPages.WebPageBase wpb)
     {
       

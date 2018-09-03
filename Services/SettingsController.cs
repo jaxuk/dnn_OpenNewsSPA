@@ -15,6 +15,9 @@ using Newtonsoft.Json.Linq;
 using YeditUK.Modules.dnn_OpenNews.Components.Entities;
 using DotNetNuke.Services.FileSystem;
 using DotNetNuke.Web.Api.Internal;
+using AutoMapper;
+using DotNetNuke.Entities.Users;
+using YeditUK.Modules.dnn_OpenNews.Components.Helpers;
 
 namespace YeditUK.Modules.dnn_OpenNews.Services
 {
@@ -73,8 +76,14 @@ namespace YeditUK.Modules.dnn_OpenNews.Services
 #endif
     public HttpResponseMessage GetSettings()
     {
-      return Request.CreateResponse(System.Net.HttpStatusCode.OK, 
-        Components.SettingsController.Instance.GetSettings(ActiveModule, PortalSettings), "application/json");
+      var s = (Components.SettingsController.Instance.GetSettings(ActiveModule, PortalSettings));
+      var sVm = Mapper.Map<Settings, SettingsViewModel>(s);
+      sVm.currentUser = Mapper.Map<UserInfo, UserViewModel>(UserInfo);
+      sVm.currentUser.isAuthor = CommonHelper.UserHasAuthorPerms(UserInfo, s, PortalSettings);
+      sVm.currentUser.isEditor = CommonHelper.UserHasEditorPerms(UserInfo, s, PortalSettings);
+      //var user = Mapper.Map<UserInfo, UserViewModel>(UserInfo);
+      return Request.CreateResponse(System.Net.HttpStatusCode.OK, sVm
+        , "application/json");
     }
     
     [HttpPost]
@@ -97,11 +106,15 @@ namespace YeditUK.Modules.dnn_OpenNews.Services
       s.CategoryRequireCategory = m.CategoryRequireCategory;
       s.FileDefaultFileFolder = m.FileDefaultFileFolder;
       s.ImageDefaultImageFolder = m.ImageDefaultImageFolder;
-      s.NotificationNotifyApproversOnApproval = m.NotificationNotifyApproversOnApproval;
-      s.NotificationNotifyApproversOnSubmission = m.NotificationNotifyApproversOnSubmission;
+      s.NotificationNotifyAuthorsOnApproval = m.NotificationNotifyAuthorsOnApproval;
+      s.NotificationNotifyEditorsOnSubmission = m.NotificationNotifyEditorsOnSubmission;
       s.SEORemovePagePathFromURL = m.SEORemovePagePathFromURL;
       s.ImageAllowedTypes = m.ImageAllowedTypes;
       s.FileAllowedTypes = m.FileAllowedTypes;
+      s.PermissionsEditorRoles = m.PermissionsEditorRoles;
+      s.PermissionsAuthorRoles = m.PermissionsAuthorRoles;
+      s.PermissionsAllowEditorsToSelfPublish = m.PermissionsAllowEditorsToSelfPublish;
+      s.PermissionsOnlyShowEditorsAndAuthorsForAuthorSelection = m.PermissionsOnlyShowEditorsAndAuthorsForAuthorSelection;
       Components.SettingsController.Instance.SaveSettings(s, ActiveModule, PortalSettings);
       return Request.CreateResponse(System.Net.HttpStatusCode.OK, m);
     }

@@ -17,6 +17,27 @@ namespace YeditUK.Modules.dnn_OpenNews.Services
   {
     public UserController() { }
 
+    [HttpPost]
+#if DEBUG
+    [AllowAnonymous]
+#else
+    [ValidateAntiForgeryToken]
+#endif
+    public HttpResponseMessage GetAuthorList()
+    {
+      var settings = Components.SettingsController.Instance.GetSettings(ActiveModule, PortalSettings);
+      var userlist = DotNetNuke.Entities.Users.UserController.GetUsers(this.PortalSettings.PortalId).Cast<UserInfo>().ToList();
+      if (settings.PermissionsOnlyShowEditorsAndAuthorsForAuthorSelection) {
+        userlist = userlist.Where(u => u.IsInRole(settings.PermissionsAuthorRoles) || u.IsInRole(settings.PermissionsEditorRoles)).ToList();
+      }
+      var usersVM = Mapper.Map<List<UserInfo>, List<UserViewModel>>(userlist);
+      //var users = userlist.Cast<UserInfo>().ToList()
+      //       .Select(user => new UserViewModel(user))
+      //       .ToList();
+
+      return Request.CreateResponse(usersVM);
+    }
+
     public class GetListDTO
     {
       public string inRole { get; set; }

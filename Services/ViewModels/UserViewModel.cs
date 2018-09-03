@@ -18,5 +18,10 @@ namespace YeditUK.Modules.dnn_OpenNews.Services.ViewModels
     public string profileUrl { get; set; }
 
     public string avatarUrl { get; set; }
+
+    public string[] roles { get; set; }
+
+    public bool isEditor { get; set; } = false;
+    public bool isAuthor { get; set; } = false;
   }
 }

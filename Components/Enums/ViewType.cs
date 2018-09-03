@@ -50,4 +50,23 @@ namespace YeditUK.Modules.dnn_OpenNews.Components.Enums
     Expired = 4,
     Upcoming = 5
   }
+
+  public enum RelatedType {
+    None,
+    MatchCategoriesAny,
+    MatchCategoriesAll,
+    MatchTagsAny,
+    MatchTagsAll,
+    MatchCategoriesAnyTagsAny,
+    MatchCategoriesAllTagsAny,
+    MatchCategoriesAnyTagsAll
+  }
+  public enum ArticleAction
+  {
+    Delete,
+    Edit,
+    Approve,
+    UnApprove,
+    View
+  }
 }

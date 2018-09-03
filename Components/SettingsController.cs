@@ -44,7 +44,7 @@ namespace YeditUK.Modules.dnn_OpenNews.Components
         BasicServerTimeZone = GetSettingValue("BasicServerTimeZone", portalSettings.TimeZone.Id),
         BasicSortBy = GetSettingValue("BasicSortBy", "StartDate"),
         BasicSortDirection = GetSettingValue("BasicSortDirection", "DESC"),
-        CategoryDefaultCategories = GetSettingValue("CategoryDefaultCategories", null),
+        CategoryDefaultCategories = GetSettingValue("CategoryDefaultCategories", new int[]{}),
         CategoryIncludeInBreadcrumb = GetSettingValue("CategoryIncludeInBreadcrumb", false),
         CategoryRequireCategory = GetSettingValue("CategoryRequireCategory", false),
         FileDefaultFileFolder = GetSettingValue("FileDefaultFileFolder", portalSettings.HomeDirectory),
@@ -52,9 +52,14 @@ namespace YeditUK.Modules.dnn_OpenNews.Components
         ImageDefaultImageFolder = GetSettingValue("ImageDefaultImageFolder", portalSettings.HomeDirectory),
         ImageAllowedTypes = GetSettingValue("ImageAllowedTypes", "jpg,jpeg,gif,png,svg".Split(',')),
         SEORemovePagePathFromURL = GetSettingValue("SEORemovePagePathFromURL", false),
-        NotificationNotifyApproversOnApproval = GetSettingValue("NotificationNotifyApproversOnApproval", true),
-        NotificationNotifyApproversOnSubmission = GetSettingValue("NotificationNotifyApproversOnSubmission", true),
+        NotificationNotifyAuthorsOnApproval = GetSettingValue("NotificationNotifyAuthorsOnApproval", true),
+        NotificationNotifyEditorsOnSubmission = GetSettingValue("NotificationNotifyEditorsOnSubmission", true),
+        PermissionsEditorRoles = GetSettingValue("PermissionsEditorRoles", portalSettings.AdministratorRoleName),
+        PermissionsAuthorRoles = GetSettingValue("PermissionsAuthorRoles", portalSettings.AdministratorRoleName),
+        PermissionsAllowEditorsToSelfPublish = GetSettingValue("PermissionsAllowEditorsToSelfPublish", true),
+        PermissionsOnlyShowEditorsAndAuthorsForAuthorSelection = GetSettingValue("PermissionsOnlyShowEditorsAndAuthorsForAuthorSelection", false),
         PageTabUrl = Globals.NavigateURL(moduleInfo.TabID, false),
+        
         debugEnabled = isDebugMode
 
       };
@@ -105,6 +110,17 @@ namespace YeditUK.Modules.dnn_OpenNews.Components
             return int.Parse(val.ToString());
           case string[] strArray:
             return ((string)val).Split(',');
+          case int[] intArray:
+            return intArray;
+            //var strList = ((string)val).Split(',').ToList();
+            //var intList = new List<int>();
+            //strList.ForEach(s => {
+            //  int outint = -1;
+            //  if (int.TryParse(s, out outint)) {
+            //    intList.Add(outint);
+            //  }
+            //});
+            //return intList.ToArray();
           default:
             return val.ToString();
         }

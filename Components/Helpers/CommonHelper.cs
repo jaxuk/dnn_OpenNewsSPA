@@ -13,6 +13,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
 using YeditUK.Modules.dnn_OpenNews.Components.Entities;
+using YeditUK.Modules.dnn_OpenNews.Components.Enums;
 using YeditUK.Modules.dnn_OpenNews.Services.ViewModels;
 
 namespace YeditUK.Modules.dnn_OpenNews.Components.Helpers
@@ -63,15 +64,54 @@ namespace YeditUK.Modules.dnn_OpenNews.Components.Helpers
       return fi.ContentType.ToLower().StartsWith("image/");
     }
 
-    public static bool UserCanEditArticle(UserInfo user, ArticleViewModel article) {
-      if (user.IsInRole("Administrators") || user.IsSuperUser) {
+    public static bool UserHasEditorPerms(UserInfo user, Settings settings, PortalSettings portalSettings)
+    {
+      if (user.IsInRole(settings.PermissionsEditorRoles) || user.IsInRole(portalSettings.AdministratorRoleName) || user.IsSuperUser)
+      {
         return true;
       }
       return false;
     }
 
-    public static bool UserCanViewAdmin(UserInfo user) {
-      if (user.IsInRole("Administrators") || user.IsSuperUser)
+    public static bool UserHasAuthorPerms(UserInfo user, Settings settings, PortalSettings portalSettings)
+    {
+      if (UserHasEditorPerms(user, settings, portalSettings)) {
+        return true;
+      }
+      if (user.IsInRole(settings.PermissionsAuthorRoles))
+      {
+        return true;
+      }
+      return false;
+    }
+
+    public static bool UserCanApprove(UserInfo user, ArticleViewModel article, Settings settings) {
+      bool approverRole = false;
+      if (user.IsInRole(settings.PermissionsEditorRoles) || user.IsInRole("Administrators") || user.IsSuperUser)
+      {
+        approverRole = true;
+      }
+      if ((settings.PermissionsAllowEditorsToSelfPublish && approverRole) ||
+        approverRole && article.AuthorID != user.UserID) {
+        return true;
+      }
+      return false;
+    }
+
+    public static bool UserCanEditArticle(UserInfo user, ArticleViewModel article, Settings settings) {
+      if (user.IsInRole(settings.PermissionsEditorRoles) || user.IsInRole("Administrators") || user.IsSuperUser) {
+        return true;
+      }
+      if ((article.Status == ArticleStatus.Draft.ToString() || article.Status == ArticleStatus.NeedsApproval.ToString())
+        && article.AuthorID == user.UserID && user.IsInRole(settings.PermissionsAuthorRoles)) {
+        return true;
+      }
+      return false;
+    }
+
+    public static bool UserCanViewAdmin(UserInfo user, Settings settings) {
+      if (user.IsInRole("Administrators") || user.IsSuperUser || 
+        user.IsInRole(settings.PermissionsEditorRoles) || user.IsInRole(settings.PermissionsAuthorRoles))
       {
         return true;
       }

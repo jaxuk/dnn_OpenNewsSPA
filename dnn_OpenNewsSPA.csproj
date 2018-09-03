@@ -79,8 +79,8 @@
     <Reference Include="HtmlAgilityPack, Version=1.7.1.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
       <HintPath>packages\HtmlAgilityPack.1.7.1\lib\Net45\HtmlAgilityPack.dll</HintPath>
     </Reference>
-    <Reference Include="Markdig, Version=0.14.9.0, Culture=neutral, PublicKeyToken=870da25a133885f8, processorArchitecture=MSIL">
-      <HintPath>packages\Markdig.Signed.0.14.9\lib\net40\Markdig.dll</HintPath>
+    <Reference Include="Markdig, Version=0.15.1.0, Culture=neutral, PublicKeyToken=870da25a133885f8, processorArchitecture=MSIL">
+      <HintPath>packages\Markdig.Signed.0.15.1\lib\net40\Markdig.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
@@ -228,6 +228,21 @@
     <Content Include="ng-apps\on-admin\dist\polyfills.bundle.js" />
     <Content Include="ng-apps\on-admin\dist\styles.bundle.js" />
     <Content Include="ng-apps\on-admin\dist\vendor.bundle.js" />
+    <Content Include="Views\Templates\Razor\sb\scripts\articleView.js" />
+    <Content Include="Views\Templates\Razor\sb\scripts\dfp-blog-article.js" />
+    <Content Include="Views\Templates\Razor\sb\scripts\blog.js" />
+    <Content Include="Views\Templates\Razor\sb\styles\articleList.css">
+      <DependentUpon>articleList.scss</DependentUpon>
+    </Content>
+    <Content Include="Views\Templates\Razor\sb\styles\articleList.min.css">
+      <DependentUpon>articleList.css</DependentUpon>
+    </Content>
+    <Content Include="Views\Templates\Razor\sb\styles\articleView.css">
+      <DependentUpon>articleView.scss</DependentUpon>
+    </Content>
+    <Content Include="Views\Templates\Razor\sb\styles\articleView.min.css">
+      <DependentUpon>articleView.css</DependentUpon>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="BuildScripts\ModulePackage.targets">
@@ -265,6 +280,7 @@
     <Compile Include="Components\Entities\CustomDef.cs" />
     <Compile Include="Components\Enums\ViewType.cs" />
     <Compile Include="Components\FeatureController.cs" />
+    <Compile Include="Components\Helpers\ArticlePermissions.cs" />
     <Compile Include="Components\Helpers\AutoMapperConfig.cs" />
     <Compile Include="Components\Helpers\TemplateHelper.cs" />
     <Compile Include="Components\Helpers\CommonHelper.cs" />
@@ -293,12 +309,14 @@
     <Compile Include="Services\FilesController.cs" />
     <Compile Include="Services\SettingsController.cs" />
     <Compile Include="Services\HelperController.cs" />
+    <Compile Include="Services\RoleController.cs" />
     <Compile Include="Services\ViewModels\PagedListMetaViewModel.cs" />
     <Compile Include="Services\ViewModels\ArticleViewModel.cs" />
     <Compile Include="Services\ViewModels\CategoryViewModel.cs" />
     <Compile Include="Services\ViewModels\FileViewModel.cs" />
     <Compile Include="Services\ViewModels\SettingsViewModel.cs" />
     <Compile Include="Services\ViewModels\TagViewModel.cs" />
+    <Compile Include="Services\ViewModels\RoleViewModel.cs" />
     <Compile Include="View.ascx.cs">
       <DependentUpon>View.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -449,6 +467,32 @@
       <DependentUpon>compilerconfig.json</DependentUpon>
     </None>
     <Content Include="Views\Templates\Razor\Default\_inlineimage.cshtml" />
+    <Content Include="Views\Templates\Razor\sb\adminframe.cshtml" />
+    <Content Include="Views\Templates\Razor\sb\styles\_styles.scss" />
+    <Content Include="Views\Templates\Razor\sb\_admin.cshtml" />
+    <Content Include="Views\Templates\Razor\sb\_archiveview.cshtml" />
+    <Content Include="Views\Templates\Razor\sb\_articlesPager.cshtml" />
+    <Content Include="Views\Templates\Razor\sb\_articleview.cshtml" />
+    <Content Include="Views\Templates\Razor\sb\_categoryview.cshtml" />
+    <Content Include="Views\Templates\Razor\sb\_inlineimage.cshtml" />
+    <Content Include="Views\Templates\Razor\sb\_listArticles.cshtml" />
+    <Content Include="Views\Templates\Razor\sb\_menu.cshtml" />
+    <Content Include="Views\Templates\Razor\sb\_tagview.cshtml" />
+    <Content Include="Views\Templates\Razor\sb\_viewcurrent.cshtml" />
+    <Content Include="web.config" />
+    <Content Include="Views\Templates\Razor\sb\styles\articleList.scss" />
+    <Content Include="Views\Templates\Razor\sb\styles\articleView.scss" />
+    <Content Include="Views\Templates\Razor\sb\styles\base\_variables.scss" />
+    <Content Include="Views\Templates\Razor\sb\styles\base\_mixins.scss" />
+    <Content Include="Views\Templates\Razor\sb\styles\base\_fonts.scss" />
+    <Content Include="Views\Templates\Razor\sb\_ads_article.cshtml" />
+    <Content Include="README.md" />
+    <None Include="web.Debug.config">
+      <DependentUpon>web.config</DependentUpon>
+    </None>
+    <None Include="web.Release.config">
+      <DependentUpon>web.config</DependentUpon>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using YeditUK.Modules.dnn_OpenNews.Components.Entities;
+using YeditUK.Modules.dnn_OpenNews.Components.Enums;
 
 namespace YeditUK.Modules.dnn_OpenNews.Services.ViewModels
 {
@@ -40,11 +41,17 @@ namespace YeditUK.Modules.dnn_OpenNews.Services.ViewModels
     public string ShortURL { get; set; } = string.Empty;
     public string RssGuid { get; set; } = Guid.NewGuid().ToString();
     public string Body { get; set; } = string.Empty;
+    public FileViewModel PrimaryImage {
+      get {
+        return this.Images.FirstOrDefault();
+      }
+    }
     public List<FileViewModel> Files { get; set; } = new List<FileViewModel>();
     public List<FileViewModel> Images { get; set; } = new List<FileViewModel>();
     public List<TagViewModel> Tags { get; set; } = new List<TagViewModel>();
     public List<CategoryViewModel> Categories { get; set; } = new List<CategoryViewModel>();
     public dynamic CustomTypes { get; set; } = null;
     public string customJSON { get; set; }
-  }
+    public List<string> Actions { get; set; } = new List<string>();
+}
 }

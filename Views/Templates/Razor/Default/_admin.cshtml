@@ -9,6 +9,7 @@
   }
 }
 @{
+  bool canViewAdmin = CommonHelper.UserCanViewAdmin(Dnn.User, YeditUK.Modules.dnn_OpenNews.Components.SettingsController.Instance.GetSettings(Dnn.Module, Dnn.Portal));
   Layout = null;
   string ngRoot = "/DesktopModules/{0}/ng-apps/on-admin/";
   ngRoot = string.Format(ngRoot, Dnn.Module.DesktopModule.FolderName);
@@ -43,7 +44,7 @@
     z-index: 99999999;
   }
 </style>
-@if (Dnn.User.IsInRole("Administrators"))
+@if (canViewAdmin)
 {
   <div class="ngframe-container">
     <iframe id="ngframe" frameborder="0" style="min-height: 100vh"

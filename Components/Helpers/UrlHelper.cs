@@ -124,6 +124,18 @@ namespace YeditUK.Modules.dnn_OpenNews.Components.Helpers
 
       return viewPath;
     }
+
+    public static string ImageUrl(FileViewModel image, int maxwidth = 200, int maxheight = 200, int quality = 80)
+    {
+      if (image == null)
+      {
+        return "";
+      }
+      else
+      {
+        return image.url + "&maxwidth=" + maxwidth + "&maxheight=" + maxheight + "&quality=" + quality;
+      }
+    }
   }
 
 }

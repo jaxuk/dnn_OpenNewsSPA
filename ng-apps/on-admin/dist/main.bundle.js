@@ -84,7 +84,7 @@ var AppRoutingModule = /** @class */ (function () {
 /***/ "../../../../../src/app/app.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "\r\n<div class=\"open-news-app\">\r\n  <nav class=\"navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0\">\r\n    <a class=\"navbar-brand col-sm-3 col-md-2 mr-0\" href=\"#\">Open News Admin</a>\r\n    <input id=\"txtArticleSearch\" class=\"form-control form-control-dark w-100\" type=\"text\" placeholder=\"Search Articles\" (keyup)=\"doSearch($event)\" aria-label=\"Search\" >\r\n    <ul class=\"navbar-nav px-3\">\r\n      <li class=\"nav-item text-nowrap\">\r\n        <a class=\"nav-link\" target=\"_top\" href=\"{{getLiveModuleUrl()}}\">View Live Module</a>\r\n      </li>\r\n    </ul>\r\n  </nav>\r\n  <div class=\"container-fluid\">\r\n    <div class=\"row \">\r\n      <div class=\"col-sm-3 col-md-2 d-none d-sm-block bg-light sidebar \">\r\n        <div class=\"sidebar-sticky\">\r\n          <ul class=\"nav flex-column\">\r\n            <li class=\"nav-item\">\r\n              <a class=\"nav-link\" [routerLinkActive]=\"['active']\" routerLink=\"/dashboard\">Dashboard</a>\r\n            </li>\r\n            <li class=\"nav-item\">\r\n              <a class=\"nav-link\" [routerLinkActive]=\"['active']\" routerLink=\"/articles\">Articles</a>\r\n            </li>\r\n            <li class=\"nav-item\">\r\n              <a class=\"nav-link\" [routerLinkActive]=\"['active']\" routerLink=\"/categories\">Categories</a>\r\n            </li>\r\n            <li class=\"nav-item\">\r\n              <a class=\"nav-link\" [routerLinkActive]=\"['active']\" routerLink=\"/tags\">Tags</a>\r\n            </li>\r\n            <li class=\"nav-item\">\r\n              <a class=\"nav-link\" [routerLinkActive]=\"['active']\" routerLink=\"/custom-fields\">Custom Fields</a>\r\n            </li>\r\n            <li class=\"nav-item\">\r\n              <a class=\"nav-link\" [routerLinkActive]=\"['active']\" routerLink=\"/email-templates\">Email Templates</a>\r\n            </li>\r\n            <li class=\"nav-item\">\r\n              <a class=\"nav-link\" [routerLinkActive]=\"['active']\" routerLink=\"/render-templates\">Render Templates</a>\r\n            </li>\r\n            <li class=\"nav-item\">\r\n              <a class=\"nav-link\" [routerLinkActive]=\"['active']\" routerLink=\"/main-settings\">Settings</a>\r\n            </li>\r\n            <li class=\"nav-item\">\r\n              <a class=\"nav-link\" [routerLinkActive]=\"['active']\" routerLink=\"/import\">Import</a>\r\n            </li>\r\n          </ul>\r\n        </div>\r\n      </div>\r\n      <main class=\"col-sm-9 ml-sm-auto col-md-10 pt-3\">\r\n        <ngx-loading-bar></ngx-loading-bar>\r\n        <router-outlet></router-outlet>\r\n        <!--<app-messages></app-messages>-->\r\n      </main>\r\n    </div>\r\n  </div>\r\n</div>\r\n\r\n"
+module.exports = "\r\n<div class=\"open-news-app\">\r\n  <nav class=\"navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0\">\r\n    <a class=\"navbar-brand col-sm-3 col-md-2 mr-0\" href=\"#\">Open News Admin</a>\r\n    <input id=\"txtArticleSearch\" class=\"form-control form-control-dark w-100\" type=\"text\" placeholder=\"Search Articles\" (keyup)=\"doSearch($event)\" aria-label=\"Search\" >\r\n    <ul class=\"navbar-nav px-3\">\r\n      <li class=\"nav-item text-nowrap\">\r\n        <a class=\"nav-link\" target=\"_top\" href=\"{{getLiveModuleUrl()}}\">View Live Module</a>\r\n      </li>\r\n    </ul>\r\n  </nav>\r\n  <div class=\"container-fluid\">\r\n    <div class=\"row \">\r\n      <div class=\"col-sm-3 col-md-2 d-none d-sm-block bg-light sidebar \">\r\n        <div class=\"sidebar-sticky\">\r\n          <ul class=\"nav flex-column\">\r\n            <li class=\"nav-item\" *ngIf=\"isAuthor()\">\r\n              <a class=\"nav-link\" [routerLinkActive]=\"['active']\" routerLink=\"/dashboard\">Dashboard</a>\r\n            </li>\r\n            <li class=\"nav-item\" *ngIf=\"isAuthor()\">\r\n              <a class=\"nav-link\" [routerLinkActive]=\"['active']\" routerLink=\"/articles\">Articles</a>\r\n            </li>\r\n            <li class=\"nav-item\" *ngIf=\"isEditor()\">\r\n              <a class=\"nav-link\" [routerLinkActive]=\"['active']\" routerLink=\"/categories\">Categories</a>\r\n            </li>\r\n            <li class=\"nav-item\" *ngIf=\"isEditor()\">\r\n              <a class=\"nav-link\" [routerLinkActive]=\"['active']\" routerLink=\"/tags\">Tags</a>\r\n            </li>\r\n            <li class=\"nav-item\" *ngIf=\"isEditor()\">\r\n              <a class=\"nav-link\" [routerLinkActive]=\"['active']\" routerLink=\"/custom-fields\">Custom Fields</a>\r\n            </li>\r\n            <li class=\"nav-item\" *ngIf=\"isEditor()\">\r\n              <a class=\"nav-link\" [routerLinkActive]=\"['active']\" routerLink=\"/email-templates\">Email Templates</a>\r\n            </li>\r\n            <li class=\"nav-item\" *ngIf=\"isEditor()\">\r\n              <a class=\"nav-link\" [routerLinkActive]=\"['active']\" routerLink=\"/render-templates\">Render Templates</a>\r\n            </li>\r\n            <li class=\"nav-item\" *ngIf=\"isEditor()\">\r\n              <a class=\"nav-link\" [routerLinkActive]=\"['active']\" routerLink=\"/main-settings\">Settings</a>\r\n            </li>\r\n            <li class=\"nav-item\" *ngIf=\"isEditor()\">\r\n              <a class=\"nav-link\" [routerLinkActive]=\"['active']\" routerLink=\"/import\">Import</a>\r\n            </li>\r\n          </ul>\r\n        </div>\r\n      </div>\r\n      <main class=\"col-sm-9 ml-sm-auto col-md-10 pt-3\">\r\n        <ngx-loading-bar></ngx-loading-bar>\r\n        <router-outlet></router-outlet>\r\n        <!--<app-messages></app-messages>-->\r\n      </main>\r\n    </div>\r\n  </div>\r\n</div>\r\n\r\n"
 
 /***/ }),
 
@@ -159,6 +159,12 @@ var AppComponent = /** @class */ (function (_super) {
     }
     AppComponent.prototype.getLiveModuleUrl = function () {
         return this.settingsService.getCurrentSettings().PageTabUrl;
+    };
+    AppComponent.prototype.isEditor = function () {
+        return this.settingsService.getCurrentSettings().currentUser.isEditor;
+    };
+    AppComponent.prototype.isAuthor = function () {
+        return this.settingsService.getCurrentSettings().currentUser.isAuthor;
     };
     AppComponent.prototype.doSearch = function (e) {
         if (e.keyCode == 13) {
@@ -239,6 +245,8 @@ var AppComponent = /** @class */ (function (_super) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_37__custom_fields_custom_fields_component__ = __webpack_require__("../../../../../src/app/custom-fields/custom-fields.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_38__shared_dynamic_form_dynamic_form_module__ = __webpack_require__("../../../../../src/app/shared/dynamic-form/dynamic-form.module.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_39__importer_importer_component__ = __webpack_require__("../../../../../src/app/importer/importer.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_40__my_articles_my_articles_component__ = __webpack_require__("../../../../../src/app/my-articles/my-articles.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_41__approve_articles_approve_articles_component__ = __webpack_require__("../../../../../src/app/approve-articles/approve-articles.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -286,6 +294,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
+
+
 function getBaseHref(platformLocation) {
     return platformLocation.getBaseHrefFromDOM();
 }
@@ -311,11 +321,13 @@ var AppModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_35__render_templates_render_templates_component__["a" /* RenderTemplatesComponent */],
                 __WEBPACK_IMPORTED_MODULE_36__email_templates_email_templates_component__["a" /* EmailTemplatesComponent */],
                 __WEBPACK_IMPORTED_MODULE_37__custom_fields_custom_fields_component__["a" /* CustomFieldsComponent */],
-                __WEBPACK_IMPORTED_MODULE_39__importer_importer_component__["a" /* ImporterComponent */]
+                __WEBPACK_IMPORTED_MODULE_39__importer_importer_component__["a" /* ImporterComponent */],
+                __WEBPACK_IMPORTED_MODULE_40__my_articles_my_articles_component__["a" /* MyArticlesComponent */],
+                __WEBPACK_IMPORTED_MODULE_41__approve_articles_approve_articles_component__["a" /* ApproveArticlesComponent */]
             ],
             imports: [
                 __WEBPACK_IMPORTED_MODULE_38__shared_dynamic_form_dynamic_form_module__["a" /* DynamicFormModule */],
-                __WEBPACK_IMPORTED_MODULE_28_angular5_data_table__["a" /* DataTableModule */],
+                __WEBPACK_IMPORTED_MODULE_28_angular5_data_table__["b" /* DataTableModule */],
                 __WEBPACK_IMPORTED_MODULE_10__ng_bootstrap_ng_bootstrap__["c" /* NgbModule */].forRoot(),
                 __WEBPACK_IMPORTED_MODULE_2__angular_platform_browser__["BrowserModule"],
                 __WEBPACK_IMPORTED_MODULE_26_ng2_select__["SelectModule"],
@@ -361,6 +373,67 @@ var AppModule = /** @class */ (function () {
         })
     ], AppModule);
     return AppModule;
+}());
+
+
+
+/***/ }),
+
+/***/ "../../../../../src/app/approve-articles/approve-articles.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"card\">\r\n  <div class=\"card-header\">\r\n    Article needing approval\r\n  </div>\r\n  <div class=\"card-body\">\r\n    Articles needing review will go here.\r\n  </div>\r\n</div>\r\n"
+
+/***/ }),
+
+/***/ "../../../../../src/app/approve-articles/approve-articles.component.scss":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/approve-articles/approve-articles.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ApproveArticlesComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var ApproveArticlesComponent = /** @class */ (function () {
+    function ApproveArticlesComponent() {
+    }
+    ApproveArticlesComponent.prototype.ngOnInit = function () {
+    };
+    ApproveArticlesComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+            selector: 'app-approve-articles',
+            template: __webpack_require__("../../../../../src/app/approve-articles/approve-articles.component.html"),
+            styles: [__webpack_require__("../../../../../src/app/approve-articles/approve-articles.component.scss")]
+        }),
+        __metadata("design:paramtypes", [])
+    ], ApproveArticlesComponent);
+    return ApproveArticlesComponent;
 }());
 
 
@@ -540,7 +613,7 @@ var ArticleFileComponent = /** @class */ (function () {
 /***/ "../../../../../src/app/article-form/article-form.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div ngForm [formGroup]=\"articleForm\" (validSubmit)=\"onSubmit()\" validate>\r\n  <fieldset [disabled]=\"isSubmitting\">\r\n    <div class=\"d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom\">\r\n      <h2>Article</h2>\r\n      <div class=\"btn-toolbar mb-2 mb-md-0\">\r\n        <div class=\"btn-group mr-2\">\r\n          <a *ngIf=\"deleteable()\" target=\"_blank\" class=\"btn btn-sm btn-outline-secondary\" href=\"{{article.vwURL}}\">Preview</a>\r\n          <button class=\"btn btn-sm btn-primary\" (click)=\"clickSaveDraft()\">Save as draft</button>\r\n          <button class=\"btn btn-sm btn-success\" (click)=\"clickPublish()\">Publish</button>\r\n          <button *ngIf=\"deleteable()\" class=\"btn btn-sm btn-danger\" (click)=\"clickDelete()\">Delete</button>\r\n          <button class=\"btn btn-sm btn-outline-secondary\" (click)=\"clickCancel()\">Cancel</button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n    <div class=\"row\">\r\n      <div class=\"col\"></div>\r\n      <div class=\"col-8\">\r\n        <div class=\"article-form\">\r\n          <div class=\"form-group\">\r\n            <input (blur)=\"titleChanged($event)\" formControlName=\"Title\" type=\"text\" class=\"form-control form-control-lg\"\r\n                   name=\"txtTitle\" id=\"txtTitle\" placeholder=\"Title\" required>\r\n          </div>\r\n          <div class=\"form-group\">\r\n            <label for=\"txtDescription\">Summary</label>\r\n            <textarea formControlName=\"Summary\" rows=\"4\" class=\"form-control\"\r\n                      name=\"txtSummary\" id=\"txtSummary\" placeholder=\"Summary\"></textarea>\r\n          </div>\r\n          <div class=\"form-group\">\r\n            <label for=\"txtDescription\">Body</label>\r\n            <textarea formControlName=\"Body\" rows=\"10\" class=\"form-control\"\r\n                      name=\"txtBody\" id=\"txtBody\" placeholder=\"Body\" required></textarea>\r\n            <small id=\"txtBodyHelpBlock\" class=\"form-text text-muted\">\r\n              You may use MarkDown for your article body\r\n            </small>\r\n          </div>\r\n          <div class=\"form-group\">\r\n            <label for=\"finputImages\">Images</label>\r\n            <div class=\"card\">\r\n              <div class=\"card-body\">\r\n                <div class=\"uploaded\" *ngIf=\"articleForm.controls.Images.controls.length > 0\">\r\n                  <div formArrayName=\"Images\" [sortablejsOptions]=\"imageSortableOpts\" [sortablejs]=\"articleForm.controls.Images\" class=\"image-preview\">\r\n                    <div class=\"image-preview-item\" *ngFor=\"let file of articleForm.controls.Images.controls; let i = index\">\r\n                      <div class=\"panel-body\" [formGroupName]=\"i\">\r\n                        <app-article-file [group]=\"articleForm.controls.Images.controls[i]\"\r\n                                          [fileInfo]=\"imageUploads[i]\"\r\n                                          [index]=\"i\"\r\n                                          (removeFile)=\"onRemoveFile('Images',$event)\"\r\n                                          >\r\n                        </app-article-file>\r\n                      </div>\r\n                    </div>\r\n                  </div>\r\n                </div>\r\n                <input-file\r\n                            [inputAccept]=\"joinForInputAccept(allowedImages())\"\r\n                            [extensions]=\"allowedImages()\"\r\n                            multiple=\"true\"\r\n                            fileDisplayType=\"images\"\r\n                            [uploadFolder]=\"imageFolder()\"\r\n                            (fileUploaded)=\"onImageUploaded($event)\"\r\n                            ></input-file>\r\n\r\n              </div>\r\n            </div>\r\n          </div>\r\n          <div class=\"form-group\">\r\n            <label for=\"finputImages\">Files</label>\r\n            <div class=\"card\">\r\n              <div class=\"card-body\">\r\n                <div class=\"uploaded\" *ngIf=\"articleForm.controls.Files.controls.length > 0\">\r\n                  <div formArrayName=\"Files\" [sortablejs]=\"articleForm.controls.Files\" class=\"image-preview\">\r\n                    <div class=\"image-preview-item\" *ngFor=\"let file of articleForm.controls.Files.controls; let i = index\">\r\n                      <div class=\"panel-body\" [formGroupName]=\"i\">\r\n                        <app-article-file [group]=\"articleForm.controls.Files.controls[i]\"\r\n                                          [fileInfo]=\"fileUploads[i]\"\r\n                                          [index]=\"i\"\r\n                                          (removeFile)=\"onRemoveFile('Files',$event)\"\r\n                                          >\r\n                        </app-article-file>\r\n                      </div>\r\n                    </div>\r\n                  </div>\r\n                </div>\r\n                <input-file [inputAccept]=\"joinForInputAccept(allowedFiles())\"\r\n                            [extensions]=\"allowedFiles()\"\r\n                            multiple=\"true\"\r\n                            fileDisplayType=\"files\"\r\n                            [uploadFolder]=\"fileFolder()\"\r\n                            (fileUploaded)=\"onFileUploaded($event)\"></input-file>\r\n\r\n              </div>\r\n            </div>\r\n          </div>\r\n          <div class=\"form-group\">\r\n            <label for=\"txtCategories\">Categories</label>\r\n            <type-ahead formControlName=\"Categories\" [suggestions]=\"obs_allcategories$\"\r\n                        placeholder=\"Categories\" class=\"form-control\" \r\n                        [multi]=\"true\" [complex]=\"true\" nameField=\"Name\" idField=\"CategoryID\" >\r\n            </type-ahead>\r\n          </div>\r\n          <div class=\"form-group\">\r\n            <label for=\"txtTags\">Tags</label>\r\n            <type-ahead formControlName=\"Tags\" [suggestions]=\"obs_strTags$\"\r\n                        placeholder=\"Tags\"\r\n                        class=\"form-control\"\r\n                        [multi]=\"true\" [custom]=\"true\"></type-ahead>\r\n            <small id=\"txtTagsHelpBlock\" class=\"form-text text-muted\">\r\n              Start typing your tags, select existing tags or hit enter to add a new tag.\r\n            </small>\r\n          </div>\r\n          \r\n          <div class=\"row\">\r\n            <div class=\"col-md\">\r\n              <div class=\"form-group\">\r\n                <label>Author</label>\r\n                <type-ahead formControlName=\"Author\" [suggestions]=\"obs_authors$\"\r\n                            placeholder=\"Select the author\"\r\n                            class=\"form-control\"\r\n                            [complex]=\"true\"\r\n                            ></type-ahead>\r\n              </div>\r\n              <div class=\"form-group\">\r\n                <label>Featured</label>\r\n                <div class=\"btn-group btn-group-toggle\" ngbRadioGroup name=\"radioFeatured\" formControlName=\"IsFeatured\">\r\n                  <label ngbButtonLabel class=\"btn-outline-primary\">\r\n                    <input ngbButton type=\"radio\" [value]=true> Yes\r\n                  </label>\r\n                  <label ngbButtonLabel class=\"btn-outline-secondary\">\r\n                    <input ngbButton type=\"radio\" [value]=false> No\r\n                  </label>\r\n                </div>\r\n              </div>\r\n              <div class=\"form-group\">\r\n                <label>Auto Archive</label>\r\n                <div class=\"btn-group btn-group-toggle\" ngbRadioGroup name=\"radioAutoArchive\" formControlName=\"AutoArchive\">\r\n                  <label ngbButtonLabel class=\"btn-outline-primary\">\r\n                    <input ngbButton type=\"radio\" [value]=true> Yes\r\n                  </label>\r\n                  <label ngbButtonLabel class=\"btn-outline-secondary\">\r\n                    <input ngbButton type=\"radio\" [value]=false> No\r\n                  </label>\r\n                </div>\r\n\r\n              </div>\r\n            </div>\r\n            <div class=\"col-md\">\r\n              <div class=\"form-group\">\r\n                <label>Publish</label>\r\n                <div class=\"input-group date-time\">\r\n                  <div class=\"input-group-prepend\">\r\n                    <button class=\"btn btn-outline-secondary\" (click)=\"d.toggle()\" type=\"button\">\r\n                      <i class=\"far fa-calendar-alt\"></i>\r\n                    </button>\r\n                  </div>\r\n                  <input class=\"form-control\" placeholder=\"yyyy-mm-dd\"\r\n                         name=\"dpPublish\" formControlName=\"PublishDate\" ngbDatepicker #d=\"ngbDatepicker\">\r\n                  <div class=\"input-group-append\">\r\n                    <span class=\"input-group-text\" id=\"\">\r\n                      <i class=\"far fa-clock\"></i>\r\n                    </span>\r\n                  </div>\r\n                  <ngb-timepicker formControlName=\"PublishTime\" [spinners]=\"false\"></ngb-timepicker>\r\n                </div>\r\n              </div>\r\n              <div *ngIf=\"ShowArchive()\" class=\"form-group\">\r\n                <label>Archive</label>\r\n                <div class=\"input-group date-time\">\r\n                  <div class=\"input-group-prepend\">\r\n                    <button class=\"btn btn-outline-secondary\" (click)=\"d2.toggle()\" type=\"button\">\r\n                      <i class=\"far fa-calendar-alt\"></i>\r\n                    </button>\r\n                  </div>\r\n                  <input class=\"form-control\" placeholder=\"yyyy-mm-dd\"\r\n                         name=\"dpArchive\" formControlName=\"ArchiveDate\" ngbDatepicker #d2=\"ngbDatepicker\">\r\n                  <div class=\"input-group-append\">\r\n                    <span class=\"input-group-text\" id=\"\">\r\n                      <i class=\"far fa-clock\"></i>\r\n                    </span>\r\n                  </div>\r\n                  <ngb-timepicker formControlName=\"ArchiveTime\" [spinners]=\"false\"></ngb-timepicker>\r\n                </div>\r\n              </div>\r\n            </div>\r\n          </div>\r\n          <hr />\r\n          <div class=\"custom-fields\" formGroupName=\"CustomTypes\">\r\n            <h5>Custom Fields</h5>\r\n            <div class=\"card\" *ngFor=\"let cDef of customDefs; let i = index\">\r\n              <div class=\"card-body\" [formGroupName]=\"cDef.TypeName\"> \r\n                <h6 class=\"card-title\">{{cDef.Name}}</h6>\r\n                <dynamic-form\r\n                    \r\n                    [config]=\"cDef.Fields\"\r\n                    [form]=\"articleForm.controls['CustomTypes'].controls[cDef.TypeName]\">\r\n                </dynamic-form>\r\n              </div>\r\n            </div>\r\n          </div>\r\n          <hr />\r\n          <h5>SEO</h5>\r\n          <div class=\"form-group\">\r\n            <label for=\"txtUrl\">URL Slug</label>\r\n            <input (blur)=\"urlChanged($event)\" formControlName=\"URL\" type=\"text\" class=\"form-control\"\r\n                   name=\"txtUrl\" id=\"txtUrl\" placeholder=\"Url\">\r\n          </div>\r\n          <div class=\"form-group\">\r\n            <label for=\"txtMetaTitle\">Meta Title</label>\r\n            <input formControlName=\"MetaTitle\" type=\"text\" class=\"form-control\"\r\n                   name=\"txtMetaTitle\" id=\"txtMetaTitle\" placeholder=\"Meta Title\">\r\n          </div>\r\n          <div class=\"form-group\">\r\n            <label for=\"txtMetaDescription\">Meta Description</label>\r\n            <textarea formControlName=\"MetaDescription\" rows=\"4\" class=\"form-control\"\r\n                      name=\"txtMetaDescription\" id=\"txtMetaDescription\" placeholder=\"Meta Description\"></textarea>\r\n          </div>\r\n          <div class=\"form-group\">\r\n            <label for=\"txtMetaKeywords\">Meta Keywords</label>\r\n            <textarea formControlName=\"MetaKeywords\" rows=\"3\" class=\"form-control\"\r\n                      name=\"txtMetaKeywords\" id=\"txtMetaKeywords\" placeholder=\"Meta Keywords\"></textarea>\r\n          </div>\r\n          <hr />\r\n          <h5>Other</h5>\r\n          <div class=\"form-group\">\r\n            <label for=\"txtPageHeadText\">Page Header Text</label>\r\n            <textarea formControlName=\"PageHeadText\" rows=\"3\" class=\"form-control\"\r\n                      name=\"txtPageHeadText\" id=\"txtPageHeadText\" placeholder=\"Page Header Text\"></textarea>\r\n          </div>\r\n        </div>\r\n      </div>\r\n      <div class=\"col\">\r\n        \r\n      </div>\r\n    </div>\r\n    <app-list-errors [errors]=\"errors\"></app-list-errors>\r\n    <div class=\"d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-top\">\r\n      <div></div>\r\n      <div class=\"btn-toolbar mt-2 mb-2 mb-md-0\">\r\n        <div class=\"btn-group mr-2\">\r\n          <button class=\"btn btn-primary\" (click)=\"clickSaveDraft()\">Save as draft</button>\r\n          <button class=\"btn btn-success\" (click)=\"clickPublish()\">Publish</button>\r\n          <button *ngIf=\"deleteable()\" class=\"btn btn-danger\" (click)=\"clickDelete()\">Delete</button>\r\n          <button class=\"btn btn-outline-secondary\" (click)=\"clickCancel()\">Cancel</button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </fieldset>\r\n  <div *ngIf=\"isDebugMode()\">\r\n    <fieldset>\r\n      <legend>articleForm Value:</legend>\r\n      <pre>{{ articleForm.value | json:2 }}</pre>\r\n    </fieldset>\r\n    <fieldset>\r\n      <legend>article Value:</legend>\r\n      <pre>{{ article | json:2 }}</pre>\r\n    </fieldset>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<div ngForm [formGroup]=\"articleForm\" (validSubmit)=\"onSubmit()\" validate *ngIf=\"article.Actions.includes('Edit')\">\r\n  <fieldset [disabled]=\"isSubmitting\">\r\n    <div class=\"d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom\">\r\n      <h2>Article</h2>\r\n      <div class=\"btn-toolbar mb-2 mb-md-0\">\r\n        <div class=\"btn-group mr-2\">\r\n          <a *ngIf=\"deleteable()\" target=\"_blank\" class=\"btn btn-sm btn-outline-secondary\" href=\"{{article.vwURL}}\">Preview</a>\r\n          <button class=\"btn btn-sm btn-primary\" (click)=\"clickSaveDraft()\">Save as draft</button>\r\n          <button class=\"btn btn-sm btn-success\" (click)=\"clickPublish()\">Publish</button>\r\n          <button *ngIf=\"deleteable()\" class=\"btn btn-sm btn-danger\" (click)=\"clickDelete()\">Delete</button>\r\n          <button class=\"btn btn-sm btn-outline-secondary\" (click)=\"clickCancel()\">Cancel</button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n    <div class=\"row\">\r\n      <div class=\"col\"></div>\r\n      <div class=\"col-8\">\r\n        <div class=\"article-form\">\r\n          <div class=\"form-group\">\r\n            <input (blur)=\"titleChanged($event)\" formControlName=\"Title\" type=\"text\" class=\"form-control form-control-lg\"\r\n                   name=\"txtTitle\" id=\"txtTitle\" placeholder=\"Title\" required>\r\n          </div>\r\n          <div class=\"form-group\">\r\n            <label for=\"txtDescription\">Summary</label>\r\n            <textarea formControlName=\"Summary\" rows=\"4\" class=\"form-control\"\r\n                      name=\"txtSummary\" id=\"txtSummary\" placeholder=\"Summary\"></textarea>\r\n          </div>\r\n          <div class=\"form-group\">\r\n            <label for=\"txtDescription\">Body</label>\r\n            <textarea formControlName=\"Body\" rows=\"10\" class=\"form-control\"\r\n                      name=\"txtBody\" id=\"txtBody\" placeholder=\"Body\" required></textarea>\r\n            <small id=\"txtBodyHelpBlock\" class=\"form-text text-muted\">\r\n              You may use MarkDown for your article body\r\n            </small>\r\n          </div>\r\n          <div class=\"form-group\">\r\n            <label for=\"finputImages\">Images</label>\r\n            <div class=\"card\">\r\n              <div class=\"card-body\">\r\n                <div class=\"uploaded\" *ngIf=\"articleForm.controls.Images.controls.length > 0\">\r\n                  <div formArrayName=\"Images\" [sortablejsOptions]=\"imageSortableOpts\" [sortablejs]=\"articleForm.controls.Images\" class=\"image-preview\">\r\n                    <div class=\"image-preview-item\" *ngFor=\"let file of articleForm.controls.Images.controls; let i = index\">\r\n                      <div class=\"panel-body\" [formGroupName]=\"i\">\r\n                        <app-article-file [group]=\"articleForm.controls.Images.controls[i]\"\r\n                                          [fileInfo]=\"imageUploads[i]\"\r\n                                          [index]=\"i\"\r\n                                          (removeFile)=\"onRemoveFile('Images',$event)\"\r\n                                          >\r\n                        </app-article-file>\r\n                      </div>\r\n                    </div>\r\n                  </div>\r\n                </div>\r\n                <input-file\r\n                            [inputAccept]=\"joinForInputAccept(allowedImages())\"\r\n                            [extensions]=\"allowedImages()\"\r\n                            multiple=\"true\"\r\n                            fileDisplayType=\"images\"\r\n                            [uploadFolder]=\"imageFolder()\"\r\n                            (fileUploaded)=\"onImageUploaded($event)\"\r\n                            ></input-file>\r\n\r\n              </div>\r\n            </div>\r\n          </div>\r\n          <div class=\"form-group\">\r\n            <label for=\"finputImages\">Files</label>\r\n            <div class=\"card\">\r\n              <div class=\"card-body\">\r\n                <div class=\"uploaded\" *ngIf=\"articleForm.controls.Files.controls.length > 0\">\r\n                  <div formArrayName=\"Files\" [sortablejs]=\"articleForm.controls.Files\" class=\"image-preview\">\r\n                    <div class=\"image-preview-item\" *ngFor=\"let file of articleForm.controls.Files.controls; let i = index\">\r\n                      <div class=\"panel-body\" [formGroupName]=\"i\">\r\n                        <app-article-file [group]=\"articleForm.controls.Files.controls[i]\"\r\n                                          [fileInfo]=\"fileUploads[i]\"\r\n                                          [index]=\"i\"\r\n                                          (removeFile)=\"onRemoveFile('Files',$event)\"\r\n                                          >\r\n                        </app-article-file>\r\n                      </div>\r\n                    </div>\r\n                  </div>\r\n                </div>\r\n                <input-file [inputAccept]=\"joinForInputAccept(allowedFiles())\"\r\n                            [extensions]=\"allowedFiles()\"\r\n                            multiple=\"true\"\r\n                            fileDisplayType=\"files\"\r\n                            [uploadFolder]=\"fileFolder()\"\r\n                            (fileUploaded)=\"onFileUploaded($event)\"></input-file>\r\n\r\n              </div>\r\n            </div>\r\n          </div>\r\n          <div class=\"form-group\">\r\n            <label for=\"txtCategories\">Categories</label>\r\n            <type-ahead formControlName=\"Categories\" [suggestions]=\"obs_allcategories$\"\r\n                        placeholder=\"Categories\" class=\"form-control\" \r\n                        [multi]=\"true\" [complex]=\"true\" nameField=\"Name\" idField=\"CategoryID\" >\r\n            </type-ahead>\r\n          </div>\r\n          <div class=\"form-group\">\r\n            <label for=\"txtTags\">Tags</label>\r\n            <type-ahead formControlName=\"Tags\" [suggestions]=\"obs_strTags$\"\r\n                        placeholder=\"Tags\"\r\n                        class=\"form-control\"\r\n                        [multi]=\"true\" [custom]=\"true\"></type-ahead>\r\n            <small id=\"txtTagsHelpBlock\" class=\"form-text text-muted\">\r\n              Start typing your tags, select existing tags or hit enter to add a new tag.\r\n            </small>\r\n          </div>\r\n          \r\n          <div class=\"row\">\r\n            <div class=\"col-md\">\r\n              <div class=\"form-group\">\r\n                <label>Author</label>\r\n                <type-ahead formControlName=\"Author\" [suggestions]=\"obs_authors$\"\r\n                            placeholder=\"Select the author\"\r\n                            class=\"form-control\"\r\n                            [complex]=\"true\"\r\n                            [attr.disabled]=\"!isEditor()\"\r\n                            ></type-ahead>\r\n              </div>\r\n              <div class=\"form-group\">\r\n                <label>Featured</label>\r\n                <div class=\"btn-group btn-group-toggle\" ngbRadioGroup name=\"radioFeatured\" formControlName=\"IsFeatured\">\r\n                  <label ngbButtonLabel class=\"btn-outline-primary\">\r\n                    <input ngbButton type=\"radio\" [value]=true> Yes\r\n                  </label>\r\n                  <label ngbButtonLabel class=\"btn-outline-secondary\">\r\n                    <input ngbButton type=\"radio\" [value]=false> No\r\n                  </label>\r\n                </div>\r\n              </div>\r\n              <div class=\"form-group\">\r\n                <label>Auto Archive</label>\r\n                <div class=\"btn-group btn-group-toggle\" ngbRadioGroup name=\"radioAutoArchive\" formControlName=\"AutoArchive\">\r\n                  <label ngbButtonLabel class=\"btn-outline-primary\">\r\n                    <input ngbButton type=\"radio\" [value]=true> Yes\r\n                  </label>\r\n                  <label ngbButtonLabel class=\"btn-outline-secondary\">\r\n                    <input ngbButton type=\"radio\" [value]=false> No\r\n                  </label>\r\n                </div>\r\n\r\n              </div>\r\n            </div>\r\n            <div class=\"col-md\">\r\n              <div class=\"form-group\">\r\n                <label>Publish</label>\r\n                <div class=\"input-group date-time\">\r\n                  <div class=\"input-group-prepend\">\r\n                    <button class=\"btn btn-outline-secondary\" (click)=\"d.toggle()\" type=\"button\">\r\n                      <i class=\"far fa-calendar-alt\"></i>\r\n                    </button>\r\n                  </div>\r\n                  <input class=\"form-control\" placeholder=\"yyyy-mm-dd\"\r\n                         name=\"dpPublish\" formControlName=\"PublishDate\" ngbDatepicker #d=\"ngbDatepicker\">\r\n                  <div class=\"input-group-append\">\r\n                    <span class=\"input-group-text\" id=\"\">\r\n                      <i class=\"far fa-clock\"></i>\r\n                    </span>\r\n                  </div>\r\n                  <ngb-timepicker formControlName=\"PublishTime\" [spinners]=\"false\"></ngb-timepicker>\r\n                </div>\r\n              </div>\r\n              <div *ngIf=\"ShowArchive()\" class=\"form-group\">\r\n                <label>Archive</label>\r\n                <div class=\"input-group date-time\">\r\n                  <div class=\"input-group-prepend\">\r\n                    <button class=\"btn btn-outline-secondary\" (click)=\"d2.toggle()\" type=\"button\">\r\n                      <i class=\"far fa-calendar-alt\"></i>\r\n                    </button>\r\n                  </div>\r\n                  <input class=\"form-control\" placeholder=\"yyyy-mm-dd\"\r\n                         name=\"dpArchive\" formControlName=\"ArchiveDate\" ngbDatepicker #d2=\"ngbDatepicker\">\r\n                  <div class=\"input-group-append\">\r\n                    <span class=\"input-group-text\" id=\"\">\r\n                      <i class=\"far fa-clock\"></i>\r\n                    </span>\r\n                  </div>\r\n                  <ngb-timepicker formControlName=\"ArchiveTime\" [spinners]=\"false\"></ngb-timepicker>\r\n                </div>\r\n              </div>\r\n            </div>\r\n          </div>\r\n          <hr />\r\n          <div class=\"custom-fields\" formGroupName=\"CustomTypes\">\r\n            <h5>Custom Fields</h5>\r\n            <div class=\"card\" *ngFor=\"let cDef of customDefs; let i = index\">\r\n              <div class=\"card-body\" [formGroupName]=\"cDef.TypeName\"> \r\n                <h6 class=\"card-title\">{{cDef.Name}}</h6>\r\n                <dynamic-form\r\n                    \r\n                    [config]=\"cDef.Fields\"\r\n                    [form]=\"articleForm.controls['CustomTypes'].controls[cDef.TypeName]\">\r\n                </dynamic-form>\r\n              </div>\r\n            </div>\r\n          </div>\r\n          <hr />\r\n          <h5>SEO</h5>\r\n          <div class=\"form-group\">\r\n            <label for=\"txtUrl\">URL Slug</label>\r\n            <input (blur)=\"urlChanged($event)\" formControlName=\"URL\" type=\"text\" class=\"form-control\"\r\n                   name=\"txtUrl\" id=\"txtUrl\" placeholder=\"Url\">\r\n          </div>\r\n          <div class=\"form-group\">\r\n            <label for=\"txtMetaTitle\">Meta Title</label>\r\n            <input formControlName=\"MetaTitle\" type=\"text\" class=\"form-control\"\r\n                   name=\"txtMetaTitle\" id=\"txtMetaTitle\" placeholder=\"Meta Title\">\r\n          </div>\r\n          <div class=\"form-group\">\r\n            <label for=\"txtMetaDescription\">Meta Description</label>\r\n            <textarea formControlName=\"MetaDescription\" rows=\"4\" class=\"form-control\"\r\n                      name=\"txtMetaDescription\" id=\"txtMetaDescription\" placeholder=\"Meta Description\"></textarea>\r\n          </div>\r\n          <div class=\"form-group\">\r\n            <label for=\"txtMetaKeywords\">Meta Keywords</label>\r\n            <textarea formControlName=\"MetaKeywords\" rows=\"3\" class=\"form-control\"\r\n                      name=\"txtMetaKeywords\" id=\"txtMetaKeywords\" placeholder=\"Meta Keywords\"></textarea>\r\n          </div>\r\n          <hr />\r\n          <h5>Other</h5>\r\n          <div class=\"form-group\">\r\n            <label for=\"txtPageHeadText\">Page Header Text</label>\r\n            <textarea formControlName=\"PageHeadText\" rows=\"3\" class=\"form-control\"\r\n                      name=\"txtPageHeadText\" id=\"txtPageHeadText\" placeholder=\"Page Header Text\"></textarea>\r\n          </div>\r\n        </div>\r\n      </div>\r\n      <div class=\"col\">\r\n        \r\n      </div>\r\n    </div>\r\n    <app-list-errors [errors]=\"errors\"></app-list-errors>\r\n    <div class=\"d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-top\">\r\n      <div></div>\r\n      <div class=\"btn-toolbar mt-2 mb-2 mb-md-0\">\r\n        <div class=\"btn-group mr-2\">\r\n          <button class=\"btn btn-primary\" (click)=\"clickSaveDraft()\">Save as draft</button>\r\n          <button class=\"btn btn-success\" (click)=\"clickPublish()\">Publish</button>\r\n          <button *ngIf=\"deleteable()\" class=\"btn btn-danger\" (click)=\"clickDelete()\">Delete</button>\r\n          <button class=\"btn btn-outline-secondary\" (click)=\"clickCancel()\">Cancel</button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </fieldset>\r\n  <div *ngIf=\"isDebugMode()\">\r\n    <fieldset>\r\n      <legend>articleForm Value:</legend>\r\n      <pre>{{ articleForm.value | json:2 }}</pre>\r\n    </fieldset>\r\n    <fieldset>\r\n      <legend>article Value:</legend>\r\n      <pre>{{ article | json:2 }}</pre>\r\n    </fieldset>\r\n  </div>\r\n</div>\r\n<div *ngIf=\"!article.Actions.includes('Edit')\">\r\n  <div class=\"alert alert-danger\" role=\"alert\">\r\n    <h4 class=\"alert-heading\">Permission Denied</h4>\r\n    <p>You do not have permission to edit this item.</p>\r\n    <hr>\r\n    <p class=\"mb-0\"></p>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -948,7 +1021,7 @@ var ArticleFormComponent = /** @class */ (function () {
     };
     ArticleFormComponent.prototype.fetchData = function () {
         var _this = this;
-        this.obs_authors$ = this.helperService.getAuthors('');
+        this.obs_authors$ = this.helperService.getAuthors();
         this.obs_allcategories$ = this.categoriesService.GetAll();
         this.obs_alltags$ = this.tagsService.GetAll();
         this.obs_strTags$ = this.obs_alltags$.map(function (array) { return array.map(function (tag) { return tag.name; }); });
@@ -1067,6 +1140,12 @@ var ArticleFormComponent = /** @class */ (function () {
             return ary.join(',');
         }
     };
+    ArticleFormComponent.prototype.isEditor = function () {
+        return this.settingsService.getCurrentSettings().currentUser.isEditor;
+    };
+    ArticleFormComponent.prototype.isAuthor = function () {
+        return this.settingsService.getCurrentSettings().currentUser.isAuthor;
+    };
     ArticleFormComponent.prototype.allowedFiles = function () {
         return this.settingsService.getCurrentSettings().FileAllowedTypes;
     };
@@ -1147,7 +1226,7 @@ var ArticleFormComponent = /** @class */ (function () {
 /***/ "../../../../../src/app/articles/articles.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom\">\r\n  <h2>Articles</h2>\r\n  <div class=\"btn-toolbar mb-2 mb-md-0\">\r\n    <div class=\"btn-group mr-2\">\r\n      <a class=\"btn btn-sm btn-primary\" routerLink=\"/article/-1\">Create Article</a>\r\n    </div>\r\n  </div>\r\n</div>\n<data-table id=\"articlesGrid\"\n            [items]=\"articles\"\n            [itemCount]=\"articleCount\"\n            (reload)=\"reloadItems($event)\"\n            [indexColumnHeader]=\"'#'\"\n            [substituteRows]=\"false\"\r\n            [expandableRows]=\"true\"\n            [selectOnRowClick]=\"false\"\n            [indexColumn]=\"false\"\n            >\n  <ng-template #dataTableExpand let-item=\"item\">\r\n    <div [textContent]=\"item.Summary\" style=\"padding: 5px; color: gray\"></div>\r\n  </ng-template>\n  <data-table-column [property]=\"'Title'\"\r\n                     [header]=\"'Title'\"\r\n                     [sortable]=\"true\"\r\n                     [resizable]=\"true\">\r\n  </data-table-column>\n  <data-table-column [property]=\"'Tags'\"\r\n                     [header]=\"'Tags'\"\r\n                     [visible]=\"false\"\r\n                     >\r\n    <ng-template #dataTableCell let-item=\"item\">\r\n      <span>{{tagsToString(item)}}</span>\r\n    </ng-template>\r\n  </data-table-column>\n  <data-table-column [property]=\"'Categories'\"\r\n                     [header]=\"'Categories'\"\r\n                     [visible]=\"false\"\r\n                     >\r\n    <ng-template #dataTableCell let-item=\"item\">\r\n      <span>{{categoriesToString(item)}}</span>\r\n    </ng-template>\r\n  </data-table-column>\n  <data-table-column [property]=\"'StartDate'\"\r\n                     [header]=\"'Publish Date'\"\r\n                     [sortable]=\"true\">\r\n    <ng-template #dataTableCell let-item=\"item\">\r\n      <span>{{item.StartDate | date:'yyyy-MM-dd HH:mm'}}</span>\r\n    </ng-template>\r\n  </data-table-column>\n  <data-table-column [property]=\"'LastUpdated'\"\r\n                     [header]=\"'Last Updated'\"\r\n                     [sortable]=\"true\"\r\n                     [visible]=\"false\"\r\n                     >\r\n    <ng-template #dataTableCell let-item=\"item\">\r\n      <span>{{item.LastUpdated | date:'yyyy-MM-dd HH:mm'}}</span>\r\n    </ng-template>\r\n  </data-table-column>\n  <data-table-column [property]=\"'Status'\"\r\n                     [header]=\"'Status'\"\r\n                     [visible]=\"true\">\r\n  </data-table-column>\r\n  <data-table-column [property]=\"'Author'\"\r\n                     [header]=\"'Author'\"\r\n                     [visible]=\"true\">\r\n    <ng-template #dataTableCell let-item=\"item\">\r\n      <span>{{item.Author.name}}</span>\r\n    </ng-template>\r\n  </data-table-column>\r\n    <data-table-column header=\"Actions\">\r\n      <ng-template #dataTableHeader let-item=\"item\">\r\n        <i>Actions</i>\r\n      </ng-template>\r\n      <ng-template #dataTableCell let-item=\"item\">\r\n        <div class=\"text-center\">\r\n          <a routerLink=\"/article/{{item.ArticleID}}\" title=\"Edit\" class=\"btn btn-sm btn-primary\">\r\n            <i class=\"fas fa-pencil-alt\"></i>\r\n          </a>\r\n          <a target=\"_blank\" href=\"{{item.vwURL}}\" title=\"Preview\" class=\"btn btn-sm btn-primary\">\r\n            <i class=\"fas fa-eye\"></i>\r\n          </a>\r\n        </div>\r\n      </ng-template>\r\n    </data-table-column>\r\n</data-table>\n"
+module.exports = "<div class=\"d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom\">\r\n  <h2>Articles</h2>\r\n  <div class=\"btn-toolbar mb-2 mb-md-0\">\r\n    <div class=\"btn-group mr-2\">\r\n      <a class=\"btn btn-sm btn-primary\" routerLink=\"/article/-1\">Create Article</a>\r\n    </div>\r\n  </div>\r\n</div>\n<data-table id=\"articlesGrid\"\n            [items]=\"articles\"\n            [itemCount]=\"articleCount\"\n            (reload)=\"reloadItems($event)\"\n            [indexColumnHeader]=\"'#'\"\n            [substituteRows]=\"false\"\r\n            [expandableRows]=\"true\"\n            [selectOnRowClick]=\"false\"\n            [indexColumn]=\"false\"\n            >\n  <ng-template #dataTableExpand let-item=\"item\">\r\n    <div [textContent]=\"item.Summary\" style=\"padding: 5px; color: gray\"></div>\r\n  </ng-template>\n  <data-table-column [property]=\"'Title'\"\r\n                     [header]=\"'Title'\"\r\n                     [sortable]=\"true\"\r\n                     [resizable]=\"true\">\r\n  </data-table-column>\n  <data-table-column [property]=\"'Tags'\"\r\n                     [header]=\"'Tags'\"\r\n                     [visible]=\"false\"\r\n                     >\r\n    <ng-template #dataTableCell let-item=\"item\">\r\n      <span>{{tagsToString(item)}}</span>\r\n    </ng-template>\r\n  </data-table-column>\n  <data-table-column [property]=\"'Categories'\"\r\n                     [header]=\"'Categories'\"\r\n                     [visible]=\"false\"\r\n                     >\r\n    <ng-template #dataTableCell let-item=\"item\">\r\n      <span>{{categoriesToString(item)}}</span>\r\n    </ng-template>\r\n  </data-table-column>\n  <data-table-column [property]=\"'StartDate'\"\r\n                     [header]=\"'Publish Date'\"\r\n                     [sortable]=\"true\">\r\n    <ng-template #dataTableCell let-item=\"item\">\r\n      <span>{{item.StartDate | date:'yyyy-MM-dd HH:mm'}}</span>\r\n    </ng-template>\r\n  </data-table-column>\n  <data-table-column [property]=\"'LastUpdated'\"\r\n                     [header]=\"'Last Updated'\"\r\n                     [sortable]=\"true\"\r\n                     [visible]=\"false\"\r\n                     >\r\n    <ng-template #dataTableCell let-item=\"item\">\r\n      <span>{{item.LastUpdated | date:'yyyy-MM-dd HH:mm'}}</span>\r\n    </ng-template>\r\n  </data-table-column>\n  <data-table-column [property]=\"'Status'\"\r\n                     [header]=\"'Status'\"\r\n                     [visible]=\"true\">\r\n  </data-table-column>\r\n  <data-table-column [property]=\"'Author'\"\r\n                     [header]=\"'Author'\"\r\n                     [visible]=\"true\">\r\n    <ng-template #dataTableCell let-item=\"item\">\r\n      <span>{{item.Author.name}}</span>\r\n    </ng-template>\r\n  </data-table-column>\r\n    <data-table-column header=\"Actions\">\r\n      <ng-template #dataTableHeader let-item=\"item\">\r\n        <i>Actions</i>\r\n      </ng-template>\r\n      <ng-template #dataTableCell let-item=\"item\">\r\n        <div class=\"text-center btn-group\">\r\n          <a *ngIf=\"item.Actions.includes('Edit')\" routerLink=\"/article/{{item.ArticleID}}\" title=\"Edit\" class=\"btn btn-sm btn-primary\">\r\n            <i class=\"fas fa-pencil-alt\"></i>\r\n          </a>\r\n          <a *ngIf=\"item.Actions.includes('View')\" target=\"_blank\" href=\"{{item.vwURL}}\" title=\"Preview\" class=\"btn btn-sm btn-secondary\">\r\n            <i class=\"fas fa-eye\"></i>\r\n          </a>\r\n          <a *ngIf=\"item.Actions.includes('Approve')\" (click)=\"approve(item.ArticleID)\" title=\"Approve\" class=\"btn btn-sm btn-success\">\r\n            <i class=\"fas fa-check\"></i>\r\n          </a>\r\n          <a *ngIf=\"item.Actions.includes('UnApprove')\" title=\"UnApprove\" class=\"btn btn-sm btn-primary\">\r\n            <i class=\"fas fa-caret-square-left\"></i>\r\n          </a>\r\n          <!--<a *ngIf=\"item.Actions.includes('Delete')\" title=\"Delete\" class=\"btn btn-sm btn-danger\">\r\n            <i class=\"fas fa-trash-alt\"></i>\r\n          </a>-->\r\n        </div>\r\n      </ng-template>\r\n    </data-table-column>\r\n</data-table>\n"
 
 /***/ }),
 
@@ -1178,6 +1257,7 @@ module.exports = module.exports.toString();
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ngx_toastr__ = __webpack_require__("../../../../ngx-toastr/esm5/ngx-toastr.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__shared__ = __webpack_require__("../../../../../src/app/shared/index.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_angular5_data_table__ = __webpack_require__("../../../../angular5-data-table/esm5/angular5-data-table.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1187,6 +1267,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
 
 
 
@@ -1214,6 +1295,19 @@ var ArticlesComponent = /** @class */ (function () {
     };
     ArticlesComponent.prototype.categoriesToString = function (item) {
         return item.Categories.map(function (cat) { return cat.Name; }).join(",");
+    };
+    ArticlesComponent.prototype.approve = function (articleId) {
+        var _this = this;
+        this.articlesService.Approve(articleId).subscribe(function (data) {
+            var id = +_this.route.snapshot.paramMap.get('id');
+            _this.isSubmitting = false;
+            _this.toastr.info('Article Approved');
+            _this.articlesTable.reloadItems();
+        }, function (err) {
+            _this.toastr.error('error approving article');
+            _this.errors = err;
+            _this.isSubmitting = false;
+        });
     };
     //loadArticles() {
     //  let params: ArticleQueryParams = {
@@ -1246,6 +1340,10 @@ var ArticlesComponent = /** @class */ (function () {
     ArticlesComponent.prototype.ngOnInit = function () {
         //this.loadArticles();
     };
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewChild"])(__WEBPACK_IMPORTED_MODULE_4_angular5_data_table__["a" /* DataTable */]),
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_4_angular5_data_table__["a" /* DataTable */])
+    ], ArticlesComponent.prototype, "articlesTable", void 0);
     ArticlesComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'app-articles',
@@ -1798,7 +1896,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var DevContext = /** @class */ (function () {
     function DevContext() {
         this.ignoreMissingServicesFramework = false;
-        this.forceUse = false;
+        this.forceUse = true;
         this.moduleId = 542;
         this.tabId = 137;
         this.antiForgeryToken = 'ThisIsaTestAntiForgeryToken';
@@ -1878,7 +1976,7 @@ var CustomFieldsComponent = /** @class */ (function () {
 /***/ "../../../../../src/app/dashboard/dashboard.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom\">\r\n  <h2>Dashboard</h2>\r\n</div>\n<p>Todo:</p>\n<ul>\n  <li>display: users draft articles</li>\n  <li>display: articles needing approval (if approver)</li>\n  <li>Anything else handy here?</li>\n</ul>\n"
+module.exports = "<div class=\"d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom\">\r\n  <h2>Dashboard</h2>\r\n  <div class=\"btn-toolbar mb-2 mb-md-0\">\r\n    <div class=\"btn-group mr-2\">\r\n      <a class=\"btn btn-sm btn-primary\" routerLink=\"/article/-1\">Create Article</a>\r\n    </div>\r\n  </div>\r\n</div>\n<div class=\"row\">\r\n  <div class=\"col-md\">\r\n    <app-my-articles></app-my-articles>\r\n  </div>\r\n  <div class=\"col-md\">\r\n    <app-approve-articles></app-approve-articles>\r\n  </div>\r\n</div>\n<div></div>\n"
 
 /***/ }),
 
@@ -2214,7 +2312,7 @@ var ImporterComponent = /** @class */ (function () {
 /***/ "../../../../../src/app/main-settings/main-settings.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div ngForm [formGroup]=\"settingsForm\" (validSubmit)=\"onSubmit()\" validate >\r\n  <div class=\"d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom\">\r\n    <h2>Main Settings</h2>\r\n  </div>\r\n  <fieldset [disabled]=\"isSubmitting\">\r\n    <ngb-accordion #acc=\"ngbAccordion\" activeIds=\"ngb-panel-0\" [hidden]=\"!settings\">\r\n      <ngb-panel title=\"Basic Settings\">\r\n        <ng-template ngbPanelContent>\r\n          <div class=\"form-group\">\r\n            <label for=\"txtArticlesPerPage\">Articles per page</label>\r\n            <input formControlName=\"BasicArticlesPerPage\" type=\"number\" class=\"form-control\" name=\"txtArticlesPerPage\" id=\"txtArticlesPerPage\" placeholder=\"10\" required>\r\n          </div>\r\n          <div class=\"form-group\">\r\n            <label for=\"ddTemplate\">Rendering Template</label>\r\n            <select formControlName=\"BasicRenderingTemplate\" class=\"form-control\" id=\"ddTemplate\" name=\"ddTemplate\">\r\n              <option *ngFor=\"let folder of Templates\"\r\n                      [value]=\"folder\">\r\n                {{folder}}\r\n              </option>\r\n            </select>\r\n          </div>\r\n          <div class=\"form-group\">\r\n            <label for=\"ddServerTimeZone\">Server TimeZone</label>\r\n            <select formControlName=\"BasicServerTimeZone\" class=\"form-control\" id=\"ddServerTimeZone\" name=\"ddServerTimeZone\">\r\n              <option *ngFor=\"let timeZone of TimeZones\"\r\n                      [value]=\"timeZone.Key\">\r\n                {{timeZone.Value}}\r\n              </option>\r\n            </select>\r\n          </div>\r\n          <div class=\"form-group\">\r\n            <label for=\"ddSortBy\">Sort By</label>\r\n            <select formControlName=\"BasicSortBy\" class=\"form-control\" id=\"ddSortBy\" name=\"ddSortBy\">\r\n              <option *ngFor=\"let sortBy of SortByOpts\"\r\n                      [value]=\"sortBy\">\r\n                {{sortBy}}\r\n              </option>\r\n            </select>\r\n          </div>\r\n          <div class=\"form-group\">\r\n            <label for=\"ddSortDirection\">Sort Direction</label>\r\n            <select formControlName=\"BasicSortDirection\" class=\"form-control\" id=\"ddSortDirection\" name=\"ddSortDirection\">\r\n              <option value=\"ASC\">Ascending</option>\r\n              <option value=\"DESC\">Descending</option>\r\n            </select>\r\n          </div>\r\n          <div class=\"form-check\">\r\n            <input formControlName=\"BasicAllowCoreSearchIntegration\" type=\"checkbox\" class=\"form-check-input\" id=\"chkAllowCoreSearchIntegration\" name=\"chkAllowCoreSearchIntegration\">\r\n            <label class=\"form-check-label\" for=\"chkAllowCoreSearchIntegration\">Allow Core Search Integration</label>\r\n          </div>\r\n        </ng-template>\r\n      </ngb-panel>\r\n      <ngb-panel title=\"Category Settings\">\r\n        <ng-template ngbPanelContent>\r\n          <!--<div class=\"form-group\">\r\n            <label for=\"ddDefaultCategories\">Default Categories</label>\r\n            <select [(ngModel)]=\"settings.CategoryDefaultCategories\" formControlName=\"CategoryDefaultCategories\" class=\"form-control\" id=\"ddDefaultCategories\" size=\"4\" name=\"ddDefaultCategories\"></select>\r\n          </div>-->\r\n          <div class=\"form-check\">\r\n            <input formControlName=\"CategoryIncludeInBreadcrumb\" type=\"checkbox\" class=\"form-check-input\" id=\"chkIncludeInBreadcrumb\" name=\"chkIncludeInBreadcrumb\">\r\n            <label class=\"form-check-label\" for=\"chkIncludeInBreadcrumb\">Include in breadcrumb</label>\r\n          </div>\r\n          <div class=\"form-check\">\r\n            <input formControlName=\"CategoryRequireCategory\" type=\"checkbox\" class=\"form-check-input\" id=\"chkRequireCategory\" name=\"chkRequireCategory\">\r\n            <label class=\"form-check-label\" for=\"chkRequireCategory\">Require Category</label>\r\n          </div>\r\n        </ng-template>\r\n      </ngb-panel>\r\n      <ngb-panel title=\"File Settings\">\r\n        <ng-template ngbPanelContent>\r\n          <div class=\"form-group\">\r\n            <label for=\"txtDefaultFileFolder\">Default File Folder</label>\r\n            <type-ahead formControlName=\"FileDefaultFileFolder\" [suggestions]=\"obs_folders$\"\r\n                        placeholder=\"Start typing the folder name\" custom=\"false\" [complex]=\"true\"\r\n                        class=\"form-control\"\r\n                        ></type-ahead>\r\n          </div>\r\n          <div class=\"form-group\">\r\n            <label for=\"txtImageAllowedTypes\">File Allowed Types</label>\r\n            <type-ahead formControlName=\"FileAllowedTypes\"\r\n                        placeholder=\"start typing file extensions e.g. pdf\"\r\n                        [custom]=\"true\"\r\n                        [complex]=\"false\"\r\n                        [multi]=\"true\"\r\n                        class=\"form-control\"></type-ahead>\r\n          </div>\r\n        </ng-template>\r\n      </ngb-panel>\r\n      <ngb-panel title=\"Image Settings\">\r\n        <ng-template ngbPanelContent>\r\n          <div class=\"form-group\">\r\n            <label for=\"txtDefaultImageFolder\">Default Image Folder</label>\r\n            <type-ahead formControlName=\"ImageDefaultImageFolder\" [suggestions]=\"obs_folders$\"\r\n                        placeholder=\"Start typing the folder name\" custom=\"false\" [complex]=\"true\"\r\n                        class=\"form-control\"></type-ahead>\r\n          </div>\r\n          <div class=\"form-group\">\r\n            <label for=\"txtImageAllowedTypes\">Image Allowed Types</label>\r\n            <type-ahead formControlName=\"ImageAllowedTypes\"\r\n                        placeholder=\"start typing file extensions e.g. jpg\"\r\n                        [custom]=\"true\"\r\n                        [complex]=\"false\"\r\n                        [multi]=\"true\"\r\n                        class=\"form-control\"></type-ahead>\r\n          </div>\r\n        </ng-template>\r\n      </ngb-panel>\r\n      <!--<ngb-panel title=\"Article Form Settings\">\r\n        <ng-template ngbPanelContent>\r\n\r\n        </ng-template>\r\n      </ngb-panel>-->\r\n      <ngb-panel title=\"Notification Settings\">\r\n        <ng-template ngbPanelContent>\r\n          <div class=\"form-check\">\r\n            <input formControlName=\"NotificationNotifyApproversOnSubmission\" type=\"checkbox\" class=\"form-check-input\" id=\"chkNotifyApproversOnSubmission\" name=\"chkNotifyApproversOnSubmission\">\r\n            <label class=\"form-check-label\" for=\"chkNotifyApproversOnSubmission\">Notify Approvers on Submission</label>\r\n          </div>\r\n          <div class=\"form-check\">\r\n            <input formControlName=\"NotificationNotifyApproversOnApproval\" type=\"checkbox\" class=\"form-check-input\" id=\"chkNotifyApproversApproval\" name=\"chkNotifyApproversApproval\">\r\n            <label class=\"form-check-label\" for=\"chkNotifyApproversOnApproval\">Notify Approvers on Approval</label>\r\n          </div>\r\n        </ng-template>\r\n      </ngb-panel>\r\n      <ngb-panel title=\"SEO Settings\">\r\n        <ng-template ngbPanelContent>\r\n          <div class=\"form-check\">\r\n            <input formControlName=\"SEORemovePagePathFromURL\" type=\"checkbox\" class=\"form-check-input\" id=\"chkSEORemovePagePathFromURL\" name=\"chkSEORemovePagePathFromURL\">\r\n            <label class=\"form-check-label\" for=\"chkSEORemovePagePathFromURL\">Remove Page Path From URLs</label>\r\n          </div>\r\n        </ng-template>\r\n      </ngb-panel>\r\n      <!--<ngb-panel title=\"Permission Settings\">\r\n        <ng-template ngbPanelContent>\r\n        TODO\r\n        </ng-template>\r\n      </ngb-panel>-->\r\n    </ngb-accordion>\r\n    <app-list-errors [errors]=\"errors\"></app-list-errors>\r\n    <div class=\"action-buttons mt-3 mb-3 float-right\">\r\n      <button (click)=\"submitForm()\" type=\"button\" class=\"btn btn-primary\">Save</button>\r\n    </div>\r\n  </fieldset>\r\n  <div *ngIf=\"isDebugMode()\">\r\n    <fieldset>\r\n      <legend>settingsForm Value:</legend>\r\n      <pre>{{ settingsForm.value | json:2 }}</pre>\r\n    </fieldset>\r\n    <fieldset>\r\n      <legend>settings Value:</legend>\r\n      <pre>{{ settings | json:2 }}</pre>\r\n    </fieldset>\r\n  </div>\r\n  \r\n</div>\r\n"
+module.exports = "<div ngForm [formGroup]=\"settingsForm\" (validSubmit)=\"onSubmit()\" validate >\r\n  <div class=\"d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom\">\r\n    <h2>Main Settings</h2>\r\n  </div>\r\n  <fieldset [disabled]=\"isSubmitting\">\r\n    <ngb-accordion #acc=\"ngbAccordion\" activeIds=\"ngb-panel-0\" [hidden]=\"!settings\">\r\n      <ngb-panel title=\"Basic Settings\">\r\n        <ng-template ngbPanelContent>\r\n          <div class=\"form-group\">\r\n            <label for=\"txtArticlesPerPage\">Articles per page</label>\r\n            <input formControlName=\"BasicArticlesPerPage\" type=\"number\" class=\"form-control\" name=\"txtArticlesPerPage\" id=\"txtArticlesPerPage\" placeholder=\"10\" required>\r\n          </div>\r\n          <div class=\"form-group\">\r\n            <label for=\"ddTemplate\">Rendering Template</label>\r\n            <select formControlName=\"BasicRenderingTemplate\" class=\"form-control\" id=\"ddTemplate\" name=\"ddTemplate\">\r\n              <option *ngFor=\"let folder of Templates\"\r\n                      [value]=\"folder\">\r\n                {{folder}}\r\n              </option>\r\n            </select>\r\n          </div>\r\n          <div class=\"form-group\">\r\n            <label for=\"ddServerTimeZone\">Server TimeZone</label>\r\n            <select formControlName=\"BasicServerTimeZone\" class=\"form-control\" id=\"ddServerTimeZone\" name=\"ddServerTimeZone\">\r\n              <option *ngFor=\"let timeZone of TimeZones\"\r\n                      [value]=\"timeZone.Key\">\r\n                {{timeZone.Value}}\r\n              </option>\r\n            </select>\r\n          </div>\r\n          <div class=\"form-group\">\r\n            <label for=\"ddSortBy\">Sort By</label>\r\n            <select formControlName=\"BasicSortBy\" class=\"form-control\" id=\"ddSortBy\" name=\"ddSortBy\">\r\n              <option *ngFor=\"let sortBy of SortByOpts\"\r\n                      [value]=\"sortBy\">\r\n                {{sortBy}}\r\n              </option>\r\n            </select>\r\n          </div>\r\n          <div class=\"form-group\">\r\n            <label for=\"ddSortDirection\">Sort Direction</label>\r\n            <select formControlName=\"BasicSortDirection\" class=\"form-control\" id=\"ddSortDirection\" name=\"ddSortDirection\">\r\n              <option value=\"ASC\">Ascending</option>\r\n              <option value=\"DESC\">Descending</option>\r\n            </select>\r\n          </div>\r\n          <div class=\"form-check\">\r\n            <input formControlName=\"BasicAllowCoreSearchIntegration\" type=\"checkbox\" class=\"form-check-input\" id=\"chkAllowCoreSearchIntegration\" name=\"chkAllowCoreSearchIntegration\">\r\n            <label class=\"form-check-label\" for=\"chkAllowCoreSearchIntegration\">Allow Core Search Integration</label>\r\n          </div>\r\n        </ng-template>\r\n      </ngb-panel>\r\n      <ngb-panel title=\"Category Settings\">\r\n        <ng-template ngbPanelContent>\r\n          <!--<div class=\"form-group\">\r\n            <label for=\"ddDefaultCategories\">Default Categories</label>\r\n            <select [(ngModel)]=\"settings.CategoryDefaultCategories\" formControlName=\"CategoryDefaultCategories\" class=\"form-control\" id=\"ddDefaultCategories\" size=\"4\" name=\"ddDefaultCategories\"></select>\r\n          </div>-->\r\n          <div class=\"form-check\">\r\n            <input formControlName=\"CategoryIncludeInBreadcrumb\" type=\"checkbox\" class=\"form-check-input\" id=\"chkIncludeInBreadcrumb\" name=\"chkIncludeInBreadcrumb\">\r\n            <label class=\"form-check-label\" for=\"chkIncludeInBreadcrumb\">Include in breadcrumb</label>\r\n          </div>\r\n          <div class=\"form-check\">\r\n            <input formControlName=\"CategoryRequireCategory\" type=\"checkbox\" class=\"form-check-input\" id=\"chkRequireCategory\" name=\"chkRequireCategory\">\r\n            <label class=\"form-check-label\" for=\"chkRequireCategory\">Require Category</label>\r\n          </div>\r\n        </ng-template>\r\n      </ngb-panel>\r\n      <ngb-panel title=\"File Settings\">\r\n        <ng-template ngbPanelContent>\r\n          <div class=\"form-group\">\r\n            <label for=\"txtDefaultFileFolder\">Default File Folder</label>\r\n            <type-ahead formControlName=\"FileDefaultFileFolder\" [suggestions]=\"obs_folders$\"\r\n                        placeholder=\"Start typing the folder name\" custom=\"false\" [complex]=\"true\"\r\n                        class=\"form-control\"\r\n                        ></type-ahead>\r\n          </div>\r\n          <div class=\"form-group\">\r\n            <label for=\"txtImageAllowedTypes\">File Allowed Types</label>\r\n            <type-ahead formControlName=\"FileAllowedTypes\"\r\n                        placeholder=\"start typing file extensions e.g. pdf\"\r\n                        [custom]=\"true\"\r\n                        [complex]=\"false\"\r\n                        [multi]=\"true\"\r\n                        class=\"form-control\"></type-ahead>\r\n          </div>\r\n        </ng-template>\r\n      </ngb-panel>\r\n      <ngb-panel title=\"Image Settings\">\r\n        <ng-template ngbPanelContent>\r\n          <div class=\"form-group\">\r\n            <label for=\"txtDefaultImageFolder\">Default Image Folder</label>\r\n            <type-ahead formControlName=\"ImageDefaultImageFolder\" [suggestions]=\"obs_folders$\"\r\n                        placeholder=\"Start typing the folder name\" custom=\"false\" [complex]=\"true\"\r\n                        class=\"form-control\"></type-ahead>\r\n          </div>\r\n          <div class=\"form-group\">\r\n            <label for=\"txtImageAllowedTypes\">Image Allowed Types</label>\r\n            <type-ahead formControlName=\"ImageAllowedTypes\"\r\n                        placeholder=\"start typing file extensions e.g. jpg\"\r\n                        [custom]=\"true\"\r\n                        [complex]=\"false\"\r\n                        [multi]=\"true\"\r\n                        class=\"form-control\"></type-ahead>\r\n          </div>\r\n        </ng-template>\r\n      </ngb-panel>\r\n      <!--<ngb-panel title=\"Article Form Settings\">\r\n        <ng-template ngbPanelContent>\r\n\r\n        </ng-template>\r\n      </ngb-panel>-->\r\n      <ngb-panel title=\"Notification Settings\">\r\n        <ng-template ngbPanelContent>\r\n          <div class=\"form-check\">\r\n            <input formControlName=\"NotificationNotifyEditorsOnSubmission\" type=\"checkbox\" class=\"form-check-input\" id=\"chkNotifyApproversOnSubmission\" name=\"chkNotifyApproversOnSubmission\">\r\n            <label class=\"form-check-label\" for=\"chkNotifyApproversOnSubmission\">Notify Editors on Submission</label>\r\n          </div>\r\n          <div class=\"form-check\">\r\n            <input formControlName=\"NotificationNotifyAuthorsOnApproval\" type=\"checkbox\" class=\"form-check-input\" id=\"chkNotifyApproversApproval\" name=\"chkNotifyApproversApproval\">\r\n            <label class=\"form-check-label\" for=\"chkNotifyApproversOnApproval\">Notify Authors on Approval</label>\r\n          </div>\r\n        </ng-template>\r\n      </ngb-panel>\r\n      <ngb-panel title=\"SEO Settings\">\r\n        <ng-template ngbPanelContent>\r\n          <div class=\"form-check\">\r\n            <input formControlName=\"SEORemovePagePathFromURL\" type=\"checkbox\" class=\"form-check-input\" id=\"chkSEORemovePagePathFromURL\" name=\"chkSEORemovePagePathFromURL\">\r\n            <label class=\"form-check-label\" for=\"chkSEORemovePagePathFromURL\">Remove Page Path From URLs</label>\r\n          </div>\r\n        </ng-template>\r\n      </ngb-panel>\r\n      <ngb-panel title=\"Permission Settings\">\r\n        <ng-template ngbPanelContent>\r\n          <div class=\"form-group\">\r\n            <label>Authors Role</label>\r\n            <type-ahead formControlName=\"PermissionsAuthorRoles\" [suggestions]=\"obs_authorRole$\"\r\n                        placeholder=\"Select the authors role\"\r\n                        class=\"form-control\"\r\n                        custom=\"false\"></type-ahead>\r\n          </div>\r\n          <div class=\"form-group\">\r\n            <label>Editors Role</label>\r\n            <type-ahead formControlName=\"PermissionsEditorRoles\" [suggestions]=\"obs_editorsRole$\"\r\n                        placeholder=\"Select the editor role\"\r\n                        class=\"form-control\"\r\n                        custom=\"false\"></type-ahead>\r\n          </div>\r\n          <div class=\"form-check\">\r\n            <input formControlName=\"PermissionsAllowEditorsToSelfPublish\" type=\"checkbox\" class=\"form-check-input\" id=\"chkPermissionsAllowEditorsToSelfPublish\" name=\"chkPermissionsAllowEditorsToSelfPublish\">\r\n            <label class=\"form-check-label\" for=\"chkPermissionsAllowEditorsToSelfPublish\">Allow editors to self publish</label>\r\n          </div>\r\n          <div class=\"form-check\">\r\n            <input formControlName=\"PermissionsOnlyShowEditorsAndAuthorsForAuthorSelection\" type=\"checkbox\" class=\"form-check-input\" id=\"chkPermissionsOnlyShowEditorsAndAuthorsForAuthorSelection\" name=\"chkPermissionsOnlyShowEditorsAndAuthorsForAuthorSelection\">\r\n            <label class=\"form-check-label\" for=\"chkPermissionsOnlyShowEditorsAndAuthorsForAuthorSelection\">Only show Editors &amp; Authors in Author Selection</label>\r\n          </div>\r\n          \r\n        </ng-template>\r\n      </ngb-panel>\r\n    </ngb-accordion>\r\n    <app-list-errors [errors]=\"errors\"></app-list-errors>\r\n    <div class=\"action-buttons mt-3 mb-3 float-right\">\r\n      <button (click)=\"submitForm()\" type=\"button\" class=\"btn btn-primary\">Save</button>\r\n    </div>\r\n  </fieldset>\r\n  <div *ngIf=\"isDebugMode()\">\r\n    <fieldset>\r\n      <legend>settingsForm Value:</legend>\r\n      <pre>{{ settingsForm.value | json:2 }}</pre>\r\n    </fieldset>\r\n    <fieldset>\r\n      <legend>settings Value:</legend>\r\n      <pre>{{ settings | json:2 }}</pre>\r\n    </fieldset>\r\n  </div>\r\n  \r\n</div>\r\n"
 
 /***/ }),
 
@@ -2262,11 +2360,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 var MainSettingsComponent = /** @class */ (function () {
-    function MainSettingsComponent(route, router, settingsService, toastr, fb) {
+    function MainSettingsComponent(route, router, settingsService, toastr, helperService, fb) {
         this.route = route;
         this.router = router;
         this.settingsService = settingsService;
         this.toastr = toastr;
+        this.helperService = helperService;
         this.fb = fb;
         this.settings = {};
         this.errors = {};
@@ -2290,10 +2389,13 @@ var MainSettingsComponent = /** @class */ (function () {
             FileDefaultFileFolder: ['', __WEBPACK_IMPORTED_MODULE_1__angular_forms__["Validators"].required],
             ImageDefaultImageFolder: ['', __WEBPACK_IMPORTED_MODULE_1__angular_forms__["Validators"].required],
             SEORemovePagePathFromURL: '',
-            NotificationNotifyApproversOnApproval: '',
-            NotificationNotifyApproversOnSubmission: '',
+            NotificationNotifyAuthorsOnApproval: '',
+            NotificationNotifyEditorsOnSubmission: '',
             ImageAllowedTypes: '',
-            FileAllowedTypes: ''
+            FileAllowedTypes: '',
+            PermissionsEditorRoles: ['', __WEBPACK_IMPORTED_MODULE_1__angular_forms__["Validators"].required],
+            PermissionsAuthorRoles: ['', __WEBPACK_IMPORTED_MODULE_1__angular_forms__["Validators"].required],
+            PermissionsAllowEditorsToSelfPublish: ''
         });
     }
     MainSettingsComponent.prototype.ngOnInit = function () {
@@ -2310,6 +2412,9 @@ var MainSettingsComponent = /** @class */ (function () {
         });
         //Get TimeZones
         this.obs_folders$ = this.settingsService.GetPortalFolders();
+        //Get Roles
+        this.obs_editorsRole$ = this.helperService.getRoles();
+        this.obs_authorRole$ = this.helperService.getRoles();
         //Get Settings
         Object.assign(this.settings, this.settingsService.getCurrentSettings());
         if (Object.keys(this.settings).length === 0) {
@@ -2360,9 +2465,71 @@ var MainSettingsComponent = /** @class */ (function () {
             __WEBPACK_IMPORTED_MODULE_2__angular_router__["f" /* Router */],
             __WEBPACK_IMPORTED_MODULE_4__shared__["g" /* SettingsService */],
             __WEBPACK_IMPORTED_MODULE_3_ngx_toastr__["b" /* ToastrService */],
+            __WEBPACK_IMPORTED_MODULE_4__shared__["f" /* HelperService */],
             __WEBPACK_IMPORTED_MODULE_1__angular_forms__["FormBuilder"]])
     ], MainSettingsComponent);
     return MainSettingsComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "../../../../../src/app/my-articles/my-articles.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"card\">\r\n  <div class=\"card-header\">\r\n    My Articles\r\n  </div>\r\n  <div class=\"card-body\">\r\n    My articles will go here\r\n  </div>\r\n</div>\r\n"
+
+/***/ }),
+
+/***/ "../../../../../src/app/my-articles/my-articles.component.scss":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/my-articles/my-articles.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MyArticlesComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var MyArticlesComponent = /** @class */ (function () {
+    function MyArticlesComponent() {
+    }
+    MyArticlesComponent.prototype.ngOnInit = function () {
+    };
+    MyArticlesComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+            selector: 'app-my-articles',
+            template: __webpack_require__("../../../../../src/app/my-articles/my-articles.component.html"),
+            styles: [__webpack_require__("../../../../../src/app/my-articles/my-articles.component.scss")]
+        }),
+        __metadata("design:paramtypes", [])
+    ], MyArticlesComponent);
+    return MyArticlesComponent;
 }());
 
 
@@ -3524,12 +3691,15 @@ var CustomDefModel = /** @class */ (function () {
 /* unused harmony namespace reexport */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__user_model__ = __webpack_require__("../../../../../src/app/shared/models/user.model.ts");
 /* unused harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__article_model__ = __webpack_require__("../../../../../src/app/shared/models/article.model.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__role_model__ = __webpack_require__("../../../../../src/app/shared/models/role.model.ts");
 /* unused harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__pagedList_model__ = __webpack_require__("../../../../../src/app/shared/models/pagedList.model.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__article_model__ = __webpack_require__("../../../../../src/app/shared/models/article.model.ts");
 /* unused harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__custom_def_model__ = __webpack_require__("../../../../../src/app/shared/models/custom-def.model.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pagedList_model__ = __webpack_require__("../../../../../src/app/shared/models/pagedList.model.ts");
 /* unused harmony namespace reexport */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__custom_def_model__ = __webpack_require__("../../../../../src/app/shared/models/custom-def.model.ts");
+/* unused harmony namespace reexport */
+
 
 
 
@@ -3555,6 +3725,21 @@ var ArticlePagedListMetaViewModel = /** @class */ (function () {
     function ArticlePagedListMetaViewModel() {
     }
     return ArticlePagedListMetaViewModel;
+}());
+
+
+
+/***/ }),
+
+/***/ "../../../../../src/app/shared/models/role.model.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony export RoleViewModel */
+var RoleViewModel = /** @class */ (function () {
+    function RoleViewModel() {
+    }
+    return RoleViewModel;
 }());
 
 
@@ -3725,6 +3910,10 @@ var ArticlesService = /** @class */ (function () {
     };
     ArticlesService.prototype.Upsert = function (article) {
         return this.apiService.post('/API/dnn_OpenNewsSPA/Articles/Upsert', article)
+            .pipe(Object(__WEBPACK_IMPORTED_MODULE_2_rxjs_operators__["map"])(function (data) { return data; }));
+    };
+    ArticlesService.prototype.Approve = function (articleId) {
+        return this.apiService.post('/API/dnn_OpenNewsSPA/Articles/Approve', { articleId: articleId })
             .pipe(Object(__WEBPACK_IMPORTED_MODULE_2_rxjs_operators__["map"])(function (data) { return data; }));
     };
     ArticlesService.prototype.Delete = function (articleId) {
@@ -3968,15 +4157,22 @@ var HelperService = /** @class */ (function () {
             return data;
         }));
     };
-    HelperService.prototype.getAuthors = function (inRole) {
+    HelperService.prototype.getAuthors = function () {
         console.log('GetAll getAuthors()');
-        return this.apiService.post('/API/dnn_OpenNewsSPA/User/GetList', { inRole: inRole })
+        return this.apiService.post('/API/dnn_OpenNewsSPA/User/GetAuthorList')
+            .pipe(Object(__WEBPACK_IMPORTED_MODULE_2_rxjs_operators__["map"])(function (data) {
+            return data;
+        }));
+    };
+    HelperService.prototype.getRoles = function () {
+        console.log('GetAll getAuthors()');
+        return this.apiService.post('/API/dnn_OpenNewsSPA/Role/GetList')
             .pipe(Object(__WEBPACK_IMPORTED_MODULE_2_rxjs_operators__["map"])(function (data) {
             return data;
         }));
     };
     HelperService.prototype.getNaModules = function () {
-        console.log('GetAll getAuthors()');
+        console.log('GetAll GetNAModules()');
         return this.apiService.post('/API/dnn_OpenNewsSPA/Helper/GetNAModules')
             .pipe(Object(__WEBPACK_IMPORTED_MODULE_2_rxjs_operators__["map"])(function (data) {
             return data;

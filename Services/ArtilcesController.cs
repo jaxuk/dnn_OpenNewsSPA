@@ -19,6 +19,7 @@ using YeditUK.Modules.dnn_OpenNews.Components.Helpers;
 using DotNetNuke.Services.FileSystem;
 using DotNetNuke.Collections;
 using DotNetNuke.Web.Api.Internal;
+using YeditUK.Modules.dnn_OpenNews.Components.Enums;
 
 namespace YeditUK.Modules.dnn_OpenNews.Services
 {
@@ -105,6 +106,7 @@ namespace YeditUK.Modules.dnn_OpenNews.Services
       ArticleViewModel art;
       if (dto.articleId <= 0) {
         art = new ArticleViewModel();
+        art.Actions.Add("Edit");
         art.ArticleID = -1;
         art.ModuleID = ActiveModule.ModuleID;
         art.AuthorID = UserInfo.UserID;
@@ -113,7 +115,9 @@ namespace YeditUK.Modules.dnn_OpenNews.Services
       else
       {
         art = Mapper.Map<Article, ArticleViewModel>(_repository.Get(dto.articleId, ActiveModule.ModuleID));
+        var artPerms = new ArticlePermissions(UserInfo, ActiveModule, PortalSettings);
         setVwUrl(ref art);
+        art.Actions = artPerms.GetArticleActions(Mapper.Map<ArticleViewModel, Article>(art));
       }
       return Request.CreateResponse(art);
     }
@@ -163,11 +167,22 @@ namespace YeditUK.Modules.dnn_OpenNews.Services
         null, true, -1, null, null, null, dto.sortBy, dto.sortAsc);
 
       var artsVM = Mapper.Map<List<Article>, List<ArticleViewModel>>(arts.ToList());
+      var artPerms = new ArticlePermissions(UserInfo, ActiveModule, PortalSettings);
       artsVM.ForEach(a => {
         setVwUrl(ref a);
+        a.Actions = artPerms.GetArticleActions(Mapper.Map<ArticleViewModel, Article>(a));
       });
       return Request.CreateResponse(new { data = artsVM, meta = new PagedListMetaViewModel(arts)});
+    }
 
+    public class GetMyArticlesPagedListDTO
+    {
+      public int limit { get; set; }
+      public int offset { get; set; }
+      public string sortBy { get; set; }
+      public string searchPhrase { get; set; }
+      public string status { get; set; }
+      public bool sortAsc { get; set; }
     }
 
     [HttpPost]
@@ -176,18 +191,115 @@ namespace YeditUK.Modules.dnn_OpenNews.Services
 #else
     [ValidateAntiForgeryToken]
 #endif
+    public HttpResponseMessage GetMyArticlesPagedList(GetMyArticlesPagedListDTO dto)
+    {
+      var pageIndex = dto.offset / dto.limit;
+
+      List<ArticleStatus> lStatus = new List<ArticleStatus>();
+      
+
+      if (Enum.TryParse(dto.status, out ArticleStatus aStatus))
+      {
+        lStatus.Add(aStatus);
+      }
+      else {
+        lStatus.Add(ArticleStatus.Draft);
+        lStatus.Add(ArticleStatus.Expired);
+        lStatus.Add(ArticleStatus.Live);
+        lStatus.Add(ArticleStatus.NeedsApproval);
+        lStatus.Add(ArticleStatus.Upcoming);
+      }
+      IPagedList<Article> arts = _repository.GetPagedList(ActiveModule.ModuleID, pageIndex, dto.limit, dto.searchPhrase,
+        lStatus, true, UserInfo.UserID, null, null, null, dto.sortBy, dto.sortAsc);
+
+      var artsVM = Mapper.Map<List<Article>, List<ArticleViewModel>>(arts.ToList());
+      var artPerms = new ArticlePermissions(UserInfo, ActiveModule, PortalSettings);
+      artsVM.ForEach(a => {
+        setVwUrl(ref a);
+        a.Actions = artPerms.GetArticleActions(Mapper.Map< ArticleViewModel , Article>(a));
+      });
+      return Request.CreateResponse(new { data = artsVM, meta = new PagedListMetaViewModel(arts) });
+    }
+
+    public class ApproveDTO
+    {
+      public long articleId { get; set; }
+    }
+
+    [HttpPost]
+#if DEBUG
+    [AllowAnonymous]
+#else
+    [ValidateAntiForgeryToken]
+#endif
+    public HttpResponseMessage Approve(ApproveDTO dto) {
+      var art = _repository.Get(dto.articleId, ActiveModule.ModuleID);
+      var settings = Components.SettingsController.Instance.GetSettings(ActiveModule, PortalSettings);
+      if (UserInfo.IsInRole(settings.PermissionsEditorRoles)) {
+        if ((settings.PermissionsAllowEditorsToSelfPublish == false && UserInfo.UserID != art.AuthorID) || settings.PermissionsAllowEditorsToSelfPublish)
+        {
+          art.ApproverID = UserInfo.UserID;
+          art.IsApproved = true;
+          _repository.Update(art);
+          //Send Message to Author?
+          if (settings.NotificationNotifyAuthorsOnApproval) {
+            var author = DotNetNuke.Entities.Users.UserController.GetUserById(PortalSettings.PortalId, (int)art.AuthorID);
+            if (author != null) {
+              DotNetNuke.Services.Mail.Mail.SendEmail(PortalSettings.Email, author.Email,
+             "Article approved",
+             "Your article was approved: " + UrlHelper.GetArticleURL(ActiveModule.TabID, art.ArticleID)
+             );
+            }
+            
+          }
+        }
+        else {
+          throw (new Exception("User does not have permission to publish"));
+        }
+      }
+      return Request.CreateResponse(Mapper.Map<Article, ArticleViewModel>(art));
+    }
+    [HttpPost]
+#if DEBUG
+    [AllowAnonymous]
+#else
+    [ValidateAntiForgeryToken]
+#endif
     public HttpResponseMessage Upsert(ArticleViewModel a)
     {
+      var settings = Components.SettingsController.Instance.GetSettings(ActiveModule, PortalSettings);
+      Article art;
       if (a.ArticleID > 0)
       {
-        var t = Update(a);
-        return Request.CreateResponse(Mapper.Map<Article, ArticleViewModel>(t));
+        art = Update(a);
       }
       else
       {
-        var t = Create(a);
-        return Request.CreateResponse(Mapper.Map<Article, ArticleViewModel>(t));
+        art = Create(a);
       }
+      if(art.Status== ArticleStatus.NeedsApproval)
+      {
+        if (settings.PermissionsAllowEditorsToSelfPublish && UserInfo.IsInRole(settings.PermissionsEditorRoles))
+        {
+          art.ApproverID = UserInfo.UserID;
+          art.IsApproved = true;
+          _repository.Update(art);
+        }
+        else if(settings.NotificationNotifyEditorsOnSubmission) {
+          //Send emails to Editors
+          //TODO inegrate with DNN notifications system.
+          var approvers = DotNetNuke.Security.Roles.RoleController.Instance.GetUsersByRole(PortalSettings.PortalId, settings.PermissionsEditorRoles);
+          if (approvers.Count != 0) {
+            var emails = approvers.Select(u => u.Email).ToArray();
+            DotNetNuke.Services.Mail.Mail.SendEmail(PortalSettings.Email, string.Join(",", emails),
+              "Article requires approval",
+              "An article requires Editor approval: " + UrlHelper.GetAdminURL(ActiveModule.TabID)
+              );
+          }
+          
+        }
+      }
+      return Request.CreateResponse(Mapper.Map<Article, ArticleViewModel>(art));
     }
     private void setVwUrl(ref ArticleViewModel avm) {
       avm.vwURL = UrlHelper.GetArticleURL(this.ActiveModule.TabID, avm.ArticleID);

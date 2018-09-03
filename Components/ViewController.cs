@@ -48,7 +48,7 @@ namespace YeditUK.Modules.dnn_OpenNews.Components
     private MenuViewModel getMenuViewModel()
     {
       var mv = new MenuViewModel();
-      if (CommonHelper.UserCanViewAdmin(this.UserInfo))
+      if (CommonHelper.UserCanViewAdmin(this.UserInfo, _settings))
       {
         mv.menuItems.Add("Admin", UrlHelper.GetAdminURL(this.TabId));
       }
@@ -56,10 +56,12 @@ namespace YeditUK.Modules.dnn_OpenNews.Components
     }
     public ViewCurrentModel getViewCurrentModel()
     {
+      List<ArticleStatus> lStatus = new List<ArticleStatus>();
+      lStatus.Add(ArticleStatus.Live);
       var vc = new ViewCurrentModel(getMenuViewModel());
       //vc.Articles = ArticleRepo.Instance.GetPagedList(_moduleContext.ModuleId, 0, 10, "", ArticleStatus.Live , true);
       var arts = ArticleRepo.Instance.GetPagedList(this.ModuleId, this._pageIndex, _settings.BasicArticlesPerPage,
-        "", ArticleStatus.Live, true, -1, null, null, DateTime.Now, _settings.BasicSortBy, sortAsc());
+        "", lStatus, true, -1, null, null, DateTime.Now, _settings.BasicSortBy, sortAsc());
       vc.Articles = Mapper.Map<PagedList<Components.Entities.Article>, PagedList<Services.ViewModels.ArticleViewModel>>(arts);
       vc.Articles.ForEach(a => {
         setVwUrl(ref a);
@@ -78,10 +80,12 @@ namespace YeditUK.Modules.dnn_OpenNews.Components
         return null;
       }
       List<int> CategoriesIdList = new List<int>();
+      List<ArticleStatus> lStatus = new List<ArticleStatus>();
+      lStatus.Add(ArticleStatus.Live);
       CategoriesIdList.Add(catId);
       var vc = new Templates.ViewModels.CategoryViewModel(getMenuViewModel());
       var arts = ArticleRepo.Instance.GetPagedList(this.ModuleId, this._pageIndex, _settings.BasicArticlesPerPage,
-        "", ArticleStatus.Live, true, -1, CategoriesIdList, null, DateTime.Now, _settings.BasicSortBy, sortAsc());
+        "", lStatus, true, -1, CategoriesIdList, null, DateTime.Now, _settings.BasicSortBy, sortAsc(), true);
       vc.Articles = Mapper.Map<PagedList<Components.Entities.Article>, PagedList<Services.ViewModels.ArticleViewModel>>(arts);
       vc.Articles.ForEach(a => {
         setVwUrl(ref a);
@@ -102,9 +106,11 @@ namespace YeditUK.Modules.dnn_OpenNews.Components
       }
       List<int> TagsIdList = new List<int>();
       TagsIdList.Add(tagId);
+      List<ArticleStatus> lStatus = new List<ArticleStatus>();
+      lStatus.Add(ArticleStatus.Live);
       var vc = new Templates.ViewModels.TagViewModel(getMenuViewModel());
       var arts = ArticleRepo.Instance.GetPagedList(this.ModuleId, this._pageIndex, _settings.BasicArticlesPerPage,
-        "", ArticleStatus.Live, true, -1, null, TagsIdList, DateTime.Now, _settings.BasicSortBy, sortAsc());
+        "", lStatus, true, -1, null, TagsIdList, DateTime.Now, _settings.BasicSortBy, sortAsc());
       vc.Articles = Mapper.Map<PagedList<Components.Entities.Article>, PagedList<Services.ViewModels.ArticleViewModel>>(arts);
       vc.Articles.ForEach(a => {
         setVwUrl(ref a);
@@ -130,17 +136,52 @@ namespace YeditUK.Modules.dnn_OpenNews.Components
       }
       else
       {
-        ArticleViewModel avm = new ArticleViewModel(getMenuViewModel());
+        ArticleViewModel avm = new ArticleViewModel(getMenuViewModel(), this);
         var artVm = Mapper.Map<Components.Entities.Article, Services.ViewModels.ArticleViewModel>(art);
         setVwUrl(ref artVm);
         avm.Article = artVm;
-        if (CommonHelper.UserCanEditArticle(this.UserInfo, avm.Article))
+        if (CommonHelper.UserCanEditArticle(this.UserInfo, avm.Article, this._settings))
         {
           avm.MenuView.menuItems.Add("Edit Article", UrlHelper.GetAdminURL(this.ModuleContext.TabId, art.ArticleID));
         }
         avm.AllCategories = getAllCategories();
         return avm;
       }
+    }
+    public PagedList<Services.ViewModels.ArticleViewModel> getRelatedArticles(Services.ViewModels.ArticleViewModel art, int limit = 10, bool matchAllCategories = false, bool matchAllTags = false) {
+      List<ArticleStatus> lStatus = new List<ArticleStatus>();
+      lStatus.Add(ArticleStatus.Live);
+      var related = ArticleRepo.Instance.GetPagedList(this.ModuleId, 0, limit + 1, "", lStatus, true, -1,
+            art.Categories.Select(c => c.CategoryID).ToList(), art.Tags.Select(t => t.TagID).ToList(),
+            DateTime.Now, "Rank", true, matchAllCategories, matchAllTags);
+      related.Remove(related.Where(a=>a.ArticleID == art.ArticleID).FirstOrDefault());
+      var ret = Mapper.Map<PagedList<Components.Entities.Article>, PagedList<Services.ViewModels.ArticleViewModel>>(related);
+      ret.ForEach(a => {
+        setVwUrl(ref a);
+      });
+      return ret;
+    }
+    public PagedList<Services.ViewModels.ArticleViewModel> getLatestArticles(int limit = 2)
+    {
+      List<ArticleStatus> lStatus = new List<ArticleStatus>();
+      lStatus.Add(ArticleStatus.Live);
+      var related = ArticleRepo.Instance.GetPagedList(this.ModuleId, 0, limit, "", lStatus, true);
+      var ret = Mapper.Map<PagedList<Components.Entities.Article>, PagedList<Services.ViewModels.ArticleViewModel>>(related);
+      ret.ForEach(a => {
+        setVwUrl(ref a);
+      });
+      return ret;
+    }
+    public PagedList<Services.ViewModels.ArticleViewModel> getFeaturedArticles(int limit = 4)
+    {
+      List<ArticleStatus> lStatus = new List<ArticleStatus>();
+      lStatus.Add(ArticleStatus.Live);
+      var featured = ArticleRepo.Instance.GetPagedList(this.ModuleId, 0, limit, "", lStatus, true,-1, null, null,DateTime.Now, "StartDate", false, false, true);
+      var ret = Mapper.Map<PagedList<Components.Entities.Article>, PagedList<Services.ViewModels.ArticleViewModel>>(featured);
+      ret.ForEach(a => {
+        setVwUrl(ref a);
+      });
+      return ret;
     }
     private List<Services.ViewModels.CategoryViewModel> getAllCategories()
     {

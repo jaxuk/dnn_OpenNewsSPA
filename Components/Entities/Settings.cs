@@ -21,9 +21,14 @@ namespace YeditUK.Modules.dnn_OpenNews.Components.Entities
     public string ImageDefaultImageFolder { get; set; } = "";
     public string[] ImageAllowedTypes { get; set; } = null;
     public bool SEORemovePagePathFromURL { get; set; } = false;
-    public bool NotificationNotifyApproversOnSubmission { get; set; } = true;
-    public bool NotificationNotifyApproversOnApproval { get; set; } = true;
+    public bool NotificationNotifyEditorsOnSubmission { get; set; } = true;
+    public bool NotificationNotifyAuthorsOnApproval { get; set; } = true;
+    public string PermissionsEditorRoles { get; set; } = "";
+    public string PermissionsAuthorRoles { get; set; } = "";
+    public bool PermissionsAllowEditorsToSelfPublish { get; set; } = true;
+    public bool PermissionsOnlyShowEditorsAndAuthorsForAuthorSelection { get; set; } = false;
     public string PageTabUrl { get; set; } = "";
     public bool debugEnabled { get; set; } = false;
+    
   }
 }

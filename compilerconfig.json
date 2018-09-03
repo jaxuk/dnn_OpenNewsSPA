@@ -1,6 +1,10 @@
 ﻿[
   {
-    "outputFile": "Views/Templates/Razor/Default/styles/styles.css",
-    "inputFile": "Views/Templates/Razor/Default/styles/styles.scss"
+    "outputFile": "Views/Templates/Razor/sb/styles/articleView.css",
+    "inputFile": "Views/Templates/Razor/sb/styles/articleView.scss"
+  },
+  {
+    "outputFile": "Views/Templates/Razor/sb/styles/articleList.css",
+    "inputFile": "Views/Templates/Razor/sb/styles/articleList.scss"
   }
 ]

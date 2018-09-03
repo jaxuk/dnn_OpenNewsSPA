@@ -22,9 +22,14 @@ namespace YeditUK.Modules.dnn_OpenNews.Services.ViewModels
     public string[] FileAllowedTypes;
 
     public bool SEORemovePagePathFromURL;
-    public bool NotificationNotifyApproversOnSubmission;
-    public bool NotificationNotifyApproversOnApproval;
+    public bool NotificationNotifyEditorsOnSubmission;
+    public bool NotificationNotifyAuthorsOnApproval;
+    public string PermissionsEditorRoles;
+    public string PermissionsAuthorRoles;
+    public bool PermissionsAllowEditorsToSelfPublish;
+    public bool PermissionsOnlyShowEditorsAndAuthorsForAuthorSelection;
     public string PageTabUrl;
     public bool debugEnabled;
+    public UserViewModel currentUser;
   }
 }
