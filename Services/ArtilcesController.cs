@@ -268,6 +268,12 @@ namespace YeditUK.Modules.dnn_OpenNews.Services
     public HttpResponseMessage Upsert(ArticleViewModel a)
     {
       var settings = Components.SettingsController.Instance.GetSettings(ActiveModule, PortalSettings);
+      var isEditor = CommonHelper.UserHasEditorPerms(UserInfo, settings, PortalSettings);
+      var isArticleAuthor = CommonHelper.UserHasAuthorPerms(UserInfo, settings, PortalSettings) && UserInfo.UserID == (int)a.AuthorID;
+      if (!isEditor && !isArticleAuthor)
+      {
+        throw new Exception("Permission Denied - User does not have permission to Upsert Article with Id: " + a.ArticleID.ToString());
+      }
       Article art;
       if (a.ArticleID > 0)
       {

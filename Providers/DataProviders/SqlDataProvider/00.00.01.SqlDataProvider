@@ -12,6 +12,28 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+/****** Object:  UserDefinedTableType {databaseOwner}[{objectQualifier}intList]    Script Date: 12/09/2018 10:15:27 ******/
+IF type_id('{databaseOwner}[{objectQualifier}intList]') IS NULL
+BEGIN
+CREATE TYPE {databaseOwner}[{objectQualifier}intList] AS TABLE(
+	[ID] [int] NULL
+)
+END
+GO
+/****** Object:  UserDefinedTableType {databaseOwner}[{objectQualifier}varcharList]    Script Date: 12/09/2018 10:15:27 ******/
+
+IF type_id('{databaseOwner}[{objectQualifier}varcharList]') IS NULL
+BEGIN
+CREATE TYPE {databaseOwner}[{objectQualifier}varcharList] AS TABLE(
+	[ID] [nvarchar](max) NULL
+)
+END
+GO
+/****** Object:  UserDefinedFunction {databaseOwner}[{objectQualifier}OpenNews_ArticleStatus]    Script Date: 12/09/2018 10:15:27 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
 CREATE FUNCTION {databaseOwner}[{objectQualifier}OpenNews_ArticleStatus](@IsDeleted bit, @IsDraft bit, @IsApproved bit, @StartDate datetime, @EndDate datetime, @PortalTime datetime )  
 RETURNS nvarchar(20)   
 AS   
@@ -43,16 +65,7 @@ BEGIN
 	RETURN @ret;
 END; 
 GO
-CREATE TYPE {databaseOwner}[{objectQualifier}intList] AS TABLE(
-	[ID] [int] NULL
-)
-GO
-
-CREATE TYPE {databaseOwner}[{objectQualifier}varcharList] AS TABLE(
-	[ID] [nvarchar](max) NULL
-)
-GO
-/****** Object:  Table {databaseOwner}[{objectQualifier}OpenNews_Article]    Script Date: 04/04/2018 15:32:09 ******/
+/****** Object:  Table {databaseOwner}[{objectQualifier}OpenNews_Article]    Script Date: 12/09/2018 10:15:27 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -91,7 +104,7 @@ CREATE TABLE {databaseOwner}[{objectQualifier}OpenNews_Article](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table {databaseOwner}[{objectQualifier}OpenNews_ArticleCategories]    Script Date: 04/04/2018 15:32:09 ******/
+/****** Object:  Table {databaseOwner}[{objectQualifier}OpenNews_ArticleCategories]    Script Date: 12/09/2018 10:15:27 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -102,7 +115,7 @@ CREATE TABLE {databaseOwner}[{objectQualifier}OpenNews_ArticleCategories](
 	[ID] [int] IDENTITY(1,1) NOT NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table {databaseOwner}[{objectQualifier}OpenNews_ArticleCustomObjectDef]    Script Date: 04/04/2018 15:32:09 ******/
+/****** Object:  Table {databaseOwner}[{objectQualifier}OpenNews_ArticleCustomObjectDef]    Script Date: 12/09/2018 10:15:27 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -113,7 +126,7 @@ CREATE TABLE {databaseOwner}[{objectQualifier}OpenNews_ArticleCustomObjectDef](
 	[ID] [int] NOT NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table {databaseOwner}[{objectQualifier}OpenNews_ArticleTags]    Script Date: 04/04/2018 15:32:09 ******/
+/****** Object:  Table {databaseOwner}[{objectQualifier}OpenNews_ArticleTags]    Script Date: 12/09/2018 10:15:27 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -124,7 +137,7 @@ CREATE TABLE {databaseOwner}[{objectQualifier}OpenNews_ArticleTags](
 	[ID] [int] IDENTITY(1,1) NOT NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table {databaseOwner}[{objectQualifier}OpenNews_Category]    Script Date: 04/04/2018 15:32:09 ******/
+/****** Object:  Table {databaseOwner}[{objectQualifier}OpenNews_Category]    Script Date: 12/09/2018 10:15:27 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -150,7 +163,7 @@ CREATE TABLE {databaseOwner}[{objectQualifier}OpenNews_Category](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table {databaseOwner}[{objectQualifier}OpenNews_CustomObjectsDef]    Script Date: 04/04/2018 15:32:09 ******/
+/****** Object:  Table {databaseOwner}[{objectQualifier}OpenNews_CustomObjectsDef]    Script Date: 12/09/2018 10:15:27 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -167,7 +180,7 @@ CREATE TABLE {databaseOwner}[{objectQualifier}OpenNews_CustomObjectsDef](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table {databaseOwner}[{objectQualifier}OpenNews_File]    Script Date: 04/04/2018 15:32:09 ******/
+/****** Object:  Table {databaseOwner}[{objectQualifier}OpenNews_File]    Script Date: 12/09/2018 10:15:27 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -180,7 +193,7 @@ CREATE TABLE {databaseOwner}[{objectQualifier}OpenNews_File](
 	[ID] [int] IDENTITY(1,1) NOT NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table {databaseOwner}[{objectQualifier}OpenNews_Page]    Script Date: 04/04/2018 15:32:09 ******/
+/****** Object:  Table {databaseOwner}[{objectQualifier}OpenNews_Page]    Script Date: 12/09/2018 10:15:27 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -196,7 +209,7 @@ CREATE TABLE {databaseOwner}[{objectQualifier}OpenNews_Page](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table {databaseOwner}[{objectQualifier}OpenNews_Tag]    Script Date: 04/04/2018 15:32:09 ******/
+/****** Object:  Table {databaseOwner}[{objectQualifier}OpenNews_Tag]    Script Date: 12/09/2018 10:15:27 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -259,7 +272,7 @@ ON DELETE CASCADE
 GO
 ALTER TABLE {databaseOwner}[{objectQualifier}OpenNews_Page] CHECK CONSTRAINT [FK_OpenNews_Page_OpenNews_Article]
 GO
-/****** Object:  StoredProcedure {databaseOwner}[{objectQualifier}OpenNews_FindArticles]    Script Date: 04/04/2018 15:32:09 ******/
+/****** Object:  StoredProcedure {databaseOwner}[{objectQualifier}OpenNews_FindArticles]    Script Date: 12/09/2018 10:15:27 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -276,9 +289,12 @@ CREATE PROCEDURE {databaseOwner}[{objectQualifier}OpenNews_FindArticles]
 	@searchPhrase nvarchar(64),
 	@sortBy nvarchar(64),
 	@sortAsc bit,
-	@status nvarchar(20),
 	@portalTime datetime,
 	@AuthorID int,
+	@isFeatured bit,
+	@CategoryIDMatchAll bit,
+	@TagIDMatchAll bit,
+	@statusList dbo.varcharList READONLY,
 	@CategoryIDList dbo.intList READONLY,
 	@TagIDList dbo.intList READONLY,
 	@totalResults int OUTPUT
@@ -290,6 +306,7 @@ BEGIN
 
     -- Insert statements for procedure here
 	DECLARE @exsql NVARCHAR(max);
+	DECLARE @ranksql NVARCHAR(max);
 	DECLARE @ParameterDefinition NVARCHAR(max); 
 	SELECT	@ParameterDefinition = ' 
 	@dModuleID int,
@@ -298,34 +315,69 @@ BEGIN
 	@dsearchPhrase nvarchar(64),
 	@dsortBy nvarchar(64),
 	@dsortAsc bit,
-	@dstatus nvarchar(20),
 	@dportalTime datetime,
 	@dAuthorID int,
+	@disFeatured bit,
+	@dstatusList dbo.varcharList READONLY,
 	@dCategoryIDList dbo.intList READONLY,
 	@dTagIDList dbo.intList READONLY,
 	@dtotalResults int OUTPUT ';
 
 	SET @exsql = ';WITH listings_cte AS ('
 
-	SET @exsql = @exsql + 'SELECT OpenNews_Article.* FROM OpenNews_Article '
+	SET @exsql = @exsql + 'SELECT OpenNews_Article.*  '
 
+	IF 0 <> (SELECT COUNT (*) FROM @CategoryIDList) AND 0 <> (SELECT COUNT (*) FROM @TagIDList)
+		SET @exsql = @exsql + ', DENSE_RANK () OVER (ORDER BY atags.Ranks, acats.Ranks DESC) AS Rank'
+
+	IF 0 = (SELECT COUNT (*) FROM @CategoryIDList) AND 0 <> (SELECT COUNT (*) FROM @TagIDList)
+		SET @exsql = @exsql + ', DENSE_RANK () OVER (ORDER BY atags.Ranks DESC) AS Rank'
+
+	IF 0 <> (SELECT COUNT (*) FROM @CategoryIDList) AND 0 = (SELECT COUNT (*) FROM @TagIDList)
+		SET @exsql = @exsql + ', DENSE_RANK () OVER (ORDER BY acats.Ranks DESC) AS Rank'	
+
+	SET @exsql = @exsql + ' FROM OpenNews_Article '
 
 	IF 0 <> (SELECT COUNT (*) FROM @CategoryIDList)
-				BEGIN
-				SET @exsql = @exsql + ' INNER JOIN (SELECT * FROM OpenNews_ArticleCategories WHERE CategoryID IN (SELECT * FROM @dCategoryIDList)) as acats ON acats.ArticleID = OpenNews_Article.ArticleID '
-				END
-		IF 0 <> (SELECT COUNT (*) FROM @TagIDList)
-				BEGIN
-				SET @exsql = @exsql + ' INNER JOIN (SELECT * FROM OpenNews_ArticleTags WHERE TagID IN (SELECT * FROM @dTagIDList)) as atags ON atags.ArticleID = OpenNews_Article.ArticleID '
-				END
+	BEGIN
+		SET @exsql = @exsql + ' INNER JOIN (SELECT OpenNews_ArticleCategories.ArticleID, count(*) as Ranks FROM OpenNews_ArticleCategories WHERE CategoryID IN (SELECT * FROM @dCategoryIDList) GROUP BY OpenNews_ArticleCategories.ArticleID'
+		IF @CategoryIDMatchAll = 1
+			BEGIN
+			SET @exsql = @exsql + ' HAVING count(*) = (SELECT count(*) FROM @dCategoryIDList) '
+			END
+		
+		SET @exsql = @exsql + ') as acats ON acats.ArticleID = OpenNews_Article.ArticleID '
+	END
+
+	IF 0 <> (SELECT COUNT (*) FROM @TagIDList)
+	BEGIN
+		SET @exsql = @exsql + ' INNER JOIN (SELECT DISTINCT ArticleID, count(*) as Ranks FROM OpenNews_ArticleTags WHERE TagID IN (SELECT * FROM @dTagIDList) GROUP BY OpenNews_ArticleTags.ArticleID'
+		IF @TagIDMatchAll = 1
+			BEGIN
+			SET @exsql = @exsql + '  HAVING count(*) = (SELECT count(*) FROM @dTagIDList) '
+			END
+		
+		SET @exsql = @exsql + ') as atags ON atags.ArticleID = OpenNews_Article.ArticleID '
+	END
 	SET @exsql = @exsql + ' WHERE 1=1 '
-	IF not(@status IS NULL)
-	SET @exsql = @exsql + ' AND dbo.OpenNews_ArticleStatus(OpenNews_Article.IsDeleted, OpenNews_Article.IsDraft, OpenNews_Article.IsApproved, OpenNews_Article.StartDate, OpenNews_Article.EndDate, @dportalTime)=@dstatus '
+	
+	IF 0 <> (SELECT COUNT (*) FROM @statusList)
+	SET @exsql = @exsql + ' AND dbo.OpenNews_ArticleStatus(OpenNews_Article.IsDeleted, OpenNews_Article.IsDraft, OpenNews_Article.IsApproved, OpenNews_Article.StartDate, OpenNews_Article.EndDate, @dportalTime) in (SELECT * FROM @dstatusList) '
 
 	IF not(@searchPhrase is null) AND @searchPhrase <> ''
 	BEGIN
 		SET @searchPhrase = '%' + @searchPhrase + '%'
 		SET @exsql = @exsql + ' AND Title like @dsearchPhrase '
+	END
+
+	IF not(@AuthorID = -1)
+	BEGIN
+		SET @exsql = @exsql + ' AND AuthorID = @dAuthorID '
+	END
+
+	IF not(@isFeatured is null)
+	BEGIN
+		SET @exsql = @exsql + ' AND isFeatured = @disFeatured '
 	END
 	
 	SET @exsql = @exsql + '
@@ -348,6 +400,10 @@ BEGIN
 				BEGIN
 				SET @exsql = @exsql + ' ORDER BY #res.Title '
 				END
+	ELSE IF @sortBy = 'Rank'
+				BEGIN
+				SET @exsql = @exsql + ' ORDER BY #res.Rank asc, #res.StartDate desc'
+				END
 
 	if @sortAsc = 0
 		BEGIN
@@ -361,6 +417,9 @@ BEGIN
 		FETCH NEXT @dPageSize ROWS ONLY OPTION (RECOMPILE)
 		SELECT @dtotalResults = (SELECT COUNT(*) AS TotalCount FROM #res)'
 	END
+
+
+
 	--SELECT @exsql--, @ParameterDefinition
 	--SELECT @ParameterDefinition
 	EXEC sp_executeSQL @exsql , @ParameterDefinition,
@@ -370,9 +429,10 @@ BEGIN
 	@dsearchPhrase = @searchPhrase,
 	@dsortBy = @sortBy, 
 	@dsortAsc = @sortAsc,
-	@dstatus = @status,
 	@dportalTime = @portalTime,
 	@dAuthorID = @AuthorID,
+	@disFeatured = @isFeatured,
+	@dstatusList = @statusList,
 	@dCategoryIDList = @CategoryIDList, 
 	@dTagIDList =@TagIDList,
 	@dtotalResults = @totalResults output
@@ -381,6 +441,7 @@ BEGIN
 END
 
 GO
+
 
 
 

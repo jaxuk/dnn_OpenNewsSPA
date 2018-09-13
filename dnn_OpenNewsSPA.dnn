@@ -64,6 +64,17 @@
                     <helpUrl />
                     <viewOrder>0</viewOrder>
                   </moduleControl>
+                  <!--<moduleControl>
+                    <controlKey>Admin</controlKey>
+                    <controlSrc>DesktopModules/dnn_OpenNewsSPA/Views/blog-admin.html</controlSrc>
+                    <supportsPartialRendering>False</supportsPartialRendering>
+                    <supportsPopUps>False</supportsPopUps>
+                    <controlTitle>Blog Admin</controlTitle>
+                    <controlType>Admin</controlType>
+                    <iconFile />
+                    <helpUrl />
+                    <viewOrder>-1</viewOrder>
+                  </moduleControl>-->
                 </moduleControls>
               </moduleDefinition>
             </moduleDefinitions>

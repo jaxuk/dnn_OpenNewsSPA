@@ -15,6 +15,7 @@ using System.IO;
 using AutoMapper;
 using YeditUK.Modules.dnn_OpenNews.Components.DAL;
 using DotNetNuke.Collections;
+using DotNetNuke.Framework;
 
 namespace YeditUK.Modules.dnn_OpenNews
 {
@@ -30,6 +31,8 @@ namespace YeditUK.Modules.dnn_OpenNews
     {
       try
       {
+        ServicesFramework.Instance.RequestAjaxAntiForgerySupport();
+        ServicesFramework.Instance.RequestAjaxScriptSupport();
         var moduleInfo = DotNetNuke.Entities.Modules.ModuleController.Instance.GetModule(this.ModuleId, this.TabId, false);
         _settings = Components.SettingsController.Instance.GetSettings(moduleInfo, this.PortalSettings);
 

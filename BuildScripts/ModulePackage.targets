@@ -17,13 +17,13 @@
     <ItemGroup>     
       <InstallInclude Include="**\*.ascx" Exclude="packages\**" />
       <InstallInclude Include="**\*.asmx" Exclude="packages\**" />
-      <InstallInclude Include="**\*.css" Exclude="packages\**" />
-      <InstallInclude Include="**\*.html" Exclude="packages\**" />
-      <InstallInclude Include="**\*.cshtml" Exclude="packages\**" />
-      <InstallInclude Include="**\*.htm" Exclude="packages\**" />
+      <InstallInclude Include="**\*.css" Exclude="packages\**;**\Views\Templates\Razor\sb\**" />
+      <InstallInclude Include="**\*.html" Exclude="packages\**;**\Views\Templates\Razor\sb\**" />
+      <InstallInclude Include="**\*.cshtml" Exclude="packages\**;**\Views\Templates\Razor\sb\**" />
+      <InstallInclude Include="**\*.htm" Exclude="packages\**;**\Views\Templates\Razor\sb\**" />
       <InstallInclude Include="**\*.resx" Exclude="packages\**" />
       <InstallInclude Include="**\*.aspx" Exclude="packages\**" />
-      <InstallInclude Include="**\*.js" Exclude="packages\**" />
+      <InstallInclude Include="**\*.js" Exclude="packages\**;**\Views\Templates\Razor\sb\**" />
       <InstallInclude Include="**\*.txt"  Exclude="**\obj\**;**\_ReSharper*\**;packages\**;**\.git\**;" />
       <InstallInclude Include="**\images\**" Exclude="packages\**" />
       <InstallInclude Include="**\images\**" Exclude="packages\**" />
@@ -34,15 +34,15 @@
     <ItemGroup>
       <SourceInclude Include="**\*.ascx" />
       <SourceInclude Include="**\*.asmx" />
-      <SourceInclude Include="**\*.css" />
+      <SourceInclude Include="**\*.css;**\Views\Templates\Razor\sb\**" />
       <SourceInclude Include="**\*.xsl" />
       <SourceInclude Include="**\*.html"/>
-      <SourceInclude Include="**\*.cshtml" />
-      <SourceInclude Include="**\*.htm"  />
+      <SourceInclude Include="**\*.cshtml;**\Views\Templates\Razor\sb\**" />
+      <SourceInclude Include="**\*.htm;**\Views\Templates\Razor\sb\**"  />
       <SourceInclude Include="**\*.resx" />
       <SourceInclude Include="**\*.xml" Exclude="**\obj\**;**\_ReSharper*\**;**\.git\**;" />
       <SourceInclude Include="**\*.aspx" />
-      <SourceInclude Include="**\*.js" />
+      <SourceInclude Include="**\*.js;**\Views\Templates\Razor\sb\**" />
       <SourceInclude Include="**\*.txt" Exclude="**\obj\**;**\_ReSharper*\**;**\.git\**;" />
       <SourceInclude Include="**\images\**" />
       <SourceInclude Include="**\*.cs" />

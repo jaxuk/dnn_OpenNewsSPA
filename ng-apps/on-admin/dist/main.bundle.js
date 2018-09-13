@@ -161,9 +161,15 @@ var AppComponent = /** @class */ (function (_super) {
         return this.settingsService.getCurrentSettings().PageTabUrl;
     };
     AppComponent.prototype.isEditor = function () {
+        if (this.settingsService.getCurrentSettings().currentUser == null) {
+            return false;
+        }
         return this.settingsService.getCurrentSettings().currentUser.isEditor;
     };
     AppComponent.prototype.isAuthor = function () {
+        if (this.settingsService.getCurrentSettings().currentUser == null) {
+            return false;
+        }
         return this.settingsService.getCurrentSettings().currentUser.isAuthor;
     };
     AppComponent.prototype.doSearch = function (e) {
@@ -613,7 +619,7 @@ var ArticleFileComponent = /** @class */ (function () {
 /***/ "../../../../../src/app/article-form/article-form.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div ngForm [formGroup]=\"articleForm\" (validSubmit)=\"onSubmit()\" validate *ngIf=\"article.Actions.includes('Edit')\">\r\n  <fieldset [disabled]=\"isSubmitting\">\r\n    <div class=\"d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom\">\r\n      <h2>Article</h2>\r\n      <div class=\"btn-toolbar mb-2 mb-md-0\">\r\n        <div class=\"btn-group mr-2\">\r\n          <a *ngIf=\"deleteable()\" target=\"_blank\" class=\"btn btn-sm btn-outline-secondary\" href=\"{{article.vwURL}}\">Preview</a>\r\n          <button class=\"btn btn-sm btn-primary\" (click)=\"clickSaveDraft()\">Save as draft</button>\r\n          <button class=\"btn btn-sm btn-success\" (click)=\"clickPublish()\">Publish</button>\r\n          <button *ngIf=\"deleteable()\" class=\"btn btn-sm btn-danger\" (click)=\"clickDelete()\">Delete</button>\r\n          <button class=\"btn btn-sm btn-outline-secondary\" (click)=\"clickCancel()\">Cancel</button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n    <div class=\"row\">\r\n      <div class=\"col\"></div>\r\n      <div class=\"col-8\">\r\n        <div class=\"article-form\">\r\n          <div class=\"form-group\">\r\n            <input (blur)=\"titleChanged($event)\" formControlName=\"Title\" type=\"text\" class=\"form-control form-control-lg\"\r\n                   name=\"txtTitle\" id=\"txtTitle\" placeholder=\"Title\" required>\r\n          </div>\r\n          <div class=\"form-group\">\r\n            <label for=\"txtDescription\">Summary</label>\r\n            <textarea formControlName=\"Summary\" rows=\"4\" class=\"form-control\"\r\n                      name=\"txtSummary\" id=\"txtSummary\" placeholder=\"Summary\"></textarea>\r\n          </div>\r\n          <div class=\"form-group\">\r\n            <label for=\"txtDescription\">Body</label>\r\n            <textarea formControlName=\"Body\" rows=\"10\" class=\"form-control\"\r\n                      name=\"txtBody\" id=\"txtBody\" placeholder=\"Body\" required></textarea>\r\n            <small id=\"txtBodyHelpBlock\" class=\"form-text text-muted\">\r\n              You may use MarkDown for your article body\r\n            </small>\r\n          </div>\r\n          <div class=\"form-group\">\r\n            <label for=\"finputImages\">Images</label>\r\n            <div class=\"card\">\r\n              <div class=\"card-body\">\r\n                <div class=\"uploaded\" *ngIf=\"articleForm.controls.Images.controls.length > 0\">\r\n                  <div formArrayName=\"Images\" [sortablejsOptions]=\"imageSortableOpts\" [sortablejs]=\"articleForm.controls.Images\" class=\"image-preview\">\r\n                    <div class=\"image-preview-item\" *ngFor=\"let file of articleForm.controls.Images.controls; let i = index\">\r\n                      <div class=\"panel-body\" [formGroupName]=\"i\">\r\n                        <app-article-file [group]=\"articleForm.controls.Images.controls[i]\"\r\n                                          [fileInfo]=\"imageUploads[i]\"\r\n                                          [index]=\"i\"\r\n                                          (removeFile)=\"onRemoveFile('Images',$event)\"\r\n                                          >\r\n                        </app-article-file>\r\n                      </div>\r\n                    </div>\r\n                  </div>\r\n                </div>\r\n                <input-file\r\n                            [inputAccept]=\"joinForInputAccept(allowedImages())\"\r\n                            [extensions]=\"allowedImages()\"\r\n                            multiple=\"true\"\r\n                            fileDisplayType=\"images\"\r\n                            [uploadFolder]=\"imageFolder()\"\r\n                            (fileUploaded)=\"onImageUploaded($event)\"\r\n                            ></input-file>\r\n\r\n              </div>\r\n            </div>\r\n          </div>\r\n          <div class=\"form-group\">\r\n            <label for=\"finputImages\">Files</label>\r\n            <div class=\"card\">\r\n              <div class=\"card-body\">\r\n                <div class=\"uploaded\" *ngIf=\"articleForm.controls.Files.controls.length > 0\">\r\n                  <div formArrayName=\"Files\" [sortablejs]=\"articleForm.controls.Files\" class=\"image-preview\">\r\n                    <div class=\"image-preview-item\" *ngFor=\"let file of articleForm.controls.Files.controls; let i = index\">\r\n                      <div class=\"panel-body\" [formGroupName]=\"i\">\r\n                        <app-article-file [group]=\"articleForm.controls.Files.controls[i]\"\r\n                                          [fileInfo]=\"fileUploads[i]\"\r\n                                          [index]=\"i\"\r\n                                          (removeFile)=\"onRemoveFile('Files',$event)\"\r\n                                          >\r\n                        </app-article-file>\r\n                      </div>\r\n                    </div>\r\n                  </div>\r\n                </div>\r\n                <input-file [inputAccept]=\"joinForInputAccept(allowedFiles())\"\r\n                            [extensions]=\"allowedFiles()\"\r\n                            multiple=\"true\"\r\n                            fileDisplayType=\"files\"\r\n                            [uploadFolder]=\"fileFolder()\"\r\n                            (fileUploaded)=\"onFileUploaded($event)\"></input-file>\r\n\r\n              </div>\r\n            </div>\r\n          </div>\r\n          <div class=\"form-group\">\r\n            <label for=\"txtCategories\">Categories</label>\r\n            <type-ahead formControlName=\"Categories\" [suggestions]=\"obs_allcategories$\"\r\n                        placeholder=\"Categories\" class=\"form-control\" \r\n                        [multi]=\"true\" [complex]=\"true\" nameField=\"Name\" idField=\"CategoryID\" >\r\n            </type-ahead>\r\n          </div>\r\n          <div class=\"form-group\">\r\n            <label for=\"txtTags\">Tags</label>\r\n            <type-ahead formControlName=\"Tags\" [suggestions]=\"obs_strTags$\"\r\n                        placeholder=\"Tags\"\r\n                        class=\"form-control\"\r\n                        [multi]=\"true\" [custom]=\"true\"></type-ahead>\r\n            <small id=\"txtTagsHelpBlock\" class=\"form-text text-muted\">\r\n              Start typing your tags, select existing tags or hit enter to add a new tag.\r\n            </small>\r\n          </div>\r\n          \r\n          <div class=\"row\">\r\n            <div class=\"col-md\">\r\n              <div class=\"form-group\">\r\n                <label>Author</label>\r\n                <type-ahead formControlName=\"Author\" [suggestions]=\"obs_authors$\"\r\n                            placeholder=\"Select the author\"\r\n                            class=\"form-control\"\r\n                            [complex]=\"true\"\r\n                            [attr.disabled]=\"!isEditor()\"\r\n                            ></type-ahead>\r\n              </div>\r\n              <div class=\"form-group\">\r\n                <label>Featured</label>\r\n                <div class=\"btn-group btn-group-toggle\" ngbRadioGroup name=\"radioFeatured\" formControlName=\"IsFeatured\">\r\n                  <label ngbButtonLabel class=\"btn-outline-primary\">\r\n                    <input ngbButton type=\"radio\" [value]=true> Yes\r\n                  </label>\r\n                  <label ngbButtonLabel class=\"btn-outline-secondary\">\r\n                    <input ngbButton type=\"radio\" [value]=false> No\r\n                  </label>\r\n                </div>\r\n              </div>\r\n              <div class=\"form-group\">\r\n                <label>Auto Archive</label>\r\n                <div class=\"btn-group btn-group-toggle\" ngbRadioGroup name=\"radioAutoArchive\" formControlName=\"AutoArchive\">\r\n                  <label ngbButtonLabel class=\"btn-outline-primary\">\r\n                    <input ngbButton type=\"radio\" [value]=true> Yes\r\n                  </label>\r\n                  <label ngbButtonLabel class=\"btn-outline-secondary\">\r\n                    <input ngbButton type=\"radio\" [value]=false> No\r\n                  </label>\r\n                </div>\r\n\r\n              </div>\r\n            </div>\r\n            <div class=\"col-md\">\r\n              <div class=\"form-group\">\r\n                <label>Publish</label>\r\n                <div class=\"input-group date-time\">\r\n                  <div class=\"input-group-prepend\">\r\n                    <button class=\"btn btn-outline-secondary\" (click)=\"d.toggle()\" type=\"button\">\r\n                      <i class=\"far fa-calendar-alt\"></i>\r\n                    </button>\r\n                  </div>\r\n                  <input class=\"form-control\" placeholder=\"yyyy-mm-dd\"\r\n                         name=\"dpPublish\" formControlName=\"PublishDate\" ngbDatepicker #d=\"ngbDatepicker\">\r\n                  <div class=\"input-group-append\">\r\n                    <span class=\"input-group-text\" id=\"\">\r\n                      <i class=\"far fa-clock\"></i>\r\n                    </span>\r\n                  </div>\r\n                  <ngb-timepicker formControlName=\"PublishTime\" [spinners]=\"false\"></ngb-timepicker>\r\n                </div>\r\n              </div>\r\n              <div *ngIf=\"ShowArchive()\" class=\"form-group\">\r\n                <label>Archive</label>\r\n                <div class=\"input-group date-time\">\r\n                  <div class=\"input-group-prepend\">\r\n                    <button class=\"btn btn-outline-secondary\" (click)=\"d2.toggle()\" type=\"button\">\r\n                      <i class=\"far fa-calendar-alt\"></i>\r\n                    </button>\r\n                  </div>\r\n                  <input class=\"form-control\" placeholder=\"yyyy-mm-dd\"\r\n                         name=\"dpArchive\" formControlName=\"ArchiveDate\" ngbDatepicker #d2=\"ngbDatepicker\">\r\n                  <div class=\"input-group-append\">\r\n                    <span class=\"input-group-text\" id=\"\">\r\n                      <i class=\"far fa-clock\"></i>\r\n                    </span>\r\n                  </div>\r\n                  <ngb-timepicker formControlName=\"ArchiveTime\" [spinners]=\"false\"></ngb-timepicker>\r\n                </div>\r\n              </div>\r\n            </div>\r\n          </div>\r\n          <hr />\r\n          <div class=\"custom-fields\" formGroupName=\"CustomTypes\">\r\n            <h5>Custom Fields</h5>\r\n            <div class=\"card\" *ngFor=\"let cDef of customDefs; let i = index\">\r\n              <div class=\"card-body\" [formGroupName]=\"cDef.TypeName\"> \r\n                <h6 class=\"card-title\">{{cDef.Name}}</h6>\r\n                <dynamic-form\r\n                    \r\n                    [config]=\"cDef.Fields\"\r\n                    [form]=\"articleForm.controls['CustomTypes'].controls[cDef.TypeName]\">\r\n                </dynamic-form>\r\n              </div>\r\n            </div>\r\n          </div>\r\n          <hr />\r\n          <h5>SEO</h5>\r\n          <div class=\"form-group\">\r\n            <label for=\"txtUrl\">URL Slug</label>\r\n            <input (blur)=\"urlChanged($event)\" formControlName=\"URL\" type=\"text\" class=\"form-control\"\r\n                   name=\"txtUrl\" id=\"txtUrl\" placeholder=\"Url\">\r\n          </div>\r\n          <div class=\"form-group\">\r\n            <label for=\"txtMetaTitle\">Meta Title</label>\r\n            <input formControlName=\"MetaTitle\" type=\"text\" class=\"form-control\"\r\n                   name=\"txtMetaTitle\" id=\"txtMetaTitle\" placeholder=\"Meta Title\">\r\n          </div>\r\n          <div class=\"form-group\">\r\n            <label for=\"txtMetaDescription\">Meta Description</label>\r\n            <textarea formControlName=\"MetaDescription\" rows=\"4\" class=\"form-control\"\r\n                      name=\"txtMetaDescription\" id=\"txtMetaDescription\" placeholder=\"Meta Description\"></textarea>\r\n          </div>\r\n          <div class=\"form-group\">\r\n            <label for=\"txtMetaKeywords\">Meta Keywords</label>\r\n            <textarea formControlName=\"MetaKeywords\" rows=\"3\" class=\"form-control\"\r\n                      name=\"txtMetaKeywords\" id=\"txtMetaKeywords\" placeholder=\"Meta Keywords\"></textarea>\r\n          </div>\r\n          <hr />\r\n          <h5>Other</h5>\r\n          <div class=\"form-group\">\r\n            <label for=\"txtPageHeadText\">Page Header Text</label>\r\n            <textarea formControlName=\"PageHeadText\" rows=\"3\" class=\"form-control\"\r\n                      name=\"txtPageHeadText\" id=\"txtPageHeadText\" placeholder=\"Page Header Text\"></textarea>\r\n          </div>\r\n        </div>\r\n      </div>\r\n      <div class=\"col\">\r\n        \r\n      </div>\r\n    </div>\r\n    <app-list-errors [errors]=\"errors\"></app-list-errors>\r\n    <div class=\"d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-top\">\r\n      <div></div>\r\n      <div class=\"btn-toolbar mt-2 mb-2 mb-md-0\">\r\n        <div class=\"btn-group mr-2\">\r\n          <button class=\"btn btn-primary\" (click)=\"clickSaveDraft()\">Save as draft</button>\r\n          <button class=\"btn btn-success\" (click)=\"clickPublish()\">Publish</button>\r\n          <button *ngIf=\"deleteable()\" class=\"btn btn-danger\" (click)=\"clickDelete()\">Delete</button>\r\n          <button class=\"btn btn-outline-secondary\" (click)=\"clickCancel()\">Cancel</button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </fieldset>\r\n  <div *ngIf=\"isDebugMode()\">\r\n    <fieldset>\r\n      <legend>articleForm Value:</legend>\r\n      <pre>{{ articleForm.value | json:2 }}</pre>\r\n    </fieldset>\r\n    <fieldset>\r\n      <legend>article Value:</legend>\r\n      <pre>{{ article | json:2 }}</pre>\r\n    </fieldset>\r\n  </div>\r\n</div>\r\n<div *ngIf=\"!article.Actions.includes('Edit')\">\r\n  <div class=\"alert alert-danger\" role=\"alert\">\r\n    <h4 class=\"alert-heading\">Permission Denied</h4>\r\n    <p>You do not have permission to edit this item.</p>\r\n    <hr>\r\n    <p class=\"mb-0\"></p>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<div ngForm [formGroup]=\"articleForm\" (validSubmit)=\"onSubmit()\" validate *ngIf=\"userCanEdit()\">\r\n  <fieldset [disabled]=\"isSubmitting\">\r\n    <div class=\"d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom\">\r\n      <h2>{{articleHeading()}} <span class=\"badge badge-{{articleStatusClass()}}\">{{article.Status}}</span></h2>\r\n      <div class=\"btn-toolbar mb-2 mb-md-0\">\r\n        <div class=\"btn-group mr-2\">\r\n          <a *ngIf=\"deleteable()\" target=\"_blank\" class=\"btn btn-sm btn-outline-secondary\" href=\"{{article.vwURL}}\">Preview</a>\r\n          <button class=\"btn btn-sm btn-primary\" (click)=\"clickSaveDraft()\">Save as draft</button>\r\n          <button class=\"btn btn-sm btn-success\" (click)=\"clickPublish()\">Publish</button>\r\n          <button *ngIf=\"deleteable()\" class=\"btn btn-sm btn-danger\" (click)=\"clickDelete()\">Delete</button>\r\n          <button class=\"btn btn-sm btn-outline-secondary\" (click)=\"clickCancel()\">Cancel</button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n    <div class=\"row\">\r\n      <div class=\"col\"></div>\r\n      <div class=\"col-8\">\r\n        <div class=\"article-form\">\r\n          <div class=\"form-group\">\r\n            <input (blur)=\"titleChanged($event)\" formControlName=\"Title\" type=\"text\" class=\"form-control form-control-lg\"\r\n                   name=\"txtTitle\" id=\"txtTitle\" placeholder=\"Title\" required>\r\n          </div>\r\n          <div class=\"form-group\">\r\n            <label for=\"txtDescription\">Summary</label>\r\n            <textarea formControlName=\"Summary\" rows=\"4\" class=\"form-control\"\r\n                      name=\"txtSummary\" id=\"txtSummary\" placeholder=\"Summary\"></textarea>\r\n          </div>\r\n          <div class=\"form-group\">\r\n            <label for=\"txtDescription\">Body</label>\r\n            <textarea formControlName=\"Body\" rows=\"10\" class=\"form-control\"\r\n                      name=\"txtBody\" id=\"txtBody\" placeholder=\"Body\" required></textarea>\r\n            <small id=\"txtBodyHelpBlock\" class=\"form-text text-muted\">\r\n              You may use MarkDown for your article body\r\n            </small>\r\n          </div>\r\n          <div class=\"form-group\">\r\n            <label for=\"finputImages\">Images</label>\r\n            <div class=\"card\">\r\n              <div class=\"card-body\">\r\n                <div class=\"uploaded\" *ngIf=\"articleForm.controls.Images.controls.length > 0\">\r\n                  <div formArrayName=\"Images\" [sortablejsOptions]=\"imageSortableOpts\" [sortablejs]=\"articleForm.controls.Images\" class=\"image-preview\">\r\n                    <div class=\"image-preview-item\" *ngFor=\"let file of articleForm.controls.Images.controls; let i = index\">\r\n                      <div class=\"panel-body\" [formGroupName]=\"i\">\r\n                        <app-article-file [group]=\"articleForm.controls.Images.controls[i]\"\r\n                                          [fileInfo]=\"imageUploads[i]\"\r\n                                          [index]=\"i\"\r\n                                          (removeFile)=\"onRemoveFile('Images',$event)\"\r\n                                          >\r\n                        </app-article-file>\r\n                      </div>\r\n                    </div>\r\n                  </div>\r\n                </div>\r\n                <input-file\r\n                            [inputAccept]=\"joinForInputAccept(allowedImages())\"\r\n                            [extensions]=\"allowedImages()\"\r\n                            multiple=\"true\"\r\n                            fileDisplayType=\"images\"\r\n                            [uploadFolder]=\"imageFolder()\"\r\n                            (fileUploaded)=\"onImageUploaded($event)\"\r\n                            ></input-file>\r\n\r\n              </div>\r\n            </div>\r\n          </div>\r\n          <div class=\"form-group\">\r\n            <label for=\"finputImages\">Files</label>\r\n            <div class=\"card\">\r\n              <div class=\"card-body\">\r\n                <div class=\"uploaded\" *ngIf=\"articleForm.controls.Files.controls.length > 0\">\r\n                  <div formArrayName=\"Files\" [sortablejs]=\"articleForm.controls.Files\" class=\"image-preview\">\r\n                    <div class=\"image-preview-item\" *ngFor=\"let file of articleForm.controls.Files.controls; let i = index\">\r\n                      <div class=\"panel-body\" [formGroupName]=\"i\">\r\n                        <app-article-file [group]=\"articleForm.controls.Files.controls[i]\"\r\n                                          [fileInfo]=\"fileUploads[i]\"\r\n                                          [index]=\"i\"\r\n                                          (removeFile)=\"onRemoveFile('Files',$event)\"\r\n                                          >\r\n                        </app-article-file>\r\n                      </div>\r\n                    </div>\r\n                  </div>\r\n                </div>\r\n                <input-file [inputAccept]=\"joinForInputAccept(allowedFiles())\"\r\n                            [extensions]=\"allowedFiles()\"\r\n                            multiple=\"true\"\r\n                            fileDisplayType=\"files\"\r\n                            [uploadFolder]=\"fileFolder()\"\r\n                            (fileUploaded)=\"onFileUploaded($event)\"></input-file>\r\n\r\n              </div>\r\n            </div>\r\n          </div>\r\n          <div class=\"form-group\">\r\n            <label for=\"txtCategories\">Categories</label>\r\n            <type-ahead formControlName=\"Categories\" [suggestions]=\"obs_allcategories$\"\r\n                        placeholder=\"Categories\" class=\"form-control\" \r\n                        [multi]=\"true\" [complex]=\"true\" nameField=\"Name\" idField=\"CategoryID\" >\r\n            </type-ahead>\r\n          </div>\r\n          <div class=\"form-group\">\r\n            <label for=\"txtTags\">Tags</label>\r\n            <type-ahead formControlName=\"Tags\" [suggestions]=\"obs_strTags$\"\r\n                        placeholder=\"Tags\"\r\n                        class=\"form-control\"\r\n                        [multi]=\"true\" [custom]=\"true\"></type-ahead>\r\n            <small id=\"txtTagsHelpBlock\" class=\"form-text text-muted\">\r\n              Start typing your tags, select existing tags or hit enter to add a new tag.\r\n            </small>\r\n          </div>\r\n          \r\n          <div class=\"row\">\r\n            <div class=\"col-md\">\r\n              <div class=\"form-group\">\r\n                <label>Author</label>\r\n                <type-ahead formControlName=\"Author\" [suggestions]=\"obs_authors$\"\r\n                            placeholder=\"Select the author\"\r\n                            class=\"form-control\"\r\n                            [complex]=\"true\"\r\n                            [attr.disabled]=\"!isEditor()\"\r\n                            ></type-ahead>\r\n              </div>\r\n              <div class=\"form-group\">\r\n                <label>Featured</label>\r\n                <div class=\"btn-group btn-group-toggle\" ngbRadioGroup name=\"radioFeatured\" formControlName=\"IsFeatured\">\r\n                  <label ngbButtonLabel class=\"btn-outline-primary\">\r\n                    <input ngbButton type=\"radio\" [value]=true> Yes\r\n                  </label>\r\n                  <label ngbButtonLabel class=\"btn-outline-secondary\">\r\n                    <input ngbButton type=\"radio\" [value]=false> No\r\n                  </label>\r\n                </div>\r\n              </div>\r\n              <div class=\"form-group\">\r\n                <label>Auto Archive</label>\r\n                <div class=\"btn-group btn-group-toggle\" ngbRadioGroup name=\"radioAutoArchive\" formControlName=\"AutoArchive\">\r\n                  <label ngbButtonLabel class=\"btn-outline-primary\">\r\n                    <input ngbButton type=\"radio\" [value]=true> Yes\r\n                  </label>\r\n                  <label ngbButtonLabel class=\"btn-outline-secondary\">\r\n                    <input ngbButton type=\"radio\" [value]=false> No\r\n                  </label>\r\n                </div>\r\n\r\n              </div>\r\n            </div>\r\n            <div class=\"col-md\">\r\n              <div class=\"form-group\">\r\n                <label>Publish</label>\r\n                <div class=\"input-group date-time\">\r\n                  <div class=\"input-group-prepend\">\r\n                    <button class=\"btn btn-outline-secondary\" (click)=\"d.toggle()\" type=\"button\">\r\n                      <i class=\"far fa-calendar-alt\"></i>\r\n                    </button>\r\n                  </div>\r\n                  <input class=\"form-control\" placeholder=\"yyyy-mm-dd\"\r\n                         name=\"dpPublish\" formControlName=\"PublishDate\" ngbDatepicker #d=\"ngbDatepicker\">\r\n                  <div class=\"input-group-append\">\r\n                    <span class=\"input-group-text\" id=\"\">\r\n                      <i class=\"far fa-clock\"></i>\r\n                    </span>\r\n                  </div>\r\n                  <ngb-timepicker formControlName=\"PublishTime\" [spinners]=\"false\"></ngb-timepicker>\r\n                </div>\r\n              </div>\r\n              <div *ngIf=\"ShowArchive()\" class=\"form-group\">\r\n                <label>Archive</label>\r\n                <div class=\"input-group date-time\">\r\n                  <div class=\"input-group-prepend\">\r\n                    <button class=\"btn btn-outline-secondary\" (click)=\"d2.toggle()\" type=\"button\">\r\n                      <i class=\"far fa-calendar-alt\"></i>\r\n                    </button>\r\n                  </div>\r\n                  <input class=\"form-control\" placeholder=\"yyyy-mm-dd\"\r\n                         name=\"dpArchive\" formControlName=\"ArchiveDate\" ngbDatepicker #d2=\"ngbDatepicker\">\r\n                  <div class=\"input-group-append\">\r\n                    <span class=\"input-group-text\" id=\"\">\r\n                      <i class=\"far fa-clock\"></i>\r\n                    </span>\r\n                  </div>\r\n                  <ngb-timepicker formControlName=\"ArchiveTime\" [spinners]=\"false\"></ngb-timepicker>\r\n                </div>\r\n              </div>\r\n            </div>\r\n          </div>\r\n          <hr />\r\n          <div class=\"custom-fields\" formGroupName=\"CustomTypes\">\r\n            <h5>Custom Fields</h5>\r\n            <div class=\"card\" *ngFor=\"let cDef of customDefs; let i = index\">\r\n              <div class=\"card-body\" [formGroupName]=\"cDef.TypeName\"> \r\n                <h6 class=\"card-title\">{{cDef.Name}}</h6>\r\n                <dynamic-form\r\n                    (formBuilt)=\"dynFormBuilt()\"\r\n                    [config]=\"cDef.Fields\"\r\n                    [form]=\"articleForm.controls['CustomTypes'].controls[cDef.TypeName]\">\r\n                </dynamic-form>\r\n              </div>\r\n            </div>\r\n          </div>\r\n          <hr />\r\n          <h5>SEO</h5>\r\n          <div class=\"form-group\">\r\n            <label for=\"txtUrl\">URL Slug</label>\r\n            <input (blur)=\"urlChanged($event)\" formControlName=\"URL\" type=\"text\" class=\"form-control\"\r\n                   name=\"txtUrl\" id=\"txtUrl\" placeholder=\"Url\">\r\n          </div>\r\n          <div class=\"form-group\">\r\n            <label for=\"txtMetaTitle\">Meta Title</label>\r\n            <input formControlName=\"MetaTitle\" type=\"text\" class=\"form-control\"\r\n                   name=\"txtMetaTitle\" id=\"txtMetaTitle\" placeholder=\"Meta Title\">\r\n          </div>\r\n          <div class=\"form-group\">\r\n            <label for=\"txtMetaDescription\">Meta Description</label>\r\n            <textarea formControlName=\"MetaDescription\" rows=\"4\" class=\"form-control\"\r\n                      name=\"txtMetaDescription\" id=\"txtMetaDescription\" placeholder=\"Meta Description\"></textarea>\r\n          </div>\r\n          <div class=\"form-group\">\r\n            <label for=\"txtMetaKeywords\">Meta Keywords</label>\r\n            <textarea formControlName=\"MetaKeywords\" rows=\"3\" class=\"form-control\"\r\n                      name=\"txtMetaKeywords\" id=\"txtMetaKeywords\" placeholder=\"Meta Keywords\"></textarea>\r\n          </div>\r\n          <hr />\r\n          <h5>Other</h5>\r\n          <div class=\"form-group\">\r\n            <label for=\"txtPageHeadText\">Page Header Text</label>\r\n            <textarea formControlName=\"PageHeadText\" rows=\"3\" class=\"form-control\"\r\n                      name=\"txtPageHeadText\" id=\"txtPageHeadText\" placeholder=\"Page Header Text\"></textarea>\r\n          </div>\r\n        </div>\r\n      </div>\r\n      <div class=\"col\">\r\n        \r\n      </div>\r\n    </div>\r\n    <app-list-errors [errors]=\"errors\"></app-list-errors>\r\n    <div class=\"d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-top\">\r\n      <div></div>\r\n      <div class=\"btn-toolbar mt-2 mb-2 mb-md-0\">\r\n        <div class=\"btn-group mr-2\">\r\n          <button class=\"btn btn-primary\" (click)=\"clickSaveDraft()\">Save as draft</button>\r\n          <button class=\"btn btn-success\" (click)=\"clickPublish()\">Publish</button>\r\n          <button *ngIf=\"deleteable()\" class=\"btn btn-danger\" (click)=\"clickDelete()\">Delete</button>\r\n          <button class=\"btn btn-outline-secondary\" (click)=\"clickCancel()\">Cancel</button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </fieldset>\r\n  <div *ngIf=\"isDebugMode()\">\r\n    <fieldset>\r\n      <legend>articleForm Value:</legend>\r\n      <pre>{{ articleForm.value | json:2 }}</pre>\r\n    </fieldset>\r\n    <fieldset>\r\n      <legend>article Value:</legend>\r\n      <pre>{{ article | json:2 }}</pre>\r\n    </fieldset>\r\n  </div>\r\n</div>\r\n<div *ngIf=\"userCanEdit()==false\">\r\n  <div class=\"alert alert-danger\" role=\"alert\">\r\n    <h4 class=\"alert-heading\">Permission Denied</h4>\r\n    <p>You do not have permission to edit this item.</p>\r\n    <hr>\r\n    <p class=\"mb-0\"></p>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -711,7 +717,7 @@ var ArticleFormComponent = /** @class */ (function () {
                     updateOn: 'blur'
                 }],
             Tags: [''],
-            Categories: [''],
+            Categories: this.categoryValidator(),
             PublishTime: [''],
             PublishDate: ['', __WEBPACK_IMPORTED_MODULE_2__angular_forms__["Validators"].required],
             ArchiveTime: [''],
@@ -723,6 +729,14 @@ var ArticleFormComponent = /** @class */ (function () {
             Files: this.fb.array([]),
             CustomTypes: this.fb.group({})
         });
+    };
+    ArticleFormComponent.prototype.categoryValidator = function () {
+        if (this.settingsService.getCurrentSettings().CategoryRequireCategory) {
+            return ['', __WEBPACK_IMPORTED_MODULE_2__angular_forms__["Validators"].required];
+        }
+        else {
+            return [''];
+        }
     };
     ArticleFormComponent.prototype.validateUrlNotInUse = function (control) {
         return this.articlesService.validateUrlNotInUse(this.articleId(), control.value);
@@ -776,6 +790,10 @@ var ArticleFormComponent = /** @class */ (function () {
         //    [cDef.TypeName]: this.fb.array([])
         //  });
         //}
+    };
+    ArticleFormComponent.prototype.dynFormBuilt = function () {
+        console.log('dynFormBuilt()');
+        this.ModelToForm();
     };
     ArticleFormComponent.prototype.addCustomObjectControl = function (cDef) {
         var control = this.articleForm.controls["CustomTypes"];
@@ -857,6 +875,8 @@ var ArticleFormComponent = /** @class */ (function () {
     ArticleFormComponent.prototype.ModelToForm = function () {
         this.initFileControls('Images', this.article.Images);
         this.initFileControls('Files', this.article.Files);
+        console.log('customTypes');
+        console.log(this.article.CustomTypes);
         this.articleForm.patchValue({
             Title: this.article.Title,
             Summary: this.article.Summary,
@@ -879,7 +899,6 @@ var ArticleFormComponent = /** @class */ (function () {
             Images: this.article.Images,
             CustomTypes: (this.article.CustomTypes == null ? {} : this.article.CustomTypes)
         });
-        this.setAuthorTextValue();
     };
     ArticleFormComponent.prototype.FormToModel = function () {
         var f = this.articleForm.value;
@@ -930,17 +949,6 @@ var ArticleFormComponent = /** @class */ (function () {
         file.Title = con.Title;
         file.Description = con.Description;
         return file;
-    };
-    ArticleFormComponent.prototype.setAuthorTextValue = function () {
-        var _this = this;
-        //Set the textbox value of the typeahead manually.
-        if (this.authors != null && this.article != null) {
-            var author = this.authors.find(function (a) { return a.id === _this.article.AuthorID; });
-            if (author != null) {
-                var ic = document.querySelector("[formcontrolname='Author'] input");
-                ic.value = author.name;
-            }
-        }
     };
     ArticleFormComponent.prototype.getTagsFromModel = function () {
         if (this.article.Tags == null) {
@@ -1027,7 +1035,6 @@ var ArticleFormComponent = /** @class */ (function () {
         this.obs_strTags$ = this.obs_alltags$.map(function (array) { return array.map(function (tag) { return tag.name; }); });
         this.obs_authors$.pipe(Object(__WEBPACK_IMPORTED_MODULE_5_rxjs_operators__["map"])(function (data) { return data; })).subscribe(function (data) {
             _this.authors = data;
-            _this.setAuthorTextValue();
         });
         this.obs_allcategories$.pipe(Object(__WEBPACK_IMPORTED_MODULE_5_rxjs_operators__["map"])(function (data) { return data; })).subscribe(function (data) { return _this.allcategories = data; });
         this.obs_alltags$.pipe(Object(__WEBPACK_IMPORTED_MODULE_5_rxjs_operators__["map"])(function (data) { return data; })).subscribe(function (data) { return _this.alltags = data; });
@@ -1129,6 +1136,60 @@ var ArticleFormComponent = /** @class */ (function () {
     ArticleFormComponent.prototype.allowedImages = function () {
         return this.settingsService.getCurrentSettings().ImageAllowedTypes;
     };
+    ArticleFormComponent.prototype.articleHeading = function () {
+        if (this.article == null) {
+            return "Article";
+        }
+        if (this.article.Title != '') {
+            return 'Editing Article ';
+        }
+        else {
+            return 'New Article';
+        }
+    };
+    ArticleFormComponent.prototype.userCanEdit = function () {
+        //return true;
+        if (this.article == null) {
+            return null;
+        }
+        if (this.article.Actions == null) {
+            return null;
+        }
+        if (this.article.Actions.includes('Edit')) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    };
+    ArticleFormComponent.prototype.articleStatusClass = function () {
+        if (this.article == null || this.article.Status == null) {
+            return '';
+        }
+        switch (this.article.Status.toLowerCase()) {
+            case 'draft': {
+                return 'secondary';
+            }
+            case 'deleted': {
+                return 'dark';
+            }
+            case 'needsapproval': {
+                return 'warning';
+            }
+            case 'live': {
+                return 'success';
+            }
+            case 'expired': {
+                return 'dark';
+            }
+            case 'upcoming': {
+                return 'light';
+            }
+            default: {
+                return 'secondary';
+            }
+        }
+    };
     ArticleFormComponent.prototype.joinForInputAccept = function (iary) {
         if (iary) {
             var ary = iary.slice(0);
@@ -1141,9 +1202,15 @@ var ArticleFormComponent = /** @class */ (function () {
         }
     };
     ArticleFormComponent.prototype.isEditor = function () {
+        if (this.settingsService.getCurrentSettings().currentUser == null) {
+            return false;
+        }
         return this.settingsService.getCurrentSettings().currentUser.isEditor;
     };
     ArticleFormComponent.prototype.isAuthor = function () {
+        if (this.settingsService.getCurrentSettings().currentUser == null) {
+            return false;
+        }
         return this.settingsService.getCurrentSettings().currentUser.isAuthor;
     };
     ArticleFormComponent.prototype.allowedFiles = function () {
@@ -1896,7 +1963,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var DevContext = /** @class */ (function () {
     function DevContext() {
         this.ignoreMissingServicesFramework = false;
-        this.forceUse = true;
+        this.forceUse = false;
         this.moduleId = 542;
         this.tabId = 137;
         this.antiForgeryToken = 'ThisIsaTestAntiForgeryToken';
@@ -3157,6 +3224,7 @@ var DynamicFormComponent = /** @class */ (function () {
         this.fb = fb;
         this.config = [];
         this.submit = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
+        this.formBuilt = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
     }
     Object.defineProperty(DynamicFormComponent.prototype, "controls", {
         get: function () { return this.config.filter(function (_a) {
@@ -3203,6 +3271,7 @@ var DynamicFormComponent = /** @class */ (function () {
                 var config = _this.config.find(function (control) { return control.name === name; });
                 _this.form.addControl(name, _this.createControl(config));
             });
+            this.formBuilt.emit(this.form);
         }
     };
     DynamicFormComponent.prototype.createGroup = function () {
@@ -3247,6 +3316,10 @@ var DynamicFormComponent = /** @class */ (function () {
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"])(),
         __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"])
     ], DynamicFormComponent.prototype, "submit", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"])(),
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"])
+    ], DynamicFormComponent.prototype, "formBuilt", void 0);
     __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
         __metadata("design:type", __WEBPACK_IMPORTED_MODULE_1__angular_forms__["FormGroup"])
