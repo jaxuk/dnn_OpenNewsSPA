@@ -16,6 +16,7 @@ using AutoMapper;
 using YeditUK.Modules.dnn_OpenNews.Components.DAL;
 using DotNetNuke.Collections;
 using DotNetNuke.Framework;
+using System.Text.RegularExpressions;
 
 namespace YeditUK.Modules.dnn_OpenNews
 {
@@ -27,6 +28,8 @@ namespace YeditUK.Modules.dnn_OpenNews
     private int _pageIndex = 0;
     private bool isView = false;
     private bool isAdminView = false;
+    private string qsRazorView = "";
+    private bool viewOnly = false;
     private void Page_Init(object sender, System.EventArgs e)
     {
       try
@@ -45,7 +48,10 @@ namespace YeditUK.Modules.dnn_OpenNews
         string qsArticleType, qsAdminType = "";
         qsArticleType = Request.QueryString["articleType"];
         qsAdminType = Request.QueryString["adminType"];
-        
+        qsRazorView = Request.QueryString["RazorView"];
+        if (Request.QueryString["vo"] == "1") {
+          viewOnly = true;
+        }
         isView = Enum.TryParse<ViewType>(qsArticleType, out _viewType);
         isAdminView = Enum.TryParse<AdminViewType>(qsAdminType, out _adminViewType);
         if ((!isView && !isAdminView) || (isView && isAdminView))
@@ -74,8 +80,15 @@ namespace YeditUK.Modules.dnn_OpenNews
           //var razorEngine = new RazorEngine(RazorScriptFile, ModuleContext, LocalResourceFile);
           string viewPath = "";
 
-          viewPath = UrlHelper.GetViewPath(this.ModuleContext.Configuration.DesktopModule.FolderName,
+          if (_viewType == ViewType.razorview && !string.IsNullOrEmpty(qsRazorView))
+          {
+            viewPath = UrlHelper.GetViewPath(this.ModuleContext.Configuration.DesktopModule.FolderName,
+            _settings.BasicRenderingTemplate, qsRazorView);
+          }
+          else {
+            viewPath = UrlHelper.GetViewPath(this.ModuleContext.Configuration.DesktopModule.FolderName,
             _settings.BasicRenderingTemplate, _viewType.ToString());
+          }
 
           if (!string.IsNullOrEmpty(viewPath))
           {
@@ -97,6 +110,9 @@ namespace YeditUK.Modules.dnn_OpenNews
               case ViewType.tagview:
                 vm = vc.getTagViewModel();
                 break;
+              case ViewType.razorview:
+                vm = vc.getRazorViewModel();
+                break;
               default:
                 break;
             }
@@ -108,7 +124,21 @@ namespace YeditUK.Modules.dnn_OpenNews
             {
               razorEngine.Render(writer);
             }
-            Controls.Add(new LiteralControl(writer.ToString()));
+            if (viewOnly)
+            {
+              string responseString = writer.ToString();
+              responseString = Regex.Replace(responseString, @"^\s*$[\r\n]*", string.Empty, RegexOptions.Multiline).Trim();
+              HttpContext.Current.Response.Clear();
+              HttpContext.Current.Response.ContentType = "text/xml";
+              HttpContext.Current.Response.Write(responseString);
+              HttpContext.Current.Response.Flush();
+              HttpContext.Current.Response.Close();
+              HttpContext.Current.Response.Clear();
+              HttpContext.Current.Response.End();
+            }
+            else {
+              Controls.Add(new LiteralControl(writer.ToString()));
+            }
           }
         }
       }

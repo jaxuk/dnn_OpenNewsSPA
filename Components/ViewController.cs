@@ -94,6 +94,10 @@ namespace YeditUK.Modules.dnn_OpenNews.Components
       vc.AllCategories = getAllCategories();
       return vc;
     }
+    public Views.Templates.ViewModels.RazorViewModel getRazorViewModel() {
+      var vc = new Views.Templates.ViewModels.RazorViewModel(this);
+      return vc;
+    }
     public Templates.ViewModels.TagViewModel getTagViewModel()
     {
       int tagId = -1;

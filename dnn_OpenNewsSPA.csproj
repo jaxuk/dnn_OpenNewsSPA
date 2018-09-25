@@ -329,6 +329,7 @@
     <Compile Include="Views\Templates\ViewModels\ArticlesPagerViewModel.cs" />
     <Compile Include="Views\Templates\ViewModels\ListArticlesViewModel.cs" />
     <Compile Include="Views\Templates\ViewModels\ArchiveViewModel.cs" />
+    <Compile Include="Views\Templates\ViewModels\RazorViewModel.cs" />
     <Compile Include="Views\Templates\ViewModels\TagViewModel.cs" />
     <Compile Include="Views\Templates\ViewModels\ViewCurrentModel.cs" />
     <Compile Include="Views\Templates\ViewModels\CategoryViewModel.cs" />
@@ -487,6 +488,8 @@
     <Content Include="Views\Templates\Razor\sb\styles\base\_fonts.scss" />
     <Content Include="Views\Templates\Razor\sb\_ads_article.cshtml" />
     <Content Include="README.md" />
+    <Content Include="Views\Templates\Razor\sb\_googleNewsFeed.cshtml" />
+    <Content Include="Providers\DataProviders\SqlDataProvider\00.00.02.SqlDataProvider" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>

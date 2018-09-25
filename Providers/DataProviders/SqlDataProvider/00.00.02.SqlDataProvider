@@ -1,0 +1,41 @@
+﻿/************************************************************/
+/*****              SqlDataProvider                     *****/
+/*****                                                  *****/
+/*****                                                  *****/
+/***** Note: To manually execute this script you must   *****/
+/*****       perform a search and replace operation     *****/
+/*****       for {databaseOwner} and {objectQualifier}  *****/
+/*****                                                  *****/
+/************************************************************/
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE OpenNews_ClearAllModuleData 
+	@ModuleID int,
+	@ResetIdentity bit,
+	@setInsertIdentiyON bit
+AS
+BEGIN
+	SET NOCOUNT ON;
+	DELETE FROM {databaseOwner}[{objectQualifier}OpenNews_Category] Where ModuleID=@ModuleID;
+	DELETE FROM {databaseOwner}[{objectQualifier}OpenNews_Tag] Where ModuleID=@ModuleID;
+	DELETE FROM {databaseOwner}[{objectQualifier}OpenNews_Article] Where ModuleID =@ModuleID;
+	IF @ResetIdentity = 1
+	BEGIN
+		DBCC CHECKIDENT('{databaseOwner}[{objectQualifier}OpenNews_Category]', RESEED, 0); 
+        DBCC CHECKIDENT('{databaseOwner}[{objectQualifier}OpenNews_Tag]', RESEED, 0); 
+        DBCC CHECKIDENT('{databaseOwner}[{objectQualifier}OpenNews_Article]', RESEED, 0);
+	END
+END
+
+
+
+
+
+
+/************************************************************/
+/*****              SqlDataProvider                     *****/
+/************************************************************/

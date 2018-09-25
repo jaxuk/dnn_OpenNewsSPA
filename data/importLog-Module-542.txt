@@ -1,0 +1,12 @@
+21/09/2018 12:11:25 - Starting Import for NA Module with Id: 414
+21/09/2018 12:11:25 - Imported : 14 Categories
+21/09/2018 12:11:25 - Imported : 60 Tags
+21/09/2018 12:11:28 - Imported : 515 Articles
+21/09/2018 12:11:28 - Imported : 515 Article Pages
+21/09/2018 12:11:31 - Imported : 2 Article Files
+21/09/2018 12:13:19 - Failed to get fileInfo for image: Users/002/02/2/20131120_152455.jpg
+21/09/2018 12:13:19 - Imported : 2637 Article Images
+21/09/2018 12:13:20 - Imported : 1049 Article Category Links
+21/09/2018 12:13:20 - Imported : 63 Article Tag Links
+21/09/2018 12:13:21 - Imported : 1228 Inline Article Images Proccessed
+21/09/2018 12:13:22 - Import Complete

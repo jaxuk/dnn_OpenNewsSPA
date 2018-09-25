@@ -28,6 +28,7 @@ namespace YeditUK.Modules.dnn_OpenNews.Components.Enums
     syndication ,
     tagview ,
     viewcurrent,
+    razorview,
     admin,
     adminframe
   }
