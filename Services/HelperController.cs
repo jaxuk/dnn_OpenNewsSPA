@@ -195,6 +195,8 @@ namespace YeditUK.Modules.dnn_OpenNews.Services
       if (dto.naModeulId > 0 && dto.oaModeulId == -1) {
         dto.oaModeulId = ActiveModule.ModuleID;
       }
+      int naTabid = -1;
+      naTabid = ModuleController.Instance.GetTabModulesByModule(dto.naModeulId).FirstOrDefault().TabID;
       if (dto == null || dto.naModeulId <= 0 || dto.oaModeulId <= 0)
       {
         throw (new Exception("naModeulId and oaModeulId Required"));
@@ -232,17 +234,7 @@ namespace YeditUK.Modules.dnn_OpenNews.Services
         " - Starting Import for NA Module with Id: " + dto.naModeulId.ToString() });
 
       using (IDataContext ctx = DataContext.Instance()) {
-        ////DELETE EVERYTHING FROM OA with moduleID
-        //ctx.Execute(System.Data.CommandType.Text, "DELETE FROM [dbo].[OpenNews_Category] Where ModuleID=@0; " +
-        //"DELETE FROM [dbo].[OpenNews_Tag] Where ModuleID =@0; "+
-        //"DELETE FROM [dbo].[OpenNews_Article] Where ModuleID =@0; "+
-        ////"SET IDENTITY_INSERT [dbo].[OpenNews_Category] ON; "+
-        ////"SET IDENTITY_INSERT [dbo].[OpenNews_Tag] ON; " +
-        ////"SET IDENTITY_INSERT [dbo].[OpenNews_Article] ON; " +
-        //"DBCC CHECKIDENT('[dbo].[OpenNews_Category]', RESEED, 0); " +
-        //"DBCC CHECKIDENT('[dbo].[OpenNews_Tag]', RESEED, 0); " +
-        //"DBCC CHECKIDENT('[dbo].[OpenNews_Article]', RESEED, 0); " +
-        //"", dto.oaModeulId);
+        
         ctx.Execute(System.Data.CommandType.StoredProcedure, "OpenNews_ClearAllModuleData", dto.oaModeulId, dto.resetIdentity, dto.identityInsert);
         var naCategories = ctx.ExecuteQuery<dynamic>(System.Data.CommandType.Text, "SELECT * FROM DnnForge_NewsArticles_Category Where Moduleid=@0", dto.naModeulId);
         var repoCats = ctx.GetRepository<Category>();
@@ -261,7 +253,9 @@ namespace YeditUK.Modules.dnn_OpenNews.Services
           newCat.ParentID = (c.ParentID==-1?0: c.ParentID);
           newCat.ModuleId = dto.oaModeulId;
           //TODO = use actual old url
-          newCat.URL = UrlHelper.cleanUrl(newCat.Name, PortalSettings.PortalId);
+          string oldUrl = UrlHelper.GetCategoryURL(naTabid, c.CategoryID);
+          newCat.URL = oldUrl.Split('/').Last();
+          //newCat.URL = UrlHelper.cleanUrl(newCat.Name, PortalSettings.PortalId);
           repoCats.Insert(newCat);
           dicCats.Add(c.CategoryID, newCat.CategoryID);
         });
@@ -320,7 +314,9 @@ namespace YeditUK.Modules.dnn_OpenNews.Services
           newArticle.StartDate = c.StartDate;
           newArticle.Summary = stringNotNull(c.Summary);
           //TODO Get the current url of this article...
-          newArticle.URL = UrlHelper.cleanUrl(newArticle.Title, PortalSettings.PortalId);
+          string oldUrl = UrlHelper.GetArticleURL(naTabid, c.ArticleID);
+          newArticle.URL = oldUrl.Split('/').Last();
+          //newArticle.URL = UrlHelper.cleanUrl(newArticle.Title, PortalSettings.PortalId);
           repoArticles.Insert(newArticle);
           var cntTaxonomy = new DNNContent();
           var objContentItem = cntTaxonomy.CreateContentItem(newArticle);

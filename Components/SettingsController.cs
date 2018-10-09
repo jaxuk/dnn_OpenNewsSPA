@@ -96,35 +96,7 @@ namespace YeditUK.Modules.dnn_OpenNews.Components
     }
 
     private dynamic GetSettingValue(string Key, dynamic SettingDefault) {
-      if (!moduleInfo.TabModuleSettings.ContainsKey(MOD_SETTINGS_PREFIX + Key))
-      {
-        return SettingDefault;
-      }
-      else {
-        object val = moduleInfo.TabModuleSettings[MOD_SETTINGS_PREFIX + Key];
-        switch (SettingDefault)
-        {
-          case Boolean b:
-            return bool.Parse(val.ToString());
-          case int i:
-            return int.Parse(val.ToString());
-          case string[] strArray:
-            return ((string)val).Split(',');
-          case int[] intArray:
-            return intArray;
-            //var strList = ((string)val).Split(',').ToList();
-            //var intList = new List<int>();
-            //strList.ForEach(s => {
-            //  int outint = -1;
-            //  if (int.TryParse(s, out outint)) {
-            //    intList.Add(outint);
-            //  }
-            //});
-            //return intList.ToArray();
-          default:
-            return val.ToString();
-        }
-      }
+      return SettingsHelper.GetSettingValue(Constants.MainSettingsKeyPrefix, Key, moduleInfo.TabModuleSettings, SettingDefault);
     }
   }
 }

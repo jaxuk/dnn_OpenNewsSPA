@@ -57,6 +57,7 @@ namespace YeditUK.Modules.dnn_OpenNews.Components.Helpers
           .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.fileInfo.Title))
           .ForMember(dest => dest.size, opt => opt.MapFrom(src => src.fileInfo.Size))
           .ForMember(dest => dest.url, opt => opt.MapFrom(src => FileManager.Instance.GetUrl(src.fileInfo)))
+          .ForMember(dest => dest.format, opt => opt.MapFrom(src => src.fileInfo.Extension))
           .ReverseMap();
         //m.CreateMap<FileViewModel, File>()
         //  .ForMember(dest => dest.fileInfo.Description, opt => opt.MapFrom(src => src.Description))

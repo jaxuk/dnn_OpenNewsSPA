@@ -34,6 +34,10 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}{objectQualifier}OpenNews_ArticleStatus'))
+DROP FUNCTION {databaseOwner}[{objectQualifier}OpenNews_ArticleStatus]
+GO
+
 CREATE FUNCTION {databaseOwner}[{objectQualifier}OpenNews_ArticleStatus](@IsDeleted bit, @IsDraft bit, @IsApproved bit, @StartDate datetime, @EndDate datetime, @PortalTime datetime )  
 RETURNS nvarchar(20)   
 AS   
@@ -70,6 +74,7 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+if not exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}{objectQualifier}OpenNews_Article') and OBJECTPROPERTY(id, N'IsTable') = 1)
 CREATE TABLE {databaseOwner}[{objectQualifier}OpenNews_Article](
 	[ArticleID] [bigint] IDENTITY(1,1) NOT NULL,
 	[AuthorID] [bigint] NOT NULL,
@@ -109,6 +114,7 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+if not exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}{objectQualifier}OpenNews_ArticleCategories') and OBJECTPROPERTY(id, N'IsTable') = 1)
 CREATE TABLE {databaseOwner}[{objectQualifier}OpenNews_ArticleCategories](
 	[ArticleID] [bigint] NOT NULL,
 	[CategoryID] [int] NOT NULL,
@@ -120,6 +126,7 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+if not exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}{objectQualifier}OpenNews_ArticleCustomObjectDef') and OBJECTPROPERTY(id, N'IsTable') = 1)
 CREATE TABLE {databaseOwner}[{objectQualifier}OpenNews_ArticleCustomObjectDef](
 	[ArticleID] [bigint] NOT NULL,
 	[DefId] [int] NOT NULL,
@@ -131,6 +138,7 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+if not exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}{objectQualifier}OpenNews_ArticleTags') and OBJECTPROPERTY(id, N'IsTable') = 1)
 CREATE TABLE {databaseOwner}[{objectQualifier}OpenNews_ArticleTags](
 	[ArticleID] [bigint] NOT NULL,
 	[TagID] [int] NOT NULL,
@@ -142,6 +150,7 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+if not exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}{objectQualifier}OpenNews_Category') and OBJECTPROPERTY(id, N'IsTable') = 1)
 CREATE TABLE {databaseOwner}[{objectQualifier}OpenNews_Category](
 	[CategoryID] [int] IDENTITY(1,1) NOT NULL,
 	[ModuleID] [int] NOT NULL,
@@ -168,6 +177,7 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+if not exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}{objectQualifier}OpenNews_CustomObjectsDef') and OBJECTPROPERTY(id, N'IsTable') = 1)
 CREATE TABLE {databaseOwner}[{objectQualifier}OpenNews_CustomObjectsDef](
 	[DefId] [int] IDENTITY(1,1) NOT NULL,
 	[Json] [nvarchar](max) NOT NULL,
@@ -185,6 +195,7 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+if not exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}{objectQualifier}OpenNews_File') and OBJECTPROPERTY(id, N'IsTable') = 1)
 CREATE TABLE {databaseOwner}[{objectQualifier}OpenNews_File](
 	[FileID] [bigint] NOT NULL,
 	[ArticleID] [bigint] NOT NULL,
@@ -198,6 +209,7 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+if not exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}{objectQualifier}OpenNews_Page') and OBJECTPROPERTY(id, N'IsTable') = 1)
 CREATE TABLE {databaseOwner}[{objectQualifier}OpenNews_Page](
 	[PageID] [bigint] IDENTITY(1,1) NOT NULL,
 	[ArticleID] [bigint] NOT NULL,
@@ -214,6 +226,7 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+if not exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}{objectQualifier}OpenNews_Tag') and OBJECTPROPERTY(id, N'IsTable') = 1)
 CREATE TABLE {databaseOwner}[{objectQualifier}OpenNews_Tag](
 	[TagID] [int] IDENTITY(1,1) NOT NULL,
 	[ModuleID] [int] NOT NULL,
@@ -224,48 +237,56 @@ CREATE TABLE {databaseOwner}[{objectQualifier}OpenNews_Tag](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
+if not exists (select * from sys.foreign_keys  where object_id  = object_id(N'FK_OpenNews_ArticleCategories_OpenNews_Article') AND parent_object_id = OBJECT_ID(N'{databaseOwner}{objectQualifier}OpenNews_ArticleCategories')) 
 ALTER TABLE {databaseOwner}[{objectQualifier}OpenNews_ArticleCategories]  WITH CHECK ADD  CONSTRAINT [FK_OpenNews_ArticleCategories_OpenNews_Article] FOREIGN KEY([ArticleID])
 REFERENCES {databaseOwner}[{objectQualifier}OpenNews_Article] ([ArticleID])
 ON DELETE CASCADE
 GO
 ALTER TABLE {databaseOwner}[{objectQualifier}OpenNews_ArticleCategories] CHECK CONSTRAINT [FK_OpenNews_ArticleCategories_OpenNews_Article]
 GO
+if not exists (select * from sys.foreign_keys  where object_id  = object_id(N'FK_OpenNews_ArticleCategories_OpenNews_Category') AND parent_object_id = OBJECT_ID(N'{databaseOwner}{objectQualifier}OpenNews_ArticleCategories')) 
 ALTER TABLE {databaseOwner}[{objectQualifier}OpenNews_ArticleCategories]  WITH CHECK ADD  CONSTRAINT [FK_OpenNews_ArticleCategories_OpenNews_Category] FOREIGN KEY([CategoryID])
 REFERENCES {databaseOwner}[{objectQualifier}OpenNews_Category] ([CategoryID])
 ON DELETE CASCADE
 GO
 ALTER TABLE {databaseOwner}[{objectQualifier}OpenNews_ArticleCategories] CHECK CONSTRAINT [FK_OpenNews_ArticleCategories_OpenNews_Category]
 GO
+if not exists (select * from sys.foreign_keys  where object_id  = object_id(N'FK_OpenNews_ArticleCustomObjectDef_OpenNews_Article') AND parent_object_id = OBJECT_ID(N'{databaseOwner}{objectQualifier}OpenNews_ArticleCustomObjectDef')) 
 ALTER TABLE {databaseOwner}[{objectQualifier}OpenNews_ArticleCustomObjectDef]  WITH CHECK ADD  CONSTRAINT [FK_OpenNews_ArticleCustomObjectDef_OpenNews_Article] FOREIGN KEY([ArticleID])
 REFERENCES {databaseOwner}[{objectQualifier}OpenNews_Article] ([ArticleID])
 ON DELETE CASCADE
 GO
 ALTER TABLE {databaseOwner}[{objectQualifier}OpenNews_ArticleCustomObjectDef] CHECK CONSTRAINT [FK_OpenNews_ArticleCustomObjectDef_OpenNews_Article]
 GO
+if not exists (select * from sys.foreign_keys  where object_id  = object_id(N'FK_OpenNews_ArticleCustomObjectDef_OpenNews_CustomObjectsDef') AND parent_object_id = OBJECT_ID(N'{databaseOwner}{objectQualifier}OpenNews_ArticleCustomObjectDef')) 
 ALTER TABLE {databaseOwner}[{objectQualifier}OpenNews_ArticleCustomObjectDef]  WITH CHECK ADD  CONSTRAINT [FK_OpenNews_ArticleCustomObjectDef_OpenNews_CustomObjectsDef] FOREIGN KEY([DefId])
 REFERENCES {databaseOwner}[{objectQualifier}OpenNews_CustomObjectsDef] ([DefId])
 ON DELETE CASCADE
 GO
 ALTER TABLE {databaseOwner}[{objectQualifier}OpenNews_ArticleCustomObjectDef] CHECK CONSTRAINT [FK_OpenNews_ArticleCustomObjectDef_OpenNews_CustomObjectsDef]
 GO
+if not exists (select * from sys.foreign_keys  where object_id  = object_id(N'FK_OpenNews_ArticleTags_OpenNews_Article') AND parent_object_id = OBJECT_ID(N'{databaseOwner}{objectQualifier}OpenNews_ArticleTags')) 
 ALTER TABLE {databaseOwner}[{objectQualifier}OpenNews_ArticleTags]  WITH CHECK ADD  CONSTRAINT [FK_OpenNews_ArticleTags_OpenNews_Article] FOREIGN KEY([ArticleID])
 REFERENCES {databaseOwner}[{objectQualifier}OpenNews_Article] ([ArticleID])
 ON DELETE CASCADE
 GO
 ALTER TABLE {databaseOwner}[{objectQualifier}OpenNews_ArticleTags] CHECK CONSTRAINT [FK_OpenNews_ArticleTags_OpenNews_Article]
 GO
+if not exists (select * from sys.foreign_keys  where object_id  = object_id(N'FK_OpenNews_ArticleTags_OpenNews_Tag') AND parent_object_id = OBJECT_ID(N'{databaseOwner}{objectQualifier}OpenNews_ArticleTags')) 
 ALTER TABLE {databaseOwner}[{objectQualifier}OpenNews_ArticleTags]  WITH CHECK ADD  CONSTRAINT [FK_OpenNews_ArticleTags_OpenNews_Tag] FOREIGN KEY([TagID])
 REFERENCES {databaseOwner}[{objectQualifier}OpenNews_Tag] ([TagID])
 ON DELETE CASCADE
 GO
 ALTER TABLE {databaseOwner}[{objectQualifier}OpenNews_ArticleTags] CHECK CONSTRAINT [FK_OpenNews_ArticleTags_OpenNews_Tag]
 GO
+if not exists (select * from sys.foreign_keys  where object_id  = object_id(N'FK_OpenNews_File_OpenNews_Article') AND parent_object_id = OBJECT_ID(N'{databaseOwner}{objectQualifier}OpenNews_File')) 
 ALTER TABLE {databaseOwner}[{objectQualifier}OpenNews_File]  WITH CHECK ADD  CONSTRAINT [FK_OpenNews_File_OpenNews_Article] FOREIGN KEY([ArticleID])
 REFERENCES {databaseOwner}[{objectQualifier}OpenNews_Article] ([ArticleID])
 ON DELETE CASCADE
 GO
 ALTER TABLE {databaseOwner}[{objectQualifier}OpenNews_File] CHECK CONSTRAINT [FK_OpenNews_File_OpenNews_Article]
 GO
+if not exists (select * from sys.foreign_keys  where object_id  = object_id(N'FK_OpenNews_Page_OpenNews_Article') AND parent_object_id = OBJECT_ID(N'{databaseOwner}{objectQualifier}OpenNews_Page')) 
 ALTER TABLE {databaseOwner}[{objectQualifier}OpenNews_Page]  WITH CHECK ADD  CONSTRAINT [FK_OpenNews_Page_OpenNews_Article] FOREIGN KEY([ArticleID])
 REFERENCES {databaseOwner}[{objectQualifier}OpenNews_Article] ([ArticleID])
 ON DELETE CASCADE
@@ -276,6 +297,9 @@ GO
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
+GO
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}{objectQualifier}OpenNews_FindArticles') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+  DROP PROCEDURE {databaseOwner}[{objectQualifier}OpenNews_FindArticles]
 GO
 -- =============================================
 -- Author:		<Author,,Name>

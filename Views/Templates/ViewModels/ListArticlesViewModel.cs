@@ -14,5 +14,7 @@ namespace YeditUK.Modules.dnn_OpenNews.Templates.ViewModels
   {
     public IPagedList<Services.ViewModels.ArticleViewModel> Articles { get; set; }
     public DnnHelper Dnn { get; set; }
+
+    public int TabId { get; set; } = -1;
   }
 }

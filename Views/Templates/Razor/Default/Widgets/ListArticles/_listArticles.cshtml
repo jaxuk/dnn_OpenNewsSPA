@@ -1,0 +1,20 @@
+﻿@using YeditUK.Modules.dnn_OpenNews.Templates.ViewModels;
+@using YeditUK.Modules.dnn_OpenNews.Components.Helpers;
+@using System.Linq;
+@using System.Data.Linq;
+@using YeditUK.Modules.dnn_OpenNews.Components.Enums;
+@using DotNetNuke.Collections;
+@inherits DotNetNuke.Web.Razor.DotNetNukeWebPage<dynamic>
+@{
+  var model = (PagedList<Services.ViewModels.ArticleViewModel>)this.Model;
+}
+<section class="articles-list">
+  <header>
+    <!-- Display Module Title?-->
+  </header>
+  @RenderPage("../_listArticles.cshtml", new ListArticlesViewModel
+  {
+    Articles = model,
+    Dnn = Dnn
+  })
+</section>

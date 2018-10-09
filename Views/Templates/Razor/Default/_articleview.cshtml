@@ -29,6 +29,10 @@
     }
     return ret;
   }
+  public string getImageUrl(string rootUrl, long fileId) {
+    var fileInfo = DotNetNuke.Services.FileSystem.FileManager.Instance.GetFile((int)fileId);
+    return "";
+  }
 }
 @{
   var mdpipeline = new Markdig.MarkdownPipelineBuilder();
@@ -50,9 +54,10 @@
   TaggingHelper.SetOgpTag("og:type", "article", pageObj);
   TaggingHelper.SetOgpTag("og:url", a.vwURL, pageObj);
   TaggingHelper.SetOgpTag("og:title", a.Title, pageObj);
+  var rootUrl = "https://" + Dnn.Portal.PortalAlias.HTTPAlias;
   if (a.Images.Count > 0)
   {
-    TaggingHelper.SetOgpTag("og:image", "https://" + Dnn.Portal.PortalAlias.HTTPAlias + a.Images[0].url + "&maxwidth=600&maxheight=300", pageObj);
+    TaggingHelper.SetOgpTag("og:image", rootUrl + a.Images[0].url + "&maxwidth=600&maxheight=300", pageObj);
   }
 
   //Set Twitter Cards

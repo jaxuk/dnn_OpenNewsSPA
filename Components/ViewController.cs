@@ -187,6 +187,30 @@ namespace YeditUK.Modules.dnn_OpenNews.Components
       });
       return ret;
     }
+    public PagedList<Services.ViewModels.ArticleViewModel> getArticles(int ModuleID, int pageIndex, int pageSize, string serachPhrase = "",
+      List<ArticleStatus> status = null,
+      bool hydrate = false,
+      int AuthorID = -1,
+      List<int> CategoryIds = null,
+      List<int> TagIds = null,
+      DateTime? portalTime = null,
+      string sortBy = "StartDate",
+      bool sortAsc = false,
+      bool matchAllCategories = false,
+      bool matchAllTags = false,
+      bool? isFeatured = null)
+    {
+      List<ArticleStatus> lStatus = new List<ArticleStatus>();
+      lStatus.Add(ArticleStatus.Live);
+      var featured = ArticleRepo.Instance.GetPagedList(ModuleID, pageIndex, pageSize, serachPhrase,
+       status, hydrate, AuthorID, CategoryIds, TagIds, portalTime, sortBy, sortAsc, matchAllCategories, matchAllTags, isFeatured
+      );
+      var ret = Mapper.Map<PagedList<Components.Entities.Article>, PagedList<Services.ViewModels.ArticleViewModel>>(featured);
+      ret.ForEach(a => {
+        setVwUrl(ref a);
+      });
+      return ret;
+    }
     private List<Services.ViewModels.CategoryViewModel> getAllCategories()
     {
       List<Services.ViewModels.CategoryViewModel> catsVM;

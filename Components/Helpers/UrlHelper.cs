@@ -98,6 +98,10 @@ namespace YeditUK.Modules.dnn_OpenNews.Components.Helpers
       string viewPathBase = "/DesktopModules/{0}/Views/Templates/Razor/{1}/_{2}.cshtml";
       string viewPath = "";
       var _context = HttpContext.Current;
+      string extension = ".cshtml";
+      if (ViewName.StartsWith("_") && ViewName.EndsWith(extension)) {
+        ViewName = ViewName.Substring(1, ViewName.Length - extension.Length - 1);
+      }
       string template_Path_default = string.Format(viewPathBase,
         ModuleFolder,
         "Default",

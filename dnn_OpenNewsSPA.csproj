@@ -261,6 +261,7 @@
     <Compile Include="Base\NewsArticleModuleBase.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Components\Entities\WidgetListArticlesSettings.cs" />
     <Compile Include="Components\Constants.cs" />
     <Compile Include="Components\DAL\ArticleRepo.cs" />
     <Compile Include="Components\DAL\CategoryRepo.cs" />
@@ -282,6 +283,7 @@
     <Compile Include="Components\FeatureController.cs" />
     <Compile Include="Components\Helpers\ArticlePermissions.cs" />
     <Compile Include="Components\Helpers\AutoMapperConfig.cs" />
+    <Compile Include="Components\Helpers\SettingsHelper.cs" />
     <Compile Include="Components\Helpers\TemplateHelper.cs" />
     <Compile Include="Components\Helpers\CommonHelper.cs" />
     <Compile Include="Components\Helpers\DnnHelperExtensions.cs" />
@@ -302,6 +304,7 @@
     <Compile Include="Components\Entities\Tag.cs" />
     <Compile Include="Components\SettingsController.cs" />
     <Compile Include="Components\ViewController.cs" />
+    <Compile Include="Components\Entities\Widgets\ListArticles\WidgetSettings.cs" />
     <Compile Include="Services\CustomFieldsController.cs" />
     <Compile Include="Services\TagsController.cs" />
     <Compile Include="Services\ArtilcesController.cs" />
@@ -334,6 +337,20 @@
     <Compile Include="Views\Templates\ViewModels\ViewCurrentModel.cs" />
     <Compile Include="Views\Templates\ViewModels\CategoryViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Widgets\ListArticles\Settings.ascx.cs">
+      <DependentUpon>Settings.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Widgets\ListArticles\Settings.ascx.designer.cs">
+      <DependentUpon>Settings.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Widgets\ListArticles\View.ascx.cs">
+      <DependentUpon>View.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Widgets\ListArticles\View.ascx.designer.cs">
+      <DependentUpon>View.ascx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Services\ServiceRouteMapper.cs" />
@@ -372,10 +389,7 @@
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Components\Controllers\" />
-    <Folder Include="Components\ViewModels\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="Views\Templates\Razor\Default\_articleview.cshtml" />
     <Content Include="Views\Templates\Razor\Default\_categoryview.cshtml" />
@@ -480,6 +494,8 @@
     <Content Include="Views\Templates\Razor\sb\_menu.cshtml" />
     <Content Include="Views\Templates\Razor\sb\_tagview.cshtml" />
     <Content Include="Views\Templates\Razor\sb\_viewcurrent.cshtml" />
+    <Content Include="Widgets\ListArticles\Settings.ascx" />
+    <Content Include="Widgets\ListArticles\View.ascx" />
     <Content Include="web.config" />
     <Content Include="Views\Templates\Razor\sb\styles\articleList.scss" />
     <Content Include="Views\Templates\Razor\sb\styles\articleView.scss" />
@@ -490,6 +506,8 @@
     <Content Include="README.md" />
     <Content Include="Views\Templates\Razor\sb\_googleNewsFeed.cshtml" />
     <Content Include="Providers\DataProviders\SqlDataProvider\00.00.02.SqlDataProvider" />
+    <Content Include="Views\Templates\Razor\Default\Widgets\ListArticles\_listArticles.cshtml" />
+    <Content Include="Views\Templates\Razor\sb\Widgets\ListArticles\_listArticles.cshtml" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>

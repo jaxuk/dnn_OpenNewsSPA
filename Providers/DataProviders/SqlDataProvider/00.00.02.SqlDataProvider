@@ -13,7 +13,13 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE PROCEDURE OpenNews_ClearAllModuleData 
+if exists (select 1 from sys.procedures where name = 'OpenNews_ClearAllModuleData')
+BEGIN 
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}OpenNews_ClearAllModuleData]
+END
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}OpenNews_ClearAllModuleData]
 	@ModuleID int,
 	@ResetIdentity bit,
 	@setInsertIdentiyON bit

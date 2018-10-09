@@ -17,5 +17,6 @@ namespace YeditUK.Modules.dnn_OpenNews.Services.ViewModels
     public string url { get; set; } = string.Empty;
     public int size { get; set; } = -1;
     public bool IsImage { get; set; } = false;
+    public string format { get; set; } = string.Empty;
   }
 }
