@@ -7,7 +7,7 @@
       <owner>
         <name>Open News Project</name>
         <organization>Open News Project</organization>
-        <url><![CDATA[<a href="https://github.com/jaxuk/dnn_OpenNewsSPA">https://github.com/jaxuk/dnn_OpenNewsSPA</a>]]></url>
+        <url>https://github.com/jaxuk/dnn_OpenNewsSPA</url>
       </owner>
       <license src="License.txt"></license>
       <releaseNotes src="ReleaseNotes.txt"></releaseNotes>
@@ -45,6 +45,18 @@
               <name>Resources.zip</name>
             </resourceFile>
           </resourceFiles>
+        </component>
+
+        <component type="UrlProvider">
+          <urlProvider>
+            <name>Open News Url Provider</name>
+            <type>YeditUK.Modules.dnn_OpenNews.Components.Intergration.DNN_UrlProvider.UrlProvider</type>
+            <settingsControlSrc></settingsControlSrc>
+            <redirectAllUrls>true</redirectAllUrls>
+            <replaceAllUrls>true</replaceAllUrls>
+            <rewriteAllUrls>true</rewriteAllUrls>
+            <desktopModule></desktopModule>
+          </urlProvider>
         </component>
 
         <component type="Module">

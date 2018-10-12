@@ -30,18 +30,6 @@
   }
 </style>
 <script>
-  //window.addEventListener('message', function (event) {
-  //  // IMPORTANT: Check the origin of the data!
-  //  if (~event.origin.indexOf('http://localhost:4200')) {
-  //    // The data has been sent from your site
-  //    // The data sent with postMessage is stored in event.data
-  //    console.log(event.data);
-  //  } else {
-  //    // The data hasn't been sent from your site!
-  //    // Be careful! Do not use it.
-  //    return;
-  //  }
-  //});
   $ = window.top.$;
   $(document).ready(function () {
       var service = {
@@ -49,15 +37,9 @@
       framework: $.ServicesFramework(@ModuleId.ToString())
     }
     console.log('Service Path:' + service.framework.getServiceRoot(service.path));
-    //window.addEventListener('resize', function () {
-    //  console.log('resized - inner');
-    //});
+    
   });
 </script>
-@*ModuleID = @ModuleId.ToString()<br />
-TabID = @TabId.ToString()<br />
-Path = <span class="servicePath"></span>*@
-@*<base href="@UrlHelper.GetAdminURL(TabId)" />*@
 <base href="/DesktopModules/dnn_OpenNewsSPA/Views/Templates/Razor/Default/adminframe.cshtml" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" type="image/x-icon" href="favicon.ico">
