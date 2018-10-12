@@ -16,7 +16,7 @@
   string ngRoot = "/DesktopModules/{0}/ng-apps/on-admin/";
   ngRoot = string.Format(ngRoot, Dnn.Module.DesktopModule.FolderName);
   string cdv = CommonHelper.GetCrv().ToString();
-  var iadmin = "/DesktopModules/" + Dnn.Module.DesktopModule.FolderName + "/Views/Templates/Razor/Default/adminframe.cshtml";
+  var iadmin = "/DesktopModules/" + Dnn.Module.DesktopModule.FolderName + "/Views/Templates/Razor/Default/adminframe";
   if (Request.QueryString["articleid"] != null)
   {
     iadmin += "/article/" + Request.QueryString["articleid"].ToString();
