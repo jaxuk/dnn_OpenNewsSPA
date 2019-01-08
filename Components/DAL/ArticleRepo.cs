@@ -4,6 +4,7 @@ using DotNetNuke.Data;
 using DotNetNuke.Framework;
 using DotNetNuke.Services.FileSystem;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -29,6 +30,10 @@ namespace YeditUK.Modules.dnn_OpenNews.Components.DAL
 
     IQueryable<Article> GetList(int ModuleID);
 
+    Dictionary<int, string> GetAuthors(int TabId);
+
+    List<Services.ViewModels.ArchiveViewModel> GetArchives(int ModuleId, int TabId, DateTime portalTime, List<ArticleStatus> status);
+
     IQueryable<Article> GetRelated(int ModuleID, bool matchTags, bool matchCategories, int amount, string sortBy, bool sortAsc);
 
     IQueryable<Article> GetListByTabId(int TabId);
@@ -46,7 +51,9 @@ namespace YeditUK.Modules.dnn_OpenNews.Components.DAL
       bool sortAsc = false,
       bool matchAllCategories = false,
       bool matchAllTags = false,
-      bool? isFeatured = null
+      bool? isFeatured = null,
+      DateTime? startDate = null,
+      DateTime? endDate = null
       );
 
     Article Update(Article a);
@@ -58,6 +65,38 @@ namespace YeditUK.Modules.dnn_OpenNews.Components.DAL
     protected override Func<IArticleRepo> GetFactory()
     {
       return () => new ArticleRepo();
+    }
+    public Dictionary<int, string> GetAuthors(int TabId) {
+      var authors = new Dictionary<int, string>();
+      using (IDataContext ctx = DataContext.Instance())
+      {
+        var authorsData = ctx.ExecuteQuery<dynamic>(CommandType.Text, @"SELECT DISTINCT AuthorID, DisplayName FROM OpenNews_Article
+            INNER JOIN Users on Users.UserID = OpenNews_Article.AuthorID ORDER BY DisplayName");
+        if (authorsData != null) {
+          authorsData.ForEach(a => {
+            authors.Add((int)a.AuthorID, a.DisplayName);
+          });
+        }
+      }
+      return authors;
+    }
+    public List<Services.ViewModels.ArchiveViewModel> GetArchives(int ModuleId, int TabId, DateTime portalTime, List<ArticleStatus> status)
+    {
+      var archives = new List<Services.ViewModels.ArchiveViewModel>();
+      List<string> strStatusList = new List<string>();
+      if (status != null)
+      {
+        status.ForEach(st => {
+          strStatusList.Add(st.ToString());
+        });
+
+      }
+      using (IDataContext ctx = DataContext.Instance())
+      {
+        archives = ctx.ExecuteQuery<Services.ViewModels.ArchiveViewModel>(CommandType.StoredProcedure, 
+          "OpenNews_GetMonthYearArchive", ModuleId, TabId, portalTime, strListAsSqlParameter(strStatusList, "statusList")).ToList();
+      }
+      return archives;
     }
     public bool validateArticleUrlNotInUse(string url, int ModuleId, long ArticleId, out string reason) {
       Requires.NotNegative("ModuleId", ModuleId);
@@ -252,6 +291,9 @@ namespace YeditUK.Modules.dnn_OpenNews.Components.DAL
       var frep = ctx.GetRepository<File>();
       var dbaFiles = frep.Find("WHERE ArticleID=@0", a.ArticleID).Where(f => f.IsImage == true).ToList();
       a.Images.ForEach(f => {
+        if (FileManager.Instance.GetFile((int)f.FileID) == null) {
+          return;
+        }
         f.ArticleID = a.ArticleID;
         f.SortOrder = i;
         var dfFile = dbaFiles.Where(dbf => dbf.FileID == f.FileID).SingleOrDefault();
@@ -433,7 +475,9 @@ namespace YeditUK.Modules.dnn_OpenNews.Components.DAL
       bool sortAsc = false, 
       bool matchAllCategories = false,
       bool matchAllTags = false,
-      bool? isFeatured = null
+      bool? isFeatured = null,
+      DateTime? startDate = null,
+      DateTime? endDate = null
       ) {
 
       //TODO - Implement status filtering.
@@ -457,6 +501,8 @@ namespace YeditUK.Modules.dnn_OpenNews.Components.DAL
           sortBy,
           sortAsc,
           portalTime,
+          startDate,
+          endDate,
           AuthorID,
           isFeatured,
           matchAllTags,

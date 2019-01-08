@@ -98,6 +98,33 @@ namespace YeditUK.Modules.dnn_OpenNews.Components
       var vc = new Views.Templates.ViewModels.RazorViewModel(this);
       return vc;
     }
+    public Templates.ViewModels.ArchiveViewModel getArchiveViewModel()
+    {
+      int year = -1;
+      int month = -1;
+      int.TryParse(HttpContext.Current.Request.QueryString["year"], out year);
+      int.TryParse(HttpContext.Current.Request.QueryString["month"], out month);
+      List<ArticleStatus> lStatus = new List<ArticleStatus>();
+      lStatus.Add(ArticleStatus.Live);
+      var vc = new Templates.ViewModels.ArchiveViewModel(getMenuViewModel());
+      vc.Month = month;
+      vc.Year = year;
+      DateTime startDate = new DateTime(year, ((month > 0 && month < 13) ? month : 1), 1);
+      DateTime endDate;
+      if ((month > 0 && month < 13)) {
+        endDate = startDate.AddMonths(1);
+      }
+      else {
+        endDate = startDate.AddMonths(12);
+      }
+      var arts = ArticleRepo.Instance.GetPagedList(this.ModuleId, this._pageIndex, _settings.BasicArticlesPerPage,
+        "", lStatus, true, -1, null, null, DateTime.Now, _settings.BasicSortBy, sortAsc(),false, false, null, startDate, endDate);
+      vc.Articles = Mapper.Map<PagedList<Components.Entities.Article>, PagedList<Services.ViewModels.ArticleViewModel>>(arts);
+      vc.Articles.ForEach(a => {
+        setVwUrl(ref a);
+      });
+      return vc;
+    }
     public Templates.ViewModels.TagViewModel getTagViewModel()
     {
       int tagId = -1;

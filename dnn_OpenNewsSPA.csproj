@@ -313,6 +313,7 @@
     <Compile Include="Services\SettingsController.cs" />
     <Compile Include="Services\HelperController.cs" />
     <Compile Include="Services\RoleController.cs" />
+    <Compile Include="Services\ViewModels\ArchiveViewModel.cs" />
     <Compile Include="Services\ViewModels\PagedListMetaViewModel.cs" />
     <Compile Include="Services\ViewModels\ArticleViewModel.cs" />
     <Compile Include="Services\ViewModels\CategoryViewModel.cs" />
@@ -505,9 +506,9 @@
     <Content Include="Views\Templates\Razor\sb\_ads_article.cshtml" />
     <Content Include="README.md" />
     <Content Include="Views\Templates\Razor\sb\_googleNewsFeed.cshtml" />
-    <Content Include="Providers\DataProviders\SqlDataProvider\00.00.02.SqlDataProvider" />
     <Content Include="Views\Templates\Razor\Default\Widgets\ListArticles\_listArticles.cshtml" />
     <Content Include="Views\Templates\Razor\sb\Widgets\ListArticles\_listArticles.cshtml" />
+    <Content Include="Providers\DataProviders\SqlDataProvider\00.00.03.SqlDataProvider" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>

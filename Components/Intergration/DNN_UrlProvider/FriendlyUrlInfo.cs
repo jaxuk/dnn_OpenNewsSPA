@@ -24,9 +24,19 @@ namespace YeditUK.Modules.dnn_OpenNews.Components.Intergration.DNN_UrlProvider
           case "article":
             prefix = "a";
             break;
+          case "author":
+            prefix = "u";
+            break;
+          case "page":
+            prefix = "p";
+            break;
           case "category":
             prefix = "c";
             break;
+            //case "archive":
+            //  prefix = "t";
+            //break;
+
         }
         return prefix;
       }

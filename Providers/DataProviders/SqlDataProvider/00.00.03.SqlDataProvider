@@ -1,0 +1,242 @@
+﻿/************************************************************/
+/*****              SqlDataProvider                     *****/
+/*****                                                  *****/
+/*****                                                  *****/
+/***** Note: To manually execute this script you must   *****/
+/*****       perform a search and replace operation     *****/
+/*****       for {databaseOwner} and {objectQualifier}  *****/
+/*****                                                  *****/
+/************************************************************/
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+if exists (select 1 from sys.procedures where name = '{objectQualifier}OpenNews_GetAuthors')
+BEGIN 
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}OpenNews_GetAuthors]
+END
+GO
+
+Create Procedure {databaseOwner}[{objectQualifier}OpenNews_GetAuthors]
+	@ModuleID int,
+	@TabID int,
+	@portalTime datetime,
+	@statusList dbo.varcharList READONLY
+AS
+BEGIN
+SELECT AuthorID, DisplayName, Count(AuthorID) as ArticleCount
+FROM OpenNews_Article
+INNER JOIN Users on Users.UserID = OpenNews_Article.AuthorID 
+WHERE (ModuleID = @ModuleID OR ModuleId IN(SELECT ModuleId FROM TabModules WHERE tabId = @TabID))
+AND dbo.OpenNews_ArticleStatus(OpenNews_Article.IsDeleted, OpenNews_Article.IsDraft, OpenNews_Article.IsApproved, OpenNews_Article.StartDate, OpenNews_Article.EndDate, @portalTime) in (SELECT * FROM @statusList)
+GROUP BY AuthorID, DisplayName
+ORDER BY DisplayName
+END
+GO
+
+if exists (select 1 from sys.procedures where name = '{objectQualifier}OpenNews_GetMonthYearArchive')
+BEGIN 
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}OpenNews_GetMonthYearArchive]
+END
+GO
+
+Create Procedure {databaseOwner}[{objectQualifier}OpenNews_GetMonthYearArchive]
+	@ModuleID int,
+	@TabID int,
+	@portalTime datetime,
+	@statusList dbo.varcharList READONLY
+AS
+BEGIN
+	SELECT FORMAT(StartDate, 'MM') as [Month], FORMAT(StartDate, 'yyyy') as [Year], Count(FORMAT(StartDate, 'MM yyyy')) as ArticleCount
+	FROM OpenNews_Article 
+	WHERE (ModuleID = @ModuleID OR ModuleId IN(SELECT ModuleId FROM TabModules WHERE tabId = @TabID))
+	AND dbo.OpenNews_ArticleStatus(OpenNews_Article.IsDeleted, OpenNews_Article.IsDraft, OpenNews_Article.IsApproved, OpenNews_Article.StartDate, OpenNews_Article.EndDate, @portalTime) in (SELECT * FROM @statusList)
+	group by FORMAT(StartDate, 'MM yyyy'), FORMAT(StartDate, 'MM') , FORMAT(StartDate, 'yyyy') 
+	order by [Year],[Month] asc
+END
+GO
+
+ALTER PROCEDURE {databaseOwner}[{objectQualifier}OpenNews_FindArticles]
+	@ModuleID int,
+	@PageSize int,
+	@PageNumber int,
+	@searchPhrase nvarchar(64),
+	@sortBy nvarchar(64),
+	@sortAsc bit,
+	@portalTime datetime,
+	@startDate datetime,
+	@endDate datetime,
+	@AuthorID int,
+	@isFeatured bit,
+	@CategoryIDMatchAll bit,
+	@TagIDMatchAll bit,
+	@statusList dbo.varcharList READONLY,
+	@CategoryIDList dbo.intList READONLY,
+	@TagIDList dbo.intList READONLY,
+	@totalResults int OUTPUT
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	DECLARE @exsql NVARCHAR(max);
+	DECLARE @ranksql NVARCHAR(max);
+	DECLARE @ParameterDefinition NVARCHAR(max); 
+	SELECT	@ParameterDefinition = ' 
+	@dModuleID int,
+	@dPageSize int,
+	@dPageNumber int,
+	@dsearchPhrase nvarchar(64),
+	@dsortBy nvarchar(64),
+	@dsortAsc bit,
+	@dportalTime datetime,
+	@dstartDate datetime,
+	@dendDate datetime,
+	@dAuthorID int,
+	@disFeatured bit,
+	@dstatusList dbo.varcharList READONLY,
+	@dCategoryIDList dbo.intList READONLY,
+	@dTagIDList dbo.intList READONLY,
+	@dtotalResults int OUTPUT ';
+
+	SET @exsql = ';WITH listings_cte AS ('
+
+	SET @exsql = @exsql + 'SELECT OpenNews_Article.*  '
+
+	IF 0 <> (SELECT COUNT (*) FROM @CategoryIDList) AND 0 <> (SELECT COUNT (*) FROM @TagIDList)
+		SET @exsql = @exsql + ', DENSE_RANK () OVER (ORDER BY atags.Ranks, acats.Ranks DESC) AS Rank'
+
+	IF 0 = (SELECT COUNT (*) FROM @CategoryIDList) AND 0 <> (SELECT COUNT (*) FROM @TagIDList)
+		SET @exsql = @exsql + ', DENSE_RANK () OVER (ORDER BY atags.Ranks DESC) AS Rank'
+
+	IF 0 <> (SELECT COUNT (*) FROM @CategoryIDList) AND 0 = (SELECT COUNT (*) FROM @TagIDList)
+		SET @exsql = @exsql + ', DENSE_RANK () OVER (ORDER BY acats.Ranks DESC) AS Rank'	
+
+	SET @exsql = @exsql + ' FROM OpenNews_Article '
+
+	IF 0 <> (SELECT COUNT (*) FROM @CategoryIDList)
+	BEGIN
+		SET @exsql = @exsql + ' INNER JOIN (SELECT OpenNews_ArticleCategories.ArticleID, count(*) as Ranks FROM OpenNews_ArticleCategories WHERE CategoryID IN (SELECT * FROM @dCategoryIDList) GROUP BY OpenNews_ArticleCategories.ArticleID'
+		IF @CategoryIDMatchAll = 1
+			BEGIN
+			SET @exsql = @exsql + ' HAVING count(*) = (SELECT count(*) FROM @dCategoryIDList) '
+			END
+		
+		SET @exsql = @exsql + ') as acats ON acats.ArticleID = OpenNews_Article.ArticleID '
+	END
+
+	IF 0 <> (SELECT COUNT (*) FROM @TagIDList)
+	BEGIN
+		SET @exsql = @exsql + ' INNER JOIN (SELECT DISTINCT ArticleID, count(*) as Ranks FROM OpenNews_ArticleTags WHERE TagID IN (SELECT * FROM @dTagIDList) GROUP BY OpenNews_ArticleTags.ArticleID'
+		IF @TagIDMatchAll = 1
+			BEGIN
+			SET @exsql = @exsql + '  HAVING count(*) = (SELECT count(*) FROM @dTagIDList) '
+			END
+		
+		SET @exsql = @exsql + ') as atags ON atags.ArticleID = OpenNews_Article.ArticleID '
+	END
+	SET @exsql = @exsql + ' WHERE 1=1 '
+	
+	IF 0 <> (SELECT COUNT (*) FROM @statusList)
+	SET @exsql = @exsql + ' AND dbo.OpenNews_ArticleStatus(OpenNews_Article.IsDeleted, OpenNews_Article.IsDraft, OpenNews_Article.IsApproved, OpenNews_Article.StartDate, OpenNews_Article.EndDate, @dportalTime) in (SELECT * FROM @dstatusList) '
+
+	IF not(@startDate is null)
+	BEGIN
+		SET @exsql = @exsql + ' AND StartDate > @dstartDate '
+	END
+
+	IF not(@endDate is null)
+	BEGIN
+		SET @exsql = @exsql + ' AND EndDate < @dendDate '
+	END
+
+	IF not(@searchPhrase is null) AND @searchPhrase <> ''
+	BEGIN
+		SET @searchPhrase = '%' + @searchPhrase + '%'
+		SET @exsql = @exsql + ' AND Title like @dsearchPhrase '
+	END
+
+	IF not(@AuthorID = -1)
+	BEGIN
+		SET @exsql = @exsql + ' AND AuthorID = @dAuthorID '
+	END
+
+	IF not(@isFeatured is null)
+	BEGIN
+		SET @exsql = @exsql + ' AND isFeatured = @disFeatured '
+	END
+	
+	SET @exsql = @exsql + '
+	)
+	SELECT * into #res from listings_cte
+	SELECT * FROM #res '
+	IF @sortBy is null or @sortBy ='StartDate' or @sortBy =''
+				BEGIN
+				SET @exsql = @exsql + ' ORDER BY #res.StartDate ' 
+				END
+	--ELSE IF @sortBy = 'relevance' AND @searchPhrase is not null and @searchPhrase <> ''
+	--			BEGIN
+	--			SET @exsql = @exsql + ' ORDER BY #res.[RANK] '
+	--			END
+	ELSE IF @sortBy = 'LastUpdated'
+				BEGIN
+				SET @exsql = @exsql + ' ORDER BY #res.LastUpdated '
+				END
+	ELSE IF @sortBy = 'Title'
+				BEGIN
+				SET @exsql = @exsql + ' ORDER BY #res.Title '
+				END
+	ELSE IF @sortBy = 'Rank'
+				BEGIN
+				SET @exsql = @exsql + ' ORDER BY #res.Rank asc, #res.StartDate desc'
+				END
+
+	if @sortAsc = 0
+		BEGIN
+		SET @exsql = @exsql + ' DESC '
+		END
+		
+	IF @PageSize is not null AND @PageNumber is not null
+	BEGIN
+	SET @exsql = @exsql + '
+		OFFSET @dPageSize * (@dPageNumber) ROWS
+		FETCH NEXT @dPageSize ROWS ONLY OPTION (RECOMPILE)
+		SELECT @dtotalResults = (SELECT COUNT(*) AS TotalCount FROM #res)'
+	END
+
+
+
+	--SELECT @exsql--, @ParameterDefinition
+	--SELECT @ParameterDefinition
+	EXEC sp_executeSQL @exsql , @ParameterDefinition,
+	@dModuleID = @ModuleID, 
+	@dPageSize = @PageSize ,
+	@dPageNumber = @PageNumber ,
+	@dsearchPhrase = @searchPhrase,
+	@dsortBy = @sortBy, 
+	@dsortAsc = @sortAsc,
+	@dportalTime = @portalTime,
+	@dstartDate = @startDate,
+	@dendDate = @endDate,
+	@dAuthorID = @AuthorID,
+	@disFeatured = @isFeatured,
+	@dstatusList = @statusList,
+	@dCategoryIDList = @CategoryIDList, 
+	@dTagIDList =@TagIDList,
+	@dtotalResults = @totalResults output
+	SET @totalResults = @totalResults
+	
+END
+
+
+
+
+
+
+/************************************************************/
+/*****              SqlDataProvider                     *****/
+/************************************************************/

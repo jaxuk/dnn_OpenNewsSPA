@@ -1,6 +1,6 @@
 <dotnetnuke type="Package" version="5.0">
   <packages>
-    <package name="Open News" type="Module" version="00.00.02.00">
+    <package name="Open News" type="Module" version="00.00.03.00">
       <friendlyName>Open News</friendlyName>
       <description>Open News SPA module</description>
       <iconFile>~/Images/icon_extensions_32px.png</iconFile>
@@ -30,10 +30,15 @@
               <name>00.00.02.SqlDataProvider</name>
               <version>00.00.02.00</version>
             </script>
+            <script type="Install">
+              <path>Providers\DataProviders\SqlDataProvider</path>
+              <name>00.00.03.SqlDataProvider</name>
+              <version>00.00.03.00</version>
+            </script>
             <script type="UnInstall">
               <path>Providers\DataProviders\SqlDataProvider</path>
               <name>Uninstall.SqlDataProvider</name>
-              <version>00.00.02.00</version>
+              <version>00.00.03.00</version>
             </script>
           </scripts>
         </component>

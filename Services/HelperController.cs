@@ -167,6 +167,92 @@ namespace YeditUK.Modules.dnn_OpenNews.Services
         return Request.CreateResponse(System.IO.File.ReadAllLines(logPath));
       }
     }
+    public class MoveFilesDTO
+    {
+      public bool clearLog { get; set; }
+      public string MoveToFolder { get; set; } = null;
+      public string DuplicateFileNamesMethod { get; set; } = "smart";
+    }
+    [HttpPost]
+#if DEBUG
+    [AllowAnonymous]
+#else
+    [ValidateAntiForgeryToken]
+#endif
+    public HttpResponseMessage MoveFiles(MoveFilesDTO dto) {
+      string logPathBase = "/DesktopModules/{0}/data/MoveFilesLog-{1}.txt";
+      string logPath = string.Format(logPathBase,
+        ActiveModule.DesktopModule.FolderName, ActiveModule.ModuleID.ToString()
+        );
+
+      logPath = System.Web.Hosting.HostingEnvironment.MapPath(logPath);
+
+      if (!System.IO.File.Exists(logPath))
+      {
+        System.IO.File.Create(logPath).Close();
+      }
+      else if (dto.clearLog)
+      {
+        System.IO.File.Delete(logPath);
+        System.IO.File.Create(logPath).Close();
+      }
+
+      System.IO.File.AppendAllLines(logPath, new string[] { DateTime.Now.ToString() +
+        " - Starting To Move Files with params: " + Newtonsoft.Json.JsonConvert.SerializeObject(dto) });
+
+      var onSettings = (Components.SettingsController.Instance.GetSettings(ActiveModule, PortalSettings));
+
+      IFolderInfo imagesfolderInfo = FolderManager.Instance.GetFolder(ActiveModule.PortalID, onSettings.ImageDefaultImageFolder);
+      IFolderInfo filesfolderInfo = FolderManager.Instance.GetFolder(ActiveModule.PortalID, onSettings.FileDefaultFileFolder);
+
+      using (IDataContext ctx = DataContext.Instance())
+      {
+        var Files = ctx.GetRepository<File>().Find("INNER JOIN OpenNews_Article ON OpenNews_Article.ArticleID = OpenNews_File.ArticleID WHERE OpenNews_Article.ModuleId =@0", ActiveModule.ModuleID).ToList();
+        System.IO.File.AppendAllLines(logPath, new string[] { DateTime.Now.ToString() +
+        " - Checking storage location for: " + Files.Count().ToString() + " files." });
+        Files.ForEach(f=> {
+          IFolderInfo newfolder;
+          if (f.fileInfo != null)
+          {
+            if (f.IsImage)
+            {
+              newfolder = imagesfolderInfo;
+            }
+            else
+            {
+              newfolder = filesfolderInfo;
+            }
+            if (f.fileInfo.FolderId != newfolder.FolderID)
+            {
+              try
+              {
+                FileManager.Instance.MoveFile(f.fileInfo, newfolder);
+              }
+              catch (Exception ex)
+              {
+                System.IO.File.AppendAllLines(logPath, new string[] { DateTime.Now.ToString() +
+              " - error moving file with id: " + f.fileInfo.FileId.ToString() + " - Error: " + ex.Message });
+              }
+
+              System.IO.File.AppendAllLines(logPath, new string[] { DateTime.Now.ToString() +
+              " - moved file with id: " + f.fileInfo.FileId.ToString() });
+            }
+            else
+            {
+              System.IO.File.AppendAllLines(logPath, new string[] { DateTime.Now.ToString() +
+              " - no need to move file with id: " + f.fileInfo.FileId.ToString() });
+            }
+          }
+          else {
+            System.IO.File.AppendAllLines(logPath, new string[] { DateTime.Now.ToString() +
+            " - fileInfo null for FileId: " + f.FileID.ToString() });
+          }
+        });
+      }
+        System.IO.File.AppendAllLines(logPath, new string[] { DateTime.Now.ToString() +
+        " - Finished Moving Files " });
+      return Request.CreateResponse("OK");
+    }
 
 
     public class ImportFromNAModuleDTO
@@ -255,7 +341,10 @@ namespace YeditUK.Modules.dnn_OpenNews.Services
           //TODO = use actual old url
           string oldUrl = UrlHelper.GetCategoryURL(naTabid, c.CategoryID);
           newCat.URL = oldUrl.Split('/').Last();
-          //newCat.URL = UrlHelper.cleanUrl(newCat.Name, PortalSettings.PortalId);
+          int testint = -1;
+          if (int.TryParse(newCat.URL, out testint)) {
+            newCat.URL = UrlHelper.cleanUrl(newCat.Name, PortalSettings.PortalId);
+          }
           repoCats.Insert(newCat);
           dicCats.Add(c.CategoryID, newCat.CategoryID);
         });
@@ -316,6 +405,11 @@ namespace YeditUK.Modules.dnn_OpenNews.Services
           //TODO Get the current url of this article...
           string oldUrl = UrlHelper.GetArticleURL(naTabid, c.ArticleID);
           newArticle.URL = oldUrl.Split('/').Last();
+          int testint = -1;
+          if (int.TryParse(newArticle.URL, out testint))
+          {
+            newArticle.URL = UrlHelper.cleanUrl(newArticle.Title, PortalSettings.PortalId);
+          }
           //newArticle.URL = UrlHelper.cleanUrl(newArticle.Title, PortalSettings.PortalId);
           repoArticles.Insert(newArticle);
           var cntTaxonomy = new DNNContent();

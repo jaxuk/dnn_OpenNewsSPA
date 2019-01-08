@@ -195,6 +195,110 @@ namespace YeditUK.Modules.dnn_OpenNews.Components.Intergration.DNN_UrlProvider
       return result;
     }
 
+    internal static bool MakeArchiveUrl(UrlProvider urlProvider, Match archiveUrlMatch, Regex archiveUrlRegex, string friendlyUrlPath, TabInfo tab, FriendlyUrlOptions options, ModuleUrlOptions urlOptions, string cultureCode, ref string endingPageName, ref bool useDnnPagePath, ref List<string> messages, out string archiveUrl)
+    {
+      archiveUrl = friendlyUrlPath;
+      bool result = false;
+      Group mthGrp = archiveUrlMatch.Groups["mth"];
+      Group yrGrp = archiveUrlMatch.Groups["yr"];
+      bool month = false, year = false;
+      string mm = null, yyyy = null;
+      string path = null;
+      if (mthGrp != null && mthGrp.Success)
+      {
+        //contains a month
+        month = true;
+        mm = archiveUrlMatch.Groups["mm"].Value;
+      }
+      if (yrGrp != null && yrGrp.Success)
+      {
+        year = true;
+        yyyy = archiveUrlMatch.Groups["yyyy"].Value;
+      }
+      if (year)
+      {
+        path = "/" + yyyy;
+      }
+      if (month)
+        path += "/" + mm;
+
+      if (path != null) //got a valid path
+      {
+        //have a valid url replacement for this url.  So replace the matched part of the path with the friendly url
+        if (archiveUrlMatch.Groups["l"].Success) //if the path had a leading /, then make sure to add that onto the replacement
+          path = urlProvider.EnsureLeadingChar("/", path);
+
+        /* finish it all off */
+        messages.Add("Item Friendly Url Replacing Archive Url : " + friendlyUrlPath + " with Path : " + path);
+
+        //this is the point where the Url is modified!
+        //replace the path in the path - which leaves any other parts of a path intact.
+        archiveUrl = archiveUrlRegex.Replace(friendlyUrlPath, path);//replace the part in the friendly Url path with it's replacement.
+
+        //check if this tab is the one specified to not use a path
+        if (urlOptions.RemovePagePathFromURL)
+          useDnnPagePath = false;//make this Url relative from the site root
+
+        //set back to default.aspx so that Url Master removes it - just in case it wasn't standard
+        endingPageName = DotNetNuke.Common.Globals.glbDefaultPage;
+        //return success
+        result = true;
+      }
+      return result;
+    }
+
+    internal static bool MakeAuthorUrl(UrlProvider urlProvider, Match authorUrlMatch, Regex authorUrlRegex, string friendlyUrlPath, TabInfo tab, FriendlyUrlOptions options, ModuleUrlOptions urlOptions, string cultureCode, ref string endingPageName, ref bool useDnnPagePath, ref List<string> messages, out string authorUrl)
+    {
+      bool result = false;
+      authorUrl = null;
+      //this is a url that looks like an author url.  We want to modify it and create the new one.
+      string rawId = authorUrlMatch.Groups["authid"].Value;
+      int authorId = 0;
+      if (int.TryParse(rawId, out authorId))
+      {
+        Hashtable friendlyUrlIndex = null; //the friendly url index is the lookup we use
+                                           //we have obtained the item Id out of the Url
+                                           //get the friendlyUrlIndex (it comes from the database via the cache)
+        friendlyUrlIndex = UrlController.GetFriendlyUrlIndex(tab.TabID, tab.PortalID, urlProvider, options, urlOptions);
+        if (friendlyUrlIndex != null)
+        {
+          //item urls are indexed with a + user id ("u5") - this is so authors/articles/categories can be mixed and matched
+          string furlkey = "u" + authorId.ToString();  //create the lookup key for the friendly url index
+          string path = (string)friendlyUrlIndex[furlkey];//check if in the index
+          if (path == null)
+          {
+            //don't normally expect to have a no-match with a friendly url path when an authorId was in the Url.
+            //could be a new item that has been created and isn't in the index
+            //do a direct call and find out if it's there
+            //path = UrlController.CheckForMissingNewsauthorItem(authorId, "author", tab.TabID, tab.PortalID, provider, options, urlOptions, ref messages);
+          }
+          if (path != null) //got a valid path
+          {
+            //url found in the index for this entry.  So replace the matched part of the path with the friendly url
+            if (authorUrlMatch.Groups["l"].Success) //if the path had a leading /, then make sure to add that onto the replacement
+              path = urlProvider.EnsureLeadingChar("/", path);
+
+            /* finish it all off */
+            messages.Add("Item Friendly Url Replacing : " + friendlyUrlPath + " in Path : " + path);
+
+            //this is the point where the Url is modified!
+            //replace the path in the path - which leaves any other parts of a path intact.
+            authorUrl = authorUrlRegex.Replace(friendlyUrlPath, path);//replace the part in the friendly Url path with it's replacement.
+
+            //check if this tab is the one specified to not use a path
+            if (urlOptions.RemovePagePathFromURL)
+              useDnnPagePath = false;//make this Url relative from the site root
+
+            //set back to default.aspx so that Url Master removes it - just in case it wasn't standard
+            endingPageName = DotNetNuke.Common.Globals.glbDefaultPage;
+
+            result = true;
+          }
+        }
+      }
+      return result;
+    }
+
     private static void StoreIndexes(Hashtable friendlyUrlIndex, string friendlyUrlCacheKey, Hashtable queryStringIndex, string queryStringCacheKey)
     {
       TimeSpan expire = new TimeSpan(24, 0, 0);
@@ -223,6 +327,43 @@ namespace YeditUK.Modules.dnn_OpenNews.Components.Intergration.DNN_UrlProvider
             if (urlOptions.RemovePagePathFromURL)
               f.qsValue = "?TabId=" + tabID.ToString() + f.qsValue;
             string suffix = "";
+
+            switch (f.itemType.ToLower())
+            {
+              case "article":
+                //f.qsValue = "&articleType=ArticleView&articleId=" + itemId;//the querystring is just the entryId parameter
+                break;
+              case "page":
+                //f.qsValue = "&articleType=ArticleView&pageId=" + itemId + "&articleId=" + parentId;
+                break;
+              case "author":
+                //f.qsValue = "&articleType=AuthorView&authorId=" + itemId;
+                break;
+              case "category":
+                //f.qsValue = "&articleType=CategoryView&categoryId=" + itemId;
+                //if (parentId != "-1" && urlOptions.CategoryStyle == CategoryUrlStyle.CatHierarchy)
+                //{
+                //  //this category has a parent
+                //  categoryParents.Add(furlKey, itemUrl.FUrlPrefix + parentId);
+                //}
+                break;
+              case "archive":
+                if (parentId == "-1")
+                {
+                  //yearly
+                  //f.qsValue = "&articleType=ArchiveView&year=" + itemId;
+                }
+                else
+                {
+                  //monthly
+                  f.qsValue = "&articleType=ArchiveView&year=" + parentId + "&month=" + f.urlNum.ToString();//url num holds the month
+                  qsKey = parentId + '/' + f.urlNum.ToString();
+                  furlValue = qsKey;
+                }
+                
+                break;
+            }
+
             AddUniqueUrlToIndex(furlKey, ref qsKey, f.qsValue, portalID, queryStringIndex, options, true, out suffix);
 
             //if the suffix for the qsKey was changed, we need to add it to the friendly url used for the friendly url index
@@ -234,14 +375,14 @@ namespace YeditUK.Modules.dnn_OpenNews.Components.Intergration.DNN_UrlProvider
               friendlyUrlIndex.Add(furlKey, furlValue);
 
             //if the options aren't standard, also add in some other versions that will identify the right entry but will get redirected
-            if (options.PunctuationReplacement != "")
-            {
-              FriendlyUrlOptions altOptions = options.Clone();
-              altOptions.PunctuationReplacement = "";//how the urls look with no replacement
-              string altQsKey = MakeItemFriendlyUrl(f, provider, altOptions, urlOptions).ToLower();//keys are always lowercase
-              string altQsValue = f.qsValue + "&do301=true&&rr=Title_Space_Replacement";
-              AddUniqueUrlToIndex(furlKey, ref altQsKey, altQsValue, portalID, queryStringIndex, options, false, out suffix);
-            }
+            //if (options.PunctuationReplacement != "")
+            //{
+            //  FriendlyUrlOptions altOptions = options.Clone();
+            //  altOptions.PunctuationReplacement = "";//how the urls look with no replacement
+            //  string altQsKey = MakeItemFriendlyUrl(f, provider, altOptions, urlOptions).ToLower();//keys are always lowercase
+            //  string altQsValue = f.qsValue + "&do301=true&&rr=Title_Space_Replacement";
+            //  AddUniqueUrlToIndex(furlKey, ref altQsKey, altQsValue, portalID, queryStringIndex, options, false, out suffix);
+            //}
           }
         }
       }
