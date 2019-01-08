@@ -36,12 +36,13 @@ namespace YeditUK.Modules.dnn_OpenNews.Components.Helpers
       return ary;
     }
     public static string getSummaryFromBody(string body, int length) {
+      
       if (body.Length < length)
       {
-        return body;
+        return Markdig.Markdown.ToPlainText(body);
       }
       else {
-        return body.Substring(0, length);
+        return Markdig.Markdown.ToPlainText(body.Substring(0, length)); 
       }
     }
     public static string getUsersDisplayName(int userID) {

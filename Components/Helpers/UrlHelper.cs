@@ -82,7 +82,7 @@ namespace YeditUK.Modules.dnn_OpenNews.Components.Helpers
     {
       return Globals.NavigateURL(TabId, "", "articleType=" + ViewType.adminframe.ToString());
     }
-    public static string GetArticlePagedListUrl(int TabId, ViewType vt, int id, int pageIndex = 0) {
+    public static string GetArticlePagedListUrl(int TabId, ViewType vt, int id, int pageIndex = 0, int year = -1, int month = -1) {
       switch (vt) {
         case ViewType.viewcurrent:
           return GetCurrentArticlesUrl(TabId, pageIndex);
@@ -90,6 +90,8 @@ namespace YeditUK.Modules.dnn_OpenNews.Components.Helpers
           return GetTagURL(TabId, id, pageIndex);
         case ViewType.categoryview:
           return GetCategoryURL(TabId, id, pageIndex);
+        case ViewType.archiveview:
+          return "";//Get(TabId, id, pageIndex);
         default:
           return "";
       }

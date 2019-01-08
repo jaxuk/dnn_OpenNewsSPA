@@ -107,6 +107,9 @@ namespace YeditUK.Modules.dnn_OpenNews
               case ViewType.categoryview:
                 vm = vc.getCategoryViewModel();
                 break;
+              case ViewType.archiveview:
+                vm = vc.getArchiveViewModel();
+                break;
               case ViewType.tagview:
                 vm = vc.getTagViewModel();
                 break;

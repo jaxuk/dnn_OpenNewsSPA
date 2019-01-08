@@ -122,7 +122,31 @@ namespace YeditUK.Modules.dnn_OpenNews.Components.Intergration.DNN_UrlProvider
             if (replacementFound)
               friendlyUrlPath = categoryUrl;
           }
-
+        }
+        if (!replacementFound)
+        {
+          //no match on article  - next check is for a category match 
+          Regex authorUrlRegex = new Regex(@"(?<l>/)?articleType/AuthorView/authorId/(?<authid>\d+)", RegexOptions.IgnoreCase);
+          Match authorUrlMatch = authorUrlRegex.Match(friendlyUrlPath);
+          if (authorUrlMatch.Success)
+          {
+            string authorUrl = "";
+            replacementFound = UrlController.MakeAuthorUrl(this, authorUrlMatch, authorUrlRegex, friendlyUrlPath, tab, options, urlOptions, cultureCode, ref endingPageName, ref useDnnPagePath, ref messages, out authorUrl);
+            if (replacementFound)
+              friendlyUrlPath = authorUrl;
+          }
+        }
+        if (!replacementFound)
+        {
+          Regex archiveUrlRegex = new Regex(@"(?<l>/)?articleType/ArchiveView(?<mth>/month/(?<mm>\d+))?(?<yr>/year/(?<yyyy>\d+))?", RegexOptions.IgnoreCase);
+          Match archiveUrlMatch = archiveUrlRegex.Match(friendlyUrlPath);
+          if (archiveUrlMatch.Success)
+          {
+            string archiveUrl = "";
+            replacementFound = UrlController.MakeArchiveUrl(this, archiveUrlMatch, archiveUrlRegex, friendlyUrlPath, tab, options, urlOptions, cultureCode, ref endingPageName, ref useDnnPagePath, ref messages, out archiveUrl);
+            if (replacementFound)
+              friendlyUrlPath = archiveUrl;
+          }
         }
       }
       
@@ -325,6 +349,14 @@ namespace YeditUK.Modules.dnn_OpenNews.Components.Intergration.DNN_UrlProvider
       int skipUpToIndex = -1;
       bool found = false;
       bool siteRootMatch = false;
+      bool tabHasNAModule = false;
+      //foreach (ModuleInfo mi in ModuleController.Instance.GetTabModules(tabId).Values) {
+
+      //}
+      if ((from ModuleInfo mi in ModuleController.Instance.GetTabModules(tabId).Values where mi.DesktopModule.FolderName.ToLower().Contains("dnn_opennewsspa") select mi.ModuleTitle).Count() != 0)
+      {
+        tabHasNAModule = true;
+      }
       //prevent incorrect matches of Urls
       if (!Regex.IsMatch(path, @"(articleType/(?<type>[^/]+))|(ctl/[^/]+/(mid|moduleid)/\d)", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)) {
         if (urlParms.Length > 0)
@@ -379,6 +411,62 @@ namespace YeditUK.Modules.dnn_OpenNews.Components.Intergration.DNN_UrlProvider
             messages.Add("Item Matched in Friendly Url Provider.  Url : " + pathBasedKey + " Path : " + path);
             result += qs;
           }
+          //else
+          //{
+          //  //no match, but look for a date archive pattern
+          //  //903 : issue with matching other Urls that aren't archive Urls
+          //  Regex archivePatternRegex = new Regex(@"(?<!year)(?<yr>(^|/)(?<yyyy>[\d]{4}))(?<mth>/(?<mm>[\d]{1,2}))?", RegexOptions.IgnoreCase);
+          //  Match archivePatternMatch = archivePatternRegex.Match(path);
+          //  if (archivePatternMatch.Success)
+          //  {
+          //    bool month = false, year = false;
+          //    string mm = null, yyyy = null;
+          //    //matched on date pattern, extract month/year
+          //    Group mthGrp = archivePatternMatch.Groups["mth"];
+          //    if (mthGrp != null && mthGrp.Success)
+          //    {
+          //      mm = archivePatternMatch.Groups["mm"].Value;
+          //      month = true;
+          //    }
+          //    Group yrGrp = archivePatternMatch.Groups["yyyy"];
+          //    if (yrGrp != null && yrGrp.Success)
+          //    {
+          //      //902 : don't allow invalid dates to be passed down
+          //      int yearVal = 0;
+          //      yyyy = yrGrp.Value;
+          //      //check that year is a valid int, and that year is later than sql min date time
+          //      if (int.TryParse(yyyy, out yearVal) && yearVal > 1753 && tabHasNAModule)
+          //      {
+          //        year = true;
+          //      }
+          //    }
+          //    if (year)
+          //    {
+          //      qs = "";
+          //      if (urlOptions.RemovePagePathFromURL) {
+          //        qs += "?tabid=" + tabId.ToString();
+          //      }
+          //        //if (this.NoDnnPagePathTabId == tabId)
+          //        //qs += "?tabid=" + tabId.ToString();
+          //      //add on the year
+          //      qs += "&articleType=ArchiveView&year=" + yyyy;
+          //      skipUpToIndex = 0;//1st position
+          //    }
+          //    if (year && month)
+          //    {
+          //      int mmVal = 0;
+          //      if (int.TryParse(mm, out mmVal) && mmVal > 0 && mmVal < 13)
+          //      {
+          //        qs += "&month=" + mm;
+          //        skipUpToIndex = 1;//2nd position 
+          //      }
+          //    }
+          //    if (year || month)
+          //    {
+          //      result += qs;
+          //    }
+          //  }
+          //}
           if (skipUpToIndex >= 0)
           {
             //put on any remainder of the path that wasn't to do with the friendly Url
